@@ -1,0 +1,41 @@
+.DS_Store
+__MACOSX/
+.vercel/
+*.pyc
+node_modules/
+
+# Dev / lab (not part of production site)
+ui-lab/
+work/
+lovable/
+.cursor/
+scripts/
+.export-clean/
+
+# Internal docs & changelogs
+CHANGELOG_PORTFOLIO_100_PATCH.txt
+ANALYTICS_SETUP.md
+
+# Unused asset variants (superseded or dev-only)
+assets/Ram-Bala-Resume-Fintech-BFSI.pdf
+assets/Ram-Bala-Resume-Healthcare.pdf
+assets/Ram-Bala-Resume-JPMorgan-Chase-Architect-III.pdf
+assets/Ram-Bala-Resume-PwC-Advisory.pdf
+assets/Ram-Bala-Resume-Retail.pdf
+assets/demo-original.mp4
+assets/master-resume.pdf
+assets/ram-one-page-summary.pdf
+assets/og-ram-portfolio.png
+assets/og-image-generator.html
+assets/framework-ai.pdf
+assets/framework-dq.pdf
+assets/framework-dre.pdf
+assets/framework-meta.pdf
+assets/linkedin-banner.png
+assets/headshot.webp
+
+# Dev-only data (avatar sync scripts)
+data/linkedin-profiles.json
+
+# Resume preview screenshots (local dev only)
+work-resume-page-*.png
