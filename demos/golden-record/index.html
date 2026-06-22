@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="theme-color" content="#000000"/>
+<title>Golden Record RAG Pipeline — Live Demo | Ram Balasubrahmanian</title>
+<meta name="description" content="A production-deployed customer-data platform for fintech compliance — entity resolution, survivorship, attribute lineage, vector RAG and dual-persona API on 89,198 records. Live app, animated architecture, guided playbook, GitHub and API docs by Ram Balasubrahmanian."/>
+<meta name="robots" content="index,follow,max-image-preview:large"/>
+<meta name="author" content="Ram Balasubrahmanian"/>
+<link rel="canonical" href="https://www.ram-bala.com/demos/golden-record/"/>
+<link rel="icon" type="image/png" href="/assets/headshot.png"/>
+<link rel="stylesheet" href="/assets/style.css?v=24"/>
+<link rel="stylesheet" href="/assets/demo-window.css?v=1"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://www.ram-bala.com/demos/golden-record/"/>
+<meta property="og:title" content="Golden Record RAG Pipeline — Live Demo"/>
+<meta property="og:description" content="Entity resolution, survivorship, lineage and vector RAG for fintech compliance — running live on 89,198 records. Open the app, architecture and playbook in-page."/>
+<meta property="og:image" content="https://www.ram-bala.com/assets/og-image.jpg"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Golden Record RAG Pipeline — Live Demo"/>
+<meta name="twitter:description" content="A governed customer-data platform with entity resolution, survivorship, lineage and vector RAG — live."/>
+<meta name="twitter:image" content="https://www.ram-bala.com/assets/og-image.jpg"/>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"SoftwareApplication",
+      "@id":"https://www.ram-bala.com/demos/golden-record/#app",
+      "name":"Golden Record RAG Pipeline",
+      "applicationCategory":"BusinessApplication",
+      "operatingSystem":"Web",
+      "url":"https://golden-records-demo.lovable.app",
+      "description":"A production-deployed, end-to-end customer data platform for fintech compliance — entity resolution, survivorship, attribute lineage, vector RAG and GDPR tooling on 89,198 real-scale synthetic records.",
+      "author":{"@id":"https://www.ram-bala.com/#person"},
+      "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}
+    },
+    {
+      "@type":"BreadcrumbList",
+      "@id":"https://www.ram-bala.com/demos/golden-record/#breadcrumb",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.ram-bala.com/"},
+        {"@type":"ListItem","position":2,"name":"Live Demos","item":"https://www.ram-bala.com/#ai-proof"},
+        {"@type":"ListItem","position":3,"name":"Golden Record RAG Pipeline","item":"https://www.ram-bala.com/demos/golden-record/"}
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  /* ── Golden Record demo hub (scoped) ── */
+  .gr-hero{ padding:124px 0 40px; position:relative; }
+  .gr-eyebrow{ display:inline-flex; align-items:center; gap:8px; margin-bottom:16px;
+    font-size:.62rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); }
+  .gr-live-dot{ width:7px; height:7px; border-radius:50%; background:#34d27b; box-shadow:0 0 8px rgba(52,210,123,.8); }
+  .gr-hero h1{ font-family:var(--fserif); font-weight:400; letter-spacing:-.02em; line-height:1.04;
+    font-size:clamp(2rem,4.4vw,3.4rem); color:var(--cream); max-width:18ch; }
+  .gr-lead{ margin-top:18px; max-width:64ch; font-size:1.05rem; line-height:1.75; color:var(--body); }
+  .gr-kpis{ display:flex; flex-wrap:wrap; gap:12px; margin:28px 0 26px; }
+  .gr-kpi{ flex:1 1 150px; min-width:140px; padding:16px 18px; border-radius:var(--rl);
+    border:1px solid var(--bdr-soft); background:rgba(255,255,255,.035); }
+  .gr-kpi strong{ display:block; font-family:var(--fserif); font-size:1.7rem; color:var(--cream); line-height:1; letter-spacing:-.02em; }
+  .gr-kpi span{ display:block; margin-top:6px; font-size:.62rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); }
+  .gr-cta{ display:flex; flex-wrap:wrap; gap:12px; }
+  .btn-launch{ background:linear-gradient(135deg,#0071E3,#005BB5); color:#fff; border:1px solid rgba(255,255,255,.14); }
+  .btn-launch:hover{ background:linear-gradient(135deg,#0a84ff,#0066cc); }
+
+  .gr-embed-block{ margin-top:14px; }
+  .gr-embed-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:16px; }
+  .gr-embed-head h2{ font-family:var(--fserif); font-weight:400; font-size:clamp(1.4rem,2.6vw,2rem); color:var(--cream); margin:0; letter-spacing:-.01em; }
+  .gr-embed-head p{ margin:6px 0 0; color:var(--muted); font-size:.92rem; max-width:60ch; }
+  .gr-frame{ position:relative; border:1px solid var(--bdr); border-radius:var(--rl); overflow:hidden;
+    background:#06080f; box-shadow:0 30px 70px rgba(0,0,0,.45); }
+  .gr-frame-bar{ display:flex; align-items:center; gap:10px; padding:10px 14px; border-bottom:1px solid var(--bdr-soft);
+    background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.01)); }
+  .gr-frame-dots{ display:flex; gap:6px; } .gr-frame-dots i{ width:10px; height:10px; border-radius:50%; }
+  .gr-frame-dots i:nth-child(1){ background:#ff5f57; } .gr-frame-dots i:nth-child(2){ background:#febc2e; } .gr-frame-dots i:nth-child(3){ background:#28c840; }
+  .gr-frame-url{ font-family:var(--fmono); font-size:.72rem; color:var(--muted); }
+  .gr-frame-act{ margin-left:auto; }
+  .gr-frame-act .btn{ padding:7px 12px; font-size:.72rem; }
+  .gr-frame iframe{ width:100%; display:block; border:0; background:#06080f; }
+  .gr-frame.arch iframe{ aspect-ratio:16/9; min-height:520px; }
+  .gr-frame.play iframe{ aspect-ratio:16/10; min-height:600px; }
+
+  /* live-app teaser panel */
+  .gr-launch-panel{ position:relative; border:1px solid var(--bdr); border-radius:var(--rl); overflow:hidden;
+    background:radial-gradient(900px 360px at 80% -20%, rgba(0,113,227,.18), transparent 60%), linear-gradient(160deg,#0a1020,#070a12);
+    padding:40px 34px; display:grid; grid-template-columns:1.3fr .9fr; gap:28px; align-items:center; }
+  .gr-launch-panel h2{ font-family:var(--fserif); font-weight:400; font-size:clamp(1.4rem,2.6vw,2rem); color:var(--cream); margin:0 0 10px; }
+  .gr-launch-panel p{ color:var(--body); font-size:.95rem; line-height:1.7; max-width:46ch; }
+  .gr-launch-side{ display:grid; gap:10px; }
+
+  .gr-proof-grid{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .gr-point{ padding:24px 26px; border:1px solid var(--bdr-soft); border-radius:var(--rl); background:rgba(255,255,255,.03); }
+  .gr-point .lbl{ display:block; font-size:.58rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+  .gr-point p{ margin:0; color:var(--body); font-size:.95rem; line-height:1.7; }
+  .gr-chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+  .gr-chip{ font-size:.72rem; font-weight:500; color:var(--cream); padding:6px 12px; border-radius:var(--pill);
+    border:1px solid var(--bdr-soft); background:rgba(255,255,255,.03); }
+
+  /* pipeline stepper */
+  .gr-pipeline{ display:grid; grid-template-columns:repeat(7,1fr); gap:10px; }
+  .gr-stage{ position:relative; padding:18px 14px; border:1px solid var(--bdr-soft); border-radius:var(--r);
+    background:rgba(255,255,255,.03); }
+  .gr-stage .n{ font-family:var(--fmono); font-size:.6rem; letter-spacing:.16em; color:var(--gold); }
+  .gr-stage h4{ margin:8px 0 5px; font-size:.86rem; color:var(--cream); }
+  .gr-stage p{ margin:0; font-size:.72rem; line-height:1.45; color:var(--muted); }
+
+  .gr-stats-band{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  .gr-stat{ text-align:center; padding:18px 12px; border:1px solid var(--bdr-soft); border-radius:var(--r); background:rgba(255,255,255,.025); }
+  .gr-stat strong{ display:block; font-family:var(--fserif); font-size:1.5rem; color:var(--cream); line-height:1; }
+  .gr-stat span{ display:block; margin-top:6px; font-size:.62rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); }
+
+  .gr-links-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  .gr-link-card{ display:block; padding:22px 22px; border:1px solid var(--bdr-soft); border-radius:var(--rl);
+    background:rgba(255,255,255,.03); transition:border-color var(--t), transform var(--t); }
+  .gr-link-card:hover{ border-color:rgba(0,113,227,.4); transform:translateY(-3px); }
+  .gr-link-card .k{ font-size:.6rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); }
+  .gr-link-card h3{ margin:8px 0 6px; font-size:1rem; color:var(--cream); }
+  .gr-link-card .go{ font-size:.8rem; color:var(--champagne); }
+
+  @media(max-width:900px){
+    .gr-launch-panel{ grid-template-columns:1fr; }
+    .gr-proof-grid{ grid-template-columns:1fr; }
+    .gr-pipeline{ grid-template-columns:repeat(2,1fr); }
+    .gr-stats-band{ grid-template-columns:repeat(2,1fr); }
+    .gr-links-grid{ grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body class="seo-page demo-page">
+<a class="skip-link" href="#main">Skip to content</a>
+<nav id="nav" class="solid" aria-label="Primary navigation">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo"><div class="nav-badge">RB</div>Ram Balasubrahmanian</a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#ai-proof">Live Demos</a></li>
+      <li><a href="/enterprise-data-platform/">EDP Hub</a></li>
+      <li><a href="/#contact">Contact</a></li>
+    </ul>
+    <a href="/assets/resume.pdf?v=6" class="nav-cta" download="Ram-Bala-Master-Resume.pdf">Download Resume</a>
+  </div>
+</nav>
+
+<main id="main">
+  <nav class="breadcrumb wrap" aria-label="Breadcrumb" style="padding-top:100px">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li><a href="/#ai-proof">Live Demos</a></li>
+      <li><span aria-current="page">Golden Record RAG Pipeline</span></li>
+    </ol>
+  </nav>
+
+  <!-- HERO -->
+  <header class="gr-hero" style="padding-top:24px">
+    <div class="wrap">
+      <p class="gr-eyebrow"><span class="gr-live-dot" aria-hidden="true"></span>Live system · Golden Record RAG Pipeline</p>
+      <h1>Fragmented customer data, resolved into one trusted record.</h1>
+      <p class="gr-lead">A production-deployed customer-data platform for fintech compliance — entity resolution, survivorship, attribute lineage, vector RAG and GDPR tooling, running end-to-end on <strong>89,198 real-scale records</strong>. Open the live app, the animated architecture and the guided playbook without leaving this page.</p>
+
+      <div class="gr-kpis" aria-label="Platform outcomes">
+        <div class="gr-kpi"><strong>89,198</strong><span>Source records</span></div>
+        <div class="gr-kpi"><strong>20,502</strong><span>Golden records</span></div>
+        <div class="gr-kpi"><strong>51.9%</strong><span>Multi-source customers</span></div>
+        <div class="gr-kpi"><strong>35,000</strong><span>RAG chunks indexed</span></div>
+      </div>
+
+      <div class="gr-cta">
+        <a class="btn btn-launch" href="https://golden-records-demo.lovable.app" data-app-window="https://golden-records-demo.lovable.app" data-app-title="Golden Record RAG — Live App" data-app-host="golden-records-demo.lovable.app">▶ Launch live app (in-page)</a>
+        <a class="btn btn-outline" href="https://github.com/ramachandranbalasubrahmanian-svg/golden-record-pipeline" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn btn-outline" href="https://refreshing-liberation-production-8a25.up.railway.app/docs" target="_blank" rel="noopener">API Docs</a>
+        <a class="btn btn-outline" href="#architecture">See the architecture ↓</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- LAUNCH PANEL -->
+  <section class="section" style="padding-top:24px">
+    <div class="wrap">
+      <div class="gr-launch-panel">
+        <div>
+          <h2>Open the live app inside this page.</h2>
+          <p>The full Lovable front end — dashboard, compliance chat, customer portal and GDPR tooling — loads in a window over this page. No new tab required. Backed by a FastAPI service on Railway with a dual-persona API.</p>
+        </div>
+        <div class="gr-launch-side">
+          <a class="btn btn-gold" href="https://golden-records-demo.lovable.app" data-app-window="https://golden-records-demo.lovable.app" data-app-title="Golden Record RAG — Live App" data-app-host="golden-records-demo.lovable.app">▶ Launch live app</a>
+          <a class="btn btn-outline" href="https://golden-records-demo.lovable.app" target="_blank" rel="noopener">Open in new tab ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE WALKTHROUGH -->
+  <section id="architecture" class="section alt">
+    <div class="wrap">
+      <div class="gr-embed-block">
+        <div class="gr-embed-head">
+          <div>
+            <p class="sl">Living architecture</p>
+            <h2>How fragmented data becomes one Golden Record.</h2>
+            <p>A guided, auto-playing walkthrough of the real pipeline — ingest, data quality, entity resolution, survivorship, the Golden Record, and grounded compliance AI.</p>
+          </div>
+        </div>
+        <div class="gr-frame arch">
+          <div class="gr-frame-bar">
+            <div class="gr-frame-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+            <span class="gr-frame-url">golden-record · living-architecture</span>
+            <span class="gr-frame-act"><a class="btn btn-outline" href="/assets/demos/golden-record/architecture.html" data-app-window="/assets/demos/golden-record/architecture.html" data-app-title="Golden Record — Living Architecture" data-app-host="architecture walkthrough">⤢ Fullscreen</a></span>
+          </div>
+          <iframe src="/assets/demos/golden-record/architecture.html" title="Golden Record animated architecture walkthrough" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT IT PROVES -->
+  <section class="section">
+    <div class="wrap">
+      <p class="sl">Why it matters</p>
+      <h2 class="h-section">Governed AI, not a slideware demo.</h2>
+      <div class="gr-proof-grid" style="margin-top:26px">
+        <div class="gr-point">
+          <span class="lbl">Proves</span>
+          <p>I design and ship governed data + AI systems end-to-end — MDM-grade entity resolution and survivorship, lineage on every field, and a vector-RAG layer that answers compliance questions from <em>trusted</em> records, not raw text.</p>
+        </div>
+        <div class="gr-point">
+          <span class="lbl">Why it matters to enterprises</span>
+          <p>In regulated BFSI, a "single customer view" is only useful if every value is explainable and every AI answer is grounded. This shows that discipline as working software a CDO, steward or auditor can click through.</p>
+        </div>
+      </div>
+
+      <p class="sl" style="margin-top:36px">Governance controls</p>
+      <div class="gr-chips" style="margin-top:12px">
+        <span class="gr-chip">DQ scoring &amp; quarantine</span>
+        <span class="gr-chip">Entity resolution (fuzzy + ML clustering)</span>
+        <span class="gr-chip">Survivorship trust rules</span>
+        <span class="gr-chip">Regulatory lock (KYC / PEP / sanctions)</span>
+        <span class="gr-chip">Attribute lineage</span>
+        <span class="gr-chip">Human stewardship gate</span>
+        <span class="gr-chip">Grounded RAG (pgvector)</span>
+        <span class="gr-chip">Dual-persona API</span>
+        <span class="gr-chip">GDPR tooling</span>
+      </div>
+
+      <p class="sl" style="margin-top:36px">Pipeline</p>
+      <div class="gr-pipeline" style="margin-top:14px">
+        <div class="gr-stage"><span class="n">01</span><h4>Ingest</h4><p>Load all sources, parse, normalise — keep every record traceable.</p></div>
+        <div class="gr-stage"><span class="n">02</span><h4>Data Quality</h4><p>Score completeness, format, consistency; quarantine weak records.</p></div>
+        <div class="gr-stage"><span class="n">03</span><h4>Entity Resolution</h4><p>Fuzzy + Soundex/Metaphone + ML clustering group identities.</p></div>
+        <div class="gr-stage"><span class="n">04</span><h4>Survivorship</h4><p>Trust weights, recency &amp; regulatory lock pick winning values.</p></div>
+        <div class="gr-stage"><span class="n">05</span><h4>Golden Record</h4><p>One authoritative profile with confidence and full lineage.</p></div>
+        <div class="gr-stage"><span class="n">06</span><h4>RAG Index</h4><p>35k chunks in pgvector for grounded compliance queries.</p></div>
+        <div class="gr-stage"><span class="n">07</span><h4>Dual-persona API</h4><p>Compliance (full) vs customer (filtered) self-service.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GUIDED PLAYBOOK -->
+  <section id="playbook" class="section alt">
+    <div class="wrap">
+      <div class="gr-embed-block">
+        <div class="gr-embed-head">
+          <div>
+            <p class="sl">Guided demo playbook</p>
+            <h2>Follow one customer, end to end.</h2>
+            <p>A 13-step presentation companion that walks one customer — Rachel — from four conflicting source records to a safe, explainable customer experience. Use arrow keys inside the frame, or open it fullscreen.</p>
+          </div>
+        </div>
+        <div class="gr-frame play">
+          <div class="gr-frame-bar">
+            <div class="gr-frame-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+            <span class="gr-frame-url">golden-record · demo-playbook</span>
+            <span class="gr-frame-act"><a class="btn btn-outline" href="/assets/demos/golden-record/playbook.html" data-app-window="/assets/demos/golden-record/playbook.html" data-app-title="Golden Record — Demo Playbook" data-app-host="guided playbook">⤢ Fullscreen</a></span>
+          </div>
+          <iframe src="/assets/demos/golden-record/playbook.html" title="Golden Record guided demo playbook" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS + STACK -->
+  <section class="section">
+    <div class="wrap">
+      <p class="sl">Live stats</p>
+      <h2 class="h-section">Real scale, real evidence.</h2>
+      <div class="gr-stats-band" style="margin-top:24px">
+        <div class="gr-stat"><strong>150,000</strong><span>Transactions linked</span></div>
+        <div class="gr-stat"><strong>0.637</strong><span>Avg confidence score</span></div>
+        <div class="gr-stat"><strong>99</strong><span>PEP customers flagged</span></div>
+        <div class="gr-stat"><strong>20</strong><span>Sanctioned customers</span></div>
+      </div>
+
+      <p class="sl" style="margin-top:36px">Stack</p>
+      <div class="gr-chips" style="margin-top:12px">
+        <span class="gr-chip">FastAPI + uvicorn</span>
+        <span class="gr-chip">PostgreSQL 16 + pgvector</span>
+        <span class="gr-chip">SQLAlchemy 2.0</span>
+        <span class="gr-chip">sentence-transformers (MiniLM, 384-dim)</span>
+        <span class="gr-chip">Railway (API)</span>
+        <span class="gr-chip">Lovable (front end)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARTEFACTS -->
+  <section class="section alt">
+    <div class="wrap">
+      <p class="sl">Explore everything</p>
+      <h2 class="h-section">Artefacts &amp; links.</h2>
+      <div class="gr-links-grid" style="margin-top:24px">
+        <a class="gr-link-card" href="https://golden-records-demo.lovable.app" data-app-window="https://golden-records-demo.lovable.app" data-app-title="Golden Record RAG — Live App" data-app-host="golden-records-demo.lovable.app">
+          <span class="k">Live App</span><h3>Open the Golden Record app</h3><span class="go">Launch in-page ▶</span>
+        </a>
+        <a class="gr-link-card" href="/assets/demos/golden-record/architecture.html" data-app-window="/assets/demos/golden-record/architecture.html" data-app-title="Golden Record — Living Architecture" data-app-host="architecture walkthrough">
+          <span class="k">Walkthrough</span><h3>Animated architecture</h3><span class="go">Open fullscreen ⤢</span>
+        </a>
+        <a class="gr-link-card" href="/assets/demos/golden-record/playbook.html" data-app-window="/assets/demos/golden-record/playbook.html" data-app-title="Golden Record — Demo Playbook" data-app-host="guided playbook">
+          <span class="k">Playbook</span><h3>Guided 13-step demo</h3><span class="go">Open fullscreen ⤢</span>
+        </a>
+        <a class="gr-link-card" href="https://github.com/ramachandranbalasubrahmanian-svg/golden-record-pipeline" target="_blank" rel="noopener">
+          <span class="k">Source</span><h3>GitHub repository</h3><span class="go">View code ↗</span>
+        </a>
+        <a class="gr-link-card" href="https://refreshing-liberation-production-8a25.up.railway.app/docs" target="_blank" rel="noopener">
+          <span class="k">API</span><h3>FastAPI docs</h3><span class="go">Open /docs ↗</span>
+        </a>
+        <a class="gr-link-card" href="/#ai-proof">
+          <span class="k">More</span><h3>All live systems</h3><span class="go">Back to proof →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer-bottom">
+    <div class="footer-bottom-inner">
+      <p>© 2026 Ram Balasubrahmanian · <a href="/">Back to portfolio</a> · <a href="/#contact">Book a call</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/motion.js?v=6" defer></script>
+<script src="/assets/demo-window.js?v=1" defer></script>
+<script>
+(function(){
+  function loadAnalytics(){
+    var c=document.createElement('script');c.src='/assets/analytics-config.js';c.onload=function(){
+      var a=document.createElement('script');a.src='/assets/analytics.js';document.body.appendChild(a);
+    };document.body.appendChild(c);
+  }
+  if('requestIdleCallback' in window)requestIdleCallback(loadAnalytics,{timeout:4000});
+  else setTimeout(loadAnalytics,2500);
+})();
+</script>
+</body>
+</html>

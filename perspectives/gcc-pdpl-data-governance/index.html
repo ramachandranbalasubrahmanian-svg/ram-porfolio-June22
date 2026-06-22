@@ -3,20 +3,19 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<script src="/assets/analytics-config.js"></script>
-<script src="/assets/analytics.js"></script>
-<script src="/assets/analytics-config.js"></script>
-<script src="/assets/analytics.js"></script>
+<meta name="theme-color" content="#000000"/>
 <title>GCC PDPL Data Governance | Ram Balasubrahmanian</title>
 <meta name="description" content="GCC and PDPL data governance perspective by Ram Balasubrahmanian for UAE, Saudi Arabia, Qatar and regulated data leadership programs."/>
 <meta name="robots" content="index,follow,max-image-preview:large"/>
 <link rel="canonical" href="https://www.ram-bala.com/perspectives/gcc-pdpl-data-governance/"/>
-<link rel="stylesheet" href="/assets/style.css?v=14"/>
+<link rel="stylesheet" href="/assets/style.css?v=24"/>
 <meta property="og:type" content="article"/>
 <meta property="og:url" content="https://www.ram-bala.com/perspectives/gcc-pdpl-data-governance/"/>
 <meta property="og:title" content="GCC PDPL Data Governance | Ram Balasubrahmanian"/>
 <meta property="og:description" content="What GCC data programs need now: governance, stewardship, lineage, privacy controls, audit evidence and AI readiness."/>
 <meta property="og:image" content="https://www.ram-bala.com/assets/og-image.jpg"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
 <meta property="og:image:alt" content="GCC PDPL data governance perspective"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="GCC PDPL Data Governance"/>
@@ -53,6 +52,7 @@
 </script>
 </head>
 <body class="seo-page">
+<a class="skip-link" href="#main">Skip to content</a>
 <nav id="nav" class="solid" aria-label="Primary navigation">
   <div class="nav-inner">
     <a href="/" class="nav-logo"><div class="nav-badge">RB</div>Ram Balasubrahmanian</a>
@@ -60,7 +60,7 @@
     <a href="/assets/resume.pdf?v=6" class="nav-cta" download="Ram-Bala-Master-Resume.pdf">Download Resume</a>
   </div>
 </nav>
-<main>
+<main id="main">
   <nav class="breadcrumb wrap" aria-label="Breadcrumb" style="padding-top:100px">
     <ol>
       <li><a href="/">Home</a></li>
@@ -114,6 +114,17 @@
     </div>
   </article>
 </main>
-<script src="/assets/motion.js?v=1"></script>
+<script src="/assets/motion.js?v=6" defer></script>
+<script>
+(function(){
+  function loadAnalytics(){
+    var c=document.createElement('script');c.src='/assets/analytics-config.js';c.onload=function(){
+      var a=document.createElement('script');a.src='/assets/analytics.js';document.body.appendChild(a);
+    };document.body.appendChild(c);
+  }
+  if('requestIdleCallback' in window)requestIdleCallback(loadAnalytics,{timeout:4000});
+  else setTimeout(loadAnalytics,2500);
+})();
+</script>
 </body>
 </html>

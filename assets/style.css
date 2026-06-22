@@ -121,6 +121,50 @@ ul   { list-style:none }
 ::-webkit-scrollbar-thumb { background:rgba(0,113,227,.45); border-radius:2px }
 ::selection { background:rgba(0,113,227,.25); color:#fff }
 
+/* ── ACCESSIBILITY: keyboard focus + skip link ── */
+:focus-visible {
+  outline: 2px solid var(--champagne);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+.btn:focus-visible,
+.region-btn:focus-visible,
+.nav-cta:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--champagne);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(41,151,255,0.25);
+}
+/* Don't double-up the ring on inputs that already restyle :focus */
+.form-field input:focus-visible,
+.form-field textarea:focus-visible { outline-offset: 0; box-shadow: none; }
+
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -120%);
+  z-index: 2000;
+  padding: 12px 22px;
+  background: var(--gold);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  border-radius: 0 0 var(--r) var(--r);
+  box-shadow: 0 8px 24px rgba(0,0,0,.4);
+  transition: transform .2s var(--t);
+}
+.skip-link:focus {
+  transform: translate(-50%, 0);
+  outline: none;
+}
+
 /* ── REDUCED MOTION ── */
 @media(prefers-reduced-motion:reduce) {
   .rv, .rv-stagger > * { transition:none !important; opacity:1 !important; transform:none !important }

@@ -3,18 +3,19 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<script src="/assets/analytics-config.js"></script>
-<script src="/assets/analytics.js"></script>
+<meta name="theme-color" content="#000000"/>
 <title>95% Enterprise Data Incident Reduction | Ram Balasubrahmanian</title>
 <meta name="description" content="How Ram Balasubrahmanian reduced enterprise data incidents by 95% in 3 months using Detect Resolve Prevent, metadata controls and RCA evidence."/>
 <meta name="robots" content="index,follow,max-image-preview:large"/>
 <link rel="canonical" href="https://www.ram-bala.com/perspectives/incident-reduction-95-percent/"/>
-<link rel="stylesheet" href="/assets/style.css?v=14"/>
+<link rel="stylesheet" href="/assets/style.css?v=24"/>
 <meta property="og:type" content="article"/>
 <meta property="og:url" content="https://www.ram-bala.com/perspectives/incident-reduction-95-percent/"/>
 <meta property="og:title" content="95% Enterprise Data Incident Reduction | Ram Balasubrahmanian"/>
 <meta property="og:description" content="A DataOps case study on reducing recurring enterprise data incidents through ownership, RCA evidence and prevention controls."/>
 <meta property="og:image" content="https://www.ram-bala.com/assets/og-image.jpg"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
 <meta property="og:image:alt" content="Ram Balasubrahmanian DataOps case study"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="95% Enterprise Data Incident Reduction"/>
@@ -51,6 +52,7 @@
 </script>
 </head>
 <body class="seo-page">
+<a class="skip-link" href="#main">Skip to content</a>
 <nav id="nav" class="solid" aria-label="Primary navigation">
   <div class="nav-inner">
     <a href="/" class="nav-logo"><div class="nav-badge">RB</div>Ram Balasubrahmanian</a>
@@ -58,7 +60,7 @@
     <a href="/assets/resume.pdf?v=6" class="nav-cta" download="Ram-Bala-Master-Resume.pdf">Download Resume</a>
   </div>
 </nav>
-<main>
+<main id="main">
   <nav class="breadcrumb wrap" aria-label="Breadcrumb" style="padding-top:100px">
     <ol>
       <li><a href="/">Home</a></li>
@@ -112,6 +114,17 @@
     </div>
   </article>
 </main>
-<script src="/assets/motion.js?v=1"></script>
+<script src="/assets/motion.js?v=6" defer></script>
+<script>
+(function(){
+  function loadAnalytics(){
+    var c=document.createElement('script');c.src='/assets/analytics-config.js';c.onload=function(){
+      var a=document.createElement('script');a.src='/assets/analytics.js';document.body.appendChild(a);
+    };document.body.appendChild(c);
+  }
+  if('requestIdleCallback' in window)requestIdleCallback(loadAnalytics,{timeout:4000});
+  else setTimeout(loadAnalytics,2500);
+})();
+</script>
 </body>
 </html>
