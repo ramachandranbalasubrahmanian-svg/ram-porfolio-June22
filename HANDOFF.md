@@ -16,12 +16,14 @@ _Last updated: 2026-06-22. This file lets a fresh Claude Code / Cursor session r
 - **Owner / strict rule:** never invent metrics, employers, credentials, or claims. Use only facts in the repo or verified READMEs. Preserve the premium **Apple-style dark** aesthetic. Prefer free tools; single source of truth; test before sharing; keep responses short.
 
 ## 2. Current git state ⚠️
-- **Branch:** `feat/live-proof-lab` (commit `5a767d2`). **`main` is untouched. NOT pushed.**
-- Commit author email is the machine-local default, not the GitHub email. To fix before pushing:
+- **Branch:** `feat/live-proof-lab`. Commits on it: `5a767d2` (Live Proof Lab + round-1 polish), `34f8f0b` (this HANDOFF.md), plus a follow-up commit updating this section. **`main` is untouched. NOTHING is pushed.** Run `git log --oneline` for the current HEAD.
+- **Author email:** all commits used the machine-local default (`...@SrihariRamachandrans-MacBook-Pro.local`), not the GitHub email — so GitHub won't link them to the account. Before pushing, set identity and reset authorship across the branch:
   ```bash
   git config user.email "ramachandran.balasubrahmanian@gmail.com"
   git config user.name "Ramachandran Balasubrahmanian"
-  git commit --amend --reset-author --no-edit   # only safe before pushing
+  # rebase from the last shared commit to reset author on ALL branch commits:
+  git rebase --reset-author-date --exec 'git commit --amend --no-edit --reset-author' 55851db
+  # (or, if only the latest commit matters: git commit --amend --reset-author --no-edit)
   ```
 - **Deploy when ready:** `git checkout main && git merge feat/live-proof-lab && git push origin main`
 
