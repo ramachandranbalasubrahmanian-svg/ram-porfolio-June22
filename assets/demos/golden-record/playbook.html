@@ -1,695 +1,560 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Golden Record Platform — Step-by-Step Demo Playbook</title>
-  <style>
-    :root {
-      --navy:#102b50; --blue:#3276ee; --cyan:#1599a8; --green:#17865c;
-      --gold:#cf8613; --purple:#7052cf; --rose:#bd4a77; --red:#c84a55;
-      --ink:#172b46; --muted:#657991; --line:#dce5f0; --paper:#f4f7fb;
-      --white:#fff; --accent:#3276ee; --accent-rgb:50,118,238;
-    }
-    * { box-sizing:border-box; }
-    html,body { width:100%; height:100%; margin:0; overflow:hidden; }
-    body {
-      color:var(--ink); background:var(--paper);
-      font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-    }
-    button { font:inherit; }
-    .app { height:100%; display:grid; grid-template-columns:245px 1fr; }
-    .sidebar {
-      display:flex; flex-direction:column; min-height:0; padding:18px 13px;
-      color:white; background:
-        radial-gradient(circle at 20% 0%,rgba(78,142,255,.24),transparent 36%),
-        linear-gradient(180deg,#102c51,#0a1d38);
-    }
-    .brand { padding:0 8px 13px; border-bottom:1px solid rgba(255,255,255,.1); }
-    .brand small { color:#79cbea; font-size:8px; font-weight:900; letter-spacing:.15em; text-transform:uppercase; }
-    .brand h1 { margin:6px 0 0; font-size:18px; line-height:1.08; letter-spacing:-.025em; }
-    .brand p { margin:6px 0 0; color:#aabbd1; font-size:8px; line-height:1.4; }
-    .nav { flex:1; min-height:0; overflow:auto; padding:12px 0; scrollbar-width:thin; }
-    .nav button {
-      width:100%; display:grid; grid-template-columns:25px 1fr; gap:8px; align-items:center;
-      margin:2px 0; padding:7px 8px; border:0; border-radius:9px; color:#acbdd2;
-      background:transparent; text-align:left; cursor:pointer; transition:.18s ease;
-    }
-    .nav button:hover { color:white; background:rgba(255,255,255,.06); }
-    .nav button.active { color:white; background:rgba(70,137,244,.23); box-shadow:inset 2px 0 #69b8ff; }
-    .nav .num {
-      width:23px; height:23px; display:grid; place-items:center; border-radius:7px;
-      color:#b9d3f3; background:rgba(255,255,255,.07); font-size:7px; font-weight:900;
-    }
-    .nav button.active .num { color:white; background:var(--blue); }
-    .nav .label { font-size:8.5px; font-weight:750; line-height:1.2; }
-    .side-bottom { padding:10px 8px 0; border-top:1px solid rgba(255,255,255,.1); color:#8fa3bd; font-size:7px; line-height:1.45; }
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Golden Record — Step-by-Step, in Plain English</title>
+<link rel="stylesheet" href="/assets/fonts/fonts.css"/>
+<style>
+  :root{
+    --ink:#e8ebf3; --muted:#9aa3b8; --faint:#6b7488;
+    --line:rgba(255,255,255,.10); --line2:rgba(255,255,255,.16);
+    --glass:rgba(255,255,255,.045); --card:rgba(255,255,255,.035);
+    --bg0:#04060c; --bg1:#070a14;
+    --blue:#2997ff; --cyan:#27d3e0; --purple:#a98bff; --gold:#f5c518; --green:#34d27b; --rose:#ff6f9c; --red:#ff7a85;
+    --accent:#2997ff; --accent-rgb:41,151,255;
+    --serif:'DM Serif Display', Georgia, serif;
+    --sans:'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --mono:'SF Mono', ui-monospace, Menlo, monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{width:100%;height:100%;margin:0;overflow:hidden;}
+  body{color:var(--ink); font-family:var(--sans); -webkit-font-smoothing:antialiased;
+    background:radial-gradient(800px 480px at 10% -10%, rgba(41,151,255,.10), transparent 60%),
+      radial-gradient(760px 460px at 98% 4%, rgba(169,139,255,.10), transparent 58%),
+      linear-gradient(160deg,#070a14,#04060c);}
+  button{font:inherit;color:inherit;}
 
-    .main { min-width:0; min-height:0; display:grid; grid-template-rows:auto 1fr auto; }
-    header {
-      display:flex; justify-content:space-between; align-items:center; gap:15px;
-      padding:14px 20px 10px; border-bottom:1px solid var(--line); background:rgba(255,255,255,.9);
-    }
-    .title small { color:var(--accent); font-size:8px; font-weight:900; letter-spacing:.12em; text-transform:uppercase; }
-    .title h2 { margin:3px 0 0; font-size:20px; line-height:1.08; letter-spacing:-.028em; }
-    .top-controls { display:flex; align-items:center; gap:6px; }
-    .btn {
-      border:1px solid #d4deeb; border-radius:8px; padding:7px 10px; color:#445c78;
-      background:white; font-size:8px; font-weight:850; cursor:pointer; box-shadow:0 4px 12px rgba(31,55,86,.04);
-    }
-    .btn:hover { border-color:#9bb8ea; color:var(--blue); }
-    .btn.primary { color:white; border-color:var(--accent); background:var(--accent); }
+  .app{height:100%; display:grid; grid-template-columns:236px 1fr;}
 
-    .content { min-height:0; padding:14px 18px; overflow:hidden; }
-    .slide {
-      height:100%; display:none; grid-template-rows:auto 1fr; gap:11px;
-      animation:enter .35s ease both;
-    }
-    .slide.active { display:grid; }
-    @keyframes enter { from{opacity:0;transform:translateY(7px)} to{opacity:1;transform:none} }
-    .message {
-      display:grid; grid-template-columns:auto 1fr auto; gap:11px; align-items:center;
-      padding:10px 13px; border:1px solid rgba(var(--accent-rgb),.2); border-radius:12px;
-      background:linear-gradient(90deg,rgba(var(--accent-rgb),.08),rgba(255,255,255,.75));
-    }
-    .message .badge {
-      width:34px; height:34px; display:grid; place-items:center; border-radius:10px;
-      color:white; background:var(--accent); font-size:10px; font-weight:950;
-      box-shadow:0 7px 18px rgba(var(--accent-rgb),.2);
-    }
-    .message h3 { margin:0; font-size:12px; }
-    .message p { margin:3px 0 0; color:var(--muted); font-size:8.5px; line-height:1.35; }
-    .why {
-      max-width:185px; padding:6px 9px; border-radius:8px; color:var(--accent);
-      background:rgba(var(--accent-rgb),.08); font-size:7px; font-weight:900;
-      text-align:center; text-transform:uppercase; letter-spacing:.035em; line-height:1.3;
-    }
-    .body-grid { min-height:0; display:grid; grid-template-columns:1.5fr .9fr; gap:12px; }
-    .panel {
-      min-height:0; overflow:auto; padding:14px; border:1px solid var(--line);
-      border-radius:14px; background:white; box-shadow:0 12px 32px rgba(31,55,86,.055);
-      scrollbar-width:thin;
-    }
-    .panel h4 { margin:0 0 9px; color:#28425f; font-size:10px; text-transform:uppercase; letter-spacing:.06em; }
-    .panel h5 { margin:11px 0 5px; font-size:9px; }
-    .panel p,.panel li { color:#5e7189; font-size:8px; line-height:1.45; }
-    .panel ul,.panel ol { margin:5px 0 0; padding-left:17px; }
-    .panel li+li { margin-top:4px; }
-    .say {
-      padding:10px 11px; border-left:3px solid var(--accent); border-radius:0 9px 9px 0;
-      background:rgba(var(--accent-rgb),.06); color:#314b69; font-size:8.5px; line-height:1.5;
-    }
-    .say::before { content:"WHAT TO SAY"; display:block; margin-bottom:4px; color:var(--accent); font-size:6.5px; font-weight:950; letter-spacing:.09em; }
-    .demo-action {
-      display:grid; grid-template-columns:22px 1fr; gap:7px; align-items:start; padding:7px 0;
-      border-bottom:1px solid #edf1f6;
-    }
-    .demo-action:last-child { border-bottom:0; }
-    .demo-action i {
-      width:20px; height:20px; display:grid; place-items:center; border-radius:6px;
-      color:white; background:var(--accent); font-style:normal; font-size:7px; font-weight:900;
-    }
-    .demo-action b { display:block; color:#304a68; font-size:8px; }
-    .demo-action span { display:block; margin-top:2px; color:#71839a; font-size:7px; line-height:1.35; }
-    .code {
-      margin-top:7px; padding:8px 10px; border-radius:9px; color:#dce8ff; background:#122a4b;
-      font:7px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace; white-space:pre-wrap;
-    }
-    .flow-row { display:flex; align-items:center; gap:5px; margin:10px 0; overflow:hidden; }
-    .flow-box {
-      flex:1; min-width:0; padding:8px 6px; border:1px solid #dce5ef; border-radius:9px;
-      color:#3d5571; background:#f9fbfd; font-size:7px; font-weight:850; text-align:center;
-    }
-    .arrow { color:var(--accent); font-size:12px; font-weight:950; }
+  /* ── rail / zone map ── */
+  .rail{display:flex; flex-direction:column; min-height:0; padding:16px 12px; border-right:1px solid var(--line);
+    background:radial-gradient(circle at 20% 0%, rgba(78,142,255,.16), transparent 40%), linear-gradient(180deg,#0a1428,#060c1a);}
+  .brand{padding:0 6px 12px; border-bottom:1px solid rgba(255,255,255,.10);}
+  .brand small{color:#5fb0ff; font-size:8px; font-weight:900; letter-spacing:.16em; text-transform:uppercase;}
+  .brand h1{margin:6px 0 0; font-family:var(--serif); font-weight:400; font-size:17px; line-height:1.1; color:#f1f4fb;}
+  .brand p{margin:6px 0 0; color:#9aa3b8; font-size:8.4px; line-height:1.45;}
+  .zonemap{flex:1; min-height:0; overflow:auto; padding:11px 2px; scrollbar-width:thin;}
+  .zg{margin-bottom:11px;}
+  .zg-head{display:flex; align-items:center; gap:7px; padding:0 6px 5px; color:var(--faint);
+    font-size:8px; font-weight:900; letter-spacing:.12em; text-transform:uppercase;}
+  .zg-head b{display:grid; place-items:center; width:15px; height:15px; border-radius:50%; font-size:7px; color:#fff;
+    background:rgba(255,255,255,.10); border:1px solid var(--line2);}
+  .zg.active .zg-head{color:#cfe0ff;} .zg.active .zg-head b{background:var(--accent); border-color:var(--accent);}
+  .stepbtn{width:100%; display:grid; grid-template-columns:20px 1fr; gap:8px; align-items:center;
+    margin:1px 0; padding:6px 7px; border:0; border-radius:8px; color:#aab4c6; background:transparent;
+    text-align:left; cursor:pointer; transition:.16s ease;}
+  .stepbtn:hover{color:#fff; background:rgba(255,255,255,.05);}
+  .stepbtn.active{color:#fff; background:rgba(var(--accent-rgb),.20); box-shadow:inset 2px 0 var(--accent);}
+  .stepbtn .n{width:19px; height:19px; display:grid; place-items:center; border-radius:6px; font-size:7px; font-weight:900;
+    color:#b9d3f3; background:rgba(255,255,255,.07);}
+  .stepbtn.active .n{color:#fff; background:var(--accent);}
+  .stepbtn.done .n{color:#8fd9b3;}
+  .stepbtn .lbl{font-size:9px; font-weight:700; line-height:1.18;}
+  .rail-foot{padding:9px 6px 0; border-top:1px solid rgba(255,255,255,.10); color:#7c879d; font-size:7.4px; line-height:1.5;}
 
-    .records { display:grid; grid-template-columns:repeat(4,1fr); gap:7px; margin-top:7px; }
-    .record { padding:8px; border:1px solid #dce5ef; border-top:3px solid var(--color); border-radius:9px; background:#fbfcfe; }
-    .record strong { display:block; color:var(--color); font-size:8px; }
-    .record dl { margin:6px 0 0; display:grid; grid-template-columns:auto 1fr; gap:3px 5px; }
-    .record dt { color:#8797aa; font-size:6.2px; }
-    .record dd { margin:0; color:#3a516e; font-size:6.5px; font-weight:750; overflow-wrap:anywhere; }
-    .bad { color:var(--red)!important; }
-    .good { color:var(--green)!important; }
+  /* ── main ── */
+  .main{min-width:0; min-height:0; display:grid; grid-template-rows:auto minmax(0,1fr) auto;}
+  header{display:flex; justify-content:space-between; align-items:center; gap:14px;
+    padding:13px 22px 11px; border-bottom:1px solid var(--line); background:rgba(10,14,24,.6); backdrop-filter:blur(8px);}
+  .htitle small{color:var(--accent); font-size:8px; font-weight:900; letter-spacing:.12em; text-transform:uppercase;}
+  .htitle h2{margin:3px 0 0; font-family:var(--serif); font-weight:400; font-size:19px; line-height:1.08; color:#f1f4fb; letter-spacing:-.01em;}
+  .hctrls{display:flex; gap:7px;}
+  .btn{border:1px solid var(--line2); border-radius:9px; padding:8px 11px; color:#cdd5e6; background:var(--glass);
+    font-size:9px; font-weight:800; cursor:pointer; transition:.16s ease;}
+  .btn:hover{color:#fff; border-color:rgba(var(--accent-rgb),.55); background:rgba(var(--accent-rgb),.12);}
+  .btn.primary{color:#fff; background:var(--accent); border-color:var(--accent);}
 
-    .score-list { display:grid; gap:6px; margin-top:8px; }
-    .score { display:grid; grid-template-columns:90px 1fr 32px; gap:7px; align-items:center; }
-    .score label { color:#52677f; font-size:7px; font-weight:750; }
-    .bar { height:7px; overflow:hidden; border-radius:99px; background:#e7edf5; }
-    .fill { height:100%; width:var(--pct); border-radius:inherit; background:var(--color); animation:grow .8s ease both; }
-    @keyframes grow { from{width:0} }
-    .score b { color:var(--color); font-size:7px; text-align:right; }
+  .stagewrap{min-height:0; padding:16px 22px; overflow:auto; scrollbar-width:thin;}
+  .slide{display:none; animation:enter .35s ease both;}
+  .slide.active{display:block;}
+  @keyframes enter{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;}}
 
-    .compare { display:grid; grid-template-columns:1fr 60px 1fr; gap:8px; align-items:center; margin-top:8px; }
-    .person { padding:10px; border:1px solid #dce5ef; border-radius:10px; background:#fafcff; }
-    .person strong { display:block; color:#2f4967; font-size:9px; }
-    .person div { margin-top:5px; color:#667a91; font-size:7px; line-height:1.5; }
-    .match { text-align:center; }
-    .match b { display:grid; place-items:center; width:50px; height:50px; margin:auto; border-radius:50%; color:white; background:var(--purple); font-size:11px; }
-    .match span { display:block; margin-top:4px; color:#6c7e94; font-size:6.5px; font-weight:850; }
+  .lead{display:grid; grid-template-columns:auto 1fr; gap:13px; align-items:start; margin-bottom:14px;}
+  .lead .badge{width:42px; height:42px; display:grid; place-items:center; border-radius:12px; color:#fff;
+    background:linear-gradient(150deg, var(--accent), color-mix(in srgb,var(--accent) 45%,#000));
+    font-family:var(--serif); font-size:17px; box-shadow:0 10px 24px rgba(var(--accent-rgb),.34);}
+  .lead h3{margin:0; font-size:16px; color:#f1f4fb; letter-spacing:-.01em; line-height:1.18;}
+  .lead p{margin:5px 0 0; color:#aeb7c9; font-size:11px; line-height:1.5; max-width:78ch;}
 
-    .decision { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:9px; }
-    .choice { padding:9px; border-radius:9px; text-align:center; font-size:7px; font-weight:900; }
-    .approve { color:#14754e; background:#e7f7ef; border:1px solid #bfe7d4; }
-    .reject { color:#9a3d47; background:#fff0f1; border:1px solid #efc8cc; }
+  .canvas{padding:16px; border:1px solid var(--line); border-radius:16px; background:var(--card);
+    box-shadow:0 16px 40px rgba(0,0,0,.4);}
+  .cap{margin:0 0 11px; color:#aeb9cc; font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:.06em;}
 
-    .golden {
-      max-width:430px; margin:8px auto 0; padding:12px; border:1px solid #cbdcf0;
-      border-radius:13px; background:linear-gradient(145deg,#fff,#f6f9fd); box-shadow:0 15px 35px rgba(41,74,119,.1);
-    }
-    .golden-head { display:flex; align-items:center; gap:9px; padding-bottom:8px; border-bottom:1px solid #e8eef5; }
-    .avatar { width:38px; height:38px; display:grid; place-items:center; border-radius:50%; color:white; background:linear-gradient(145deg,var(--blue),var(--purple)); font-size:10px; font-weight:950; }
-    .golden-head strong { display:block; font-size:11px; }
-    .golden-head span { color:var(--green); font-size:7px; font-weight:850; }
-    .field { display:grid; grid-template-columns:90px 1fr 52px; gap:7px; padding:6px 0; border-bottom:1px solid #edf1f6; font-size:7px; }
-    .field:last-child { border-bottom:0; }
-    .field label { color:#7d8da2; }
-    .field b { color:#314b68; }
-    .source { color:var(--accent); font-weight:900; text-align:right; }
+  /* record cards */
+  .records{display:grid; grid-template-columns:repeat(4,1fr); gap:9px;}
+  .rec{padding:10px; border:1px solid var(--line); border-top:3px solid var(--c); border-radius:11px; background:rgba(255,255,255,.03);}
+  .rec strong{display:block; color:var(--c); font-size:9px; margin-bottom:6px;}
+  .rec dl{margin:0; display:grid; grid-template-columns:auto 1fr; gap:4px 7px;}
+  .rec dt{color:#8a96ab; font-size:7.4px;}
+  .rec dd{margin:0; color:#dbe3f2; font-size:8px; font-weight:600; overflow-wrap:anywhere;}
+  .rec dd.bad{color:var(--red);} .rec dd.good{color:#5fe0a0;}
+  .conflict{margin-top:11px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; color:#9aa3b8; font-size:9px;}
+  .conflict .pill{padding:4px 9px; border-radius:99px; background:rgba(255,255,255,.05); border:1px solid var(--line); color:#cdd6e6; font-weight:700; font-size:8.4px;}
 
-    .risk-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:7px; margin-top:8px; }
-    .risk { padding:9px; border:1px solid #dce5ef; border-top:3px solid var(--color); border-radius:9px; background:#fbfcfe; }
-    .risk strong { display:block; color:var(--color); font-size:8px; }
-    .risk p { margin:4px 0 0; font-size:6.7px; }
-    .risk-note { margin-top:8px; padding:8px; border-radius:9px; color:#795514; background:#fff8e8; border:1px solid #eed9a7; font-size:7px; line-height:1.4; }
+  /* flow */
+  .flow{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+  .fbox{flex:1; min-width:0; padding:11px 9px; border:1px solid var(--line); border-radius:10px; text-align:center;
+    background:rgba(255,255,255,.035); color:#cbd5e6; font-size:9px; font-weight:700;}
+  .fbox small{display:block; margin-top:3px; color:var(--faint); font-size:7.4px; font-weight:600;}
+  .arr{color:var(--accent); font-size:15px; font-weight:900;}
 
-    .lineage-table { width:100%; border-collapse:collapse; margin-top:7px; }
-    .lineage-table th,.lineage-table td { padding:6px; border-bottom:1px solid #e9eef5; font-size:6.8px; text-align:left; }
-    .lineage-table th { color:#778aa0; background:#f7f9fc; text-transform:uppercase; letter-spacing:.04em; }
-    .lineage-table td { color:#425a76; }
-    .lock { color:var(--gold); font-weight:900; }
-    .metric-defs { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-top:7px; }
-    .metric-def { padding:8px; border:1px solid #dce5ef; border-radius:9px; background:#fbfcfe; }
-    .metric-def strong { display:block; color:var(--accent); font-size:8px; }
-    .metric-def p { margin:3px 0 0; font-size:6.6px; }
+  /* score bars */
+  .scores{display:grid; gap:8px;}
+  .score{display:grid; grid-template-columns:140px 1fr 38px; gap:10px; align-items:center;}
+  .score label{color:#aab4c6; font-size:8.6px; font-weight:600;}
+  .bar{height:8px; overflow:hidden; border-radius:99px; background:rgba(255,255,255,.09);}
+  .fill{height:100%; width:var(--pct); border-radius:inherit; background:var(--col); animation:grow .9s ease both;}
+  @keyframes grow{from{width:0;}}
+  .score b{color:var(--col); font-size:8.6px; text-align:right;}
+  .note{margin-top:12px; padding:9px 11px; border-radius:10px; font-size:9px; line-height:1.5;}
+  .note.amber{color:#ecd28a; background:rgba(245,197,24,.08); border:1px solid rgba(245,197,24,.28);}
+  .note.green{color:#9fe7c2; background:rgba(52,210,123,.09); border:1px solid rgba(52,210,123,.3);}
 
-    .chat { display:grid; gap:7px; margin-top:7px; }
-    .bubble { max-width:87%; padding:8px 10px; border-radius:11px; font-size:7.5px; line-height:1.45; }
-    .question { justify-self:end; color:white; background:var(--accent); border-bottom-right-radius:3px; }
-    .answer { color:#384f6c; background:#f1f5fa; border:1px solid #dce5ef; border-bottom-left-radius:3px; }
-    .answer small { display:block; margin-top:5px; color:var(--green); font-size:6.2px; font-weight:850; }
-    .persona-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
-    .persona { padding:9px; border:1px solid #dce5ef; border-radius:10px; background:#fbfcfe; }
-    .persona strong { display:block; color:var(--color); font-size:8px; }
-    .persona p { margin:4px 0 0; font-size:6.8px; }
+  /* compare */
+  .compare{display:grid; grid-template-columns:1fr 78px 1fr; gap:12px; align-items:center;}
+  .person{padding:11px; border:1px solid var(--line); border-radius:11px; background:rgba(255,255,255,.03);}
+  .person strong{display:block; color:#e7ecf8; font-size:9.5px;}
+  .person div{margin-top:6px; color:#9aa3b8; font-size:8px; line-height:1.6;}
+  .match{text-align:center;}
+  .match b{display:grid; place-items:center; width:58px; height:58px; margin:0 auto; border-radius:50%; color:#fff;
+    background:linear-gradient(150deg,var(--purple), #6a4fc0); font-size:14px; font-family:var(--serif);}
+  .match span{display:block; margin-top:5px; color:#9aa3b8; font-size:7.6px; font-weight:800;}
 
-    .portal { display:grid; grid-template-columns:120px 1fr; gap:10px; margin-top:8px; }
-    .portal-nav { padding:8px; border-radius:10px; color:white; background:var(--navy); }
-    .portal-nav strong { display:block; font-size:8px; margin-bottom:7px; }
-    .portal-nav span { display:block; margin:3px 0; padding:5px; border-radius:6px; color:#c4d2e4; background:rgba(255,255,255,.06); font-size:6.5px; }
-    .portal-card { padding:10px; border:1px solid #dce5ef; border-radius:10px; background:#fbfcfe; }
-    .portal-card h5 { margin:0 0 7px; color:#2f4866; font-size:9px; }
-    .portal-row { display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid #e8eef5; font-size:6.8px; }
-    .portal-row span { color:#7d8da1; } .portal-row b { color:#334d6a; }
-    .privacy { margin-top:7px; padding:7px; border-radius:8px; color:#684b17; background:#fff8e8; border:1px solid #ecd8ab; font-size:6.7px; }
+  /* decision */
+  .decision{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px;}
+  .choice{padding:11px; border-radius:10px; text-align:center; font-size:9px; font-weight:900; letter-spacing:.02em;}
+  .approve{color:#7ee0ad; background:rgba(52,210,123,.12); border:1px solid rgba(52,210,123,.35);}
+  .reject{color:#ff9aa3; background:rgba(255,111,123,.12); border:1px solid rgba(255,111,123,.35);}
 
-    .summary-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:8px; }
-    .summary-card { padding:10px; border:1px solid #dce5ef; border-radius:10px; background:#fbfcfe; }
-    .summary-card b { display:block; color:var(--accent); font-size:9px; }
-    .summary-card p { margin:4px 0 0; font-size:7px; }
+  /* gold card */
+  .goldcard{max-width:460px; border:1px solid rgba(255,255,255,.12); border-radius:14px;
+    background:radial-gradient(circle at 50% -20%, rgba(245,197,24,.13), transparent 55%), linear-gradient(160deg,#0e1322,#080b14);
+    box-shadow:0 16px 40px rgba(0,0,0,.5);}
+  .gc-head{display:flex; align-items:center; gap:10px; padding:13px 14px; border-bottom:1px solid rgba(255,255,255,.10);}
+  .gc-head .av{width:40px; height:40px; display:grid; place-items:center; border-radius:50%; color:#fff;
+    background:linear-gradient(150deg,var(--blue),var(--purple)); font-size:11px; font-weight:900;}
+  .gc-head strong{display:block; font-size:12px; color:#f1f4fb;} .gc-head span{color:#5fe0a0; font-size:8px; font-weight:800;}
+  .field{display:grid; grid-template-columns:96px 1fr auto; gap:9px; padding:9px 14px; border-bottom:1px solid rgba(255,255,255,.07); font-size:8.6px; align-items:center;}
+  .field:last-child{border-bottom:0;}
+  .field label{color:#8a96ab;} .field b{color:#e2e8f5;}
+  .field .src{color:#6fb4ff; font-weight:900; font-size:7.6px;} .field .src.lock{color:var(--gold);}
 
-    footer {
-      display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:12px;
-      padding:9px 18px; border-top:1px solid var(--line); background:white;
-    }
-    .counter { color:#62758d; font-size:8px; font-weight:850; white-space:nowrap; }
-    .progress { height:5px; overflow:hidden; border-radius:99px; background:#e3eaf3; }
-    .progress div { height:100%; width:0; border-radius:inherit; background:var(--accent); transition:width .35s ease; }
-    .next-controls { display:flex; gap:6px; }
-    .paused * { animation-play-state:paused!important; }
-    @media(max-width:850px) {
-      .app { grid-template-columns:155px 1fr; }
-      .sidebar { padding:10px 7px; } .brand h1{font-size:13px}.brand p{display:none}
-      .nav button{grid-template-columns:20px 1fr;padding:5px}.nav .num{width:18px;height:18px}
-      .content{padding:9px}.body-grid{grid-template-columns:1fr}.panel.secondary{display:none}
-      .records{grid-template-columns:1fr 1fr}.message{grid-template-columns:auto 1fr}.why{display:none}
-      .title h2{font-size:14px}.top-controls #restartBtn{display:none}.top-controls #autoBtn{display:inline-block;padding:7px}
-    }
-  </style>
-  <link rel="stylesheet" href="/assets/fonts/fonts.css"/>
-  <style>
-    /* === Dark theme overlay — matches ram-bala.com === */
-    :root{ --ink:#e6eaf2; --muted:#9aa3b8; --line:rgba(255,255,255,.10); --paper:#06080f; --white:#0e1320; }
-    body{ background:radial-gradient(800px 480px at 12% -10%, rgba(41,151,255,.10), transparent 60%), linear-gradient(160deg,#070a14,#04060c); color:#e6eaf2; font-family:'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
-    .sidebar{ background:radial-gradient(circle at 20% 0%,rgba(78,142,255,.20),transparent 36%),linear-gradient(180deg,#0a1730,#060e1f); }
-    .brand{ border-bottom-color:rgba(255,255,255,.10); }
-    .main{ background:transparent; }
-    header{ background:rgba(10,14,24,.7); border-bottom:1px solid rgba(255,255,255,.10); backdrop-filter:blur(8px); }
-    .title small{ color:#5fb0ff; }
-    .title h2{ color:#f1f4fb; font-family:'DM Serif Display', Georgia, serif; font-weight:400; }
-    .btn{ background:rgba(255,255,255,.05); color:#cdd5e6; border-color:rgba(255,255,255,.16); box-shadow:none; }
-    .btn:hover{ color:#fff; border-color:rgba(41,151,255,.55); }
-    .btn.primary{ color:#fff; background:var(--accent); border-color:var(--accent); }
-    .message{ background:linear-gradient(90deg, rgba(var(--accent-rgb),.16), rgba(255,255,255,.03)); border-color:rgba(var(--accent-rgb),.28); }
-    .message h3{ color:#f1f4fb; } .message p{ color:#9aa3b8; }
-    .why{ color:#cfe0ff; background:rgba(var(--accent-rgb),.16); }
-    .panel{ background:rgba(255,255,255,.035); border-color:rgba(255,255,255,.10); box-shadow:0 16px 40px rgba(0,0,0,.4); }
-    .panel h4{ color:#aeb9cc; } .panel h5{ color:#dfe6f5; } .panel p,.panel li{ color:#9aa3b8; }
-    .say{ background:rgba(var(--accent-rgb),.12); color:#c7d2e6; border-left-color:var(--accent); }
-    .say::before{ color:#6fb4ff; }
-    .demo-action{ border-bottom-color:rgba(255,255,255,.08); }
-    .demo-action b{ color:#e2e8f5; } .demo-action span{ color:#8893a8; }
-    .flow-box{ background:rgba(255,255,255,.04); color:#c2cde0; border-color:rgba(255,255,255,.10); }
-    .arrow{ color:var(--accent); }
-    .record{ background:rgba(255,255,255,.035); border-color:rgba(255,255,255,.10); }
-    .record dt{ color:#8a96ab; } .record dd{ color:#dbe3f2; }
-    .bad{ color:#ff7a85!important; } .good{ color:#46d68a!important; }
-    .score label{ color:#aab4c6; } .bar{ background:rgba(255,255,255,.09); }
-    .person{ background:rgba(255,255,255,.035); border-color:rgba(255,255,255,.10); }
-    .person strong{ color:#e7ecf8; } .person div{ color:#9aa3b8; } .match span{ color:#9aa3b8; }
-    .choice.approve{ color:#7ee0ad; background:rgba(52,210,123,.12); border-color:rgba(52,210,123,.35); }
-    .choice.reject{ color:#ff9aa3; background:rgba(255,111,123,.12); border-color:rgba(255,111,123,.35); }
-    .golden{ background:radial-gradient(circle at 50% -20%, rgba(245,197,24,.14), transparent 55%), linear-gradient(160deg,#0e1322,#080b14); border-color:rgba(255,255,255,.12); box-shadow:0 18px 44px rgba(0,0,0,.5); }
-    .golden-head{ border-bottom-color:rgba(255,255,255,.10); }
-    .golden-head strong{ color:#f1f4fb; } .golden-head span{ color:#46d68a; }
-    .field{ border-bottom-color:rgba(255,255,255,.08); }
-    .field label{ color:#8a96ab; } .field b{ color:#e2e8f5; } .source{ color:#6fb4ff; }
-    .risk{ background:rgba(255,255,255,.035); border-color:rgba(255,255,255,.10); } .risk p{ color:#9aa3b8; }
-    .risk-note{ color:#ecd28a; background:rgba(245,197,24,.08); border-color:rgba(245,197,24,.28); }
-    .lineage-table th{ color:#9fb0c6; background:rgba(255,255,255,.04); border-bottom-color:rgba(255,255,255,.10); }
-    .lineage-table td{ color:#c2cde0; border-bottom-color:rgba(255,255,255,.08); }
-    .lock{ color:#f5c518; }
-    .metric-def{ background:rgba(255,255,255,.035); border-color:rgba(255,255,255,.10); } .metric-def p{ color:#9aa3b8; }
-    .bubble.answer{ color:#cdd6e6; background:rgba(255,255,255,.05); border-color:rgba(255,255,255,.10); }
-    .answer small{ color:#46d68a; }
-    .persona{ background:rgba(255,255,255,.035); border-color:rgba(255,255,255,.10); } .persona p{ color:#9aa3b8; }
-    .portal-nav{ background:#0a1730; } .portal-nav span{ color:#c4d2e4; background:rgba(255,255,255,.06); }
-    .portal-card{ background:rgba(255,255,255,.035); border-color:rgba(255,255,255,.10); } .portal-card h5{ color:#e2e8f5; }
-    .portal-row{ border-bottom-color:rgba(255,255,255,.08); } .portal-row span{ color:#8a96ab; } .portal-row b{ color:#dbe3f2; }
-    .privacy{ color:#ecd28a; background:rgba(245,197,24,.08); border-color:rgba(245,197,24,.28); }
-    .summary-card{ background:rgba(255,255,255,.035); border-color:rgba(255,255,255,.10); } .summary-card p{ color:#9aa3b8; }
-    footer{ background:rgba(10,14,24,.7); border-top-color:rgba(255,255,255,.10); }
-    .counter{ color:#9aa3b8; } .progress{ background:rgba(255,255,255,.09); }
-  </style>
+  /* lineage table */
+  .ltable{width:100%; border-collapse:collapse;}
+  .ltable th,.ltable td{padding:8px 9px; border-bottom:1px solid rgba(255,255,255,.08); font-size:8.4px; text-align:left;}
+  .ltable th{color:#9fb0c6; background:rgba(255,255,255,.04); text-transform:uppercase; letter-spacing:.05em; font-size:7.4px;}
+  .ltable td{color:#cbd5e6;} .ltable .lock{color:var(--gold); font-weight:900;}
+
+  /* confidence vs risk */
+  .vs{display:grid; grid-template-columns:1fr auto 1fr; gap:14px; align-items:stretch;}
+  .vscard{padding:14px; border:1px solid var(--line); border-radius:13px; background:rgba(255,255,255,.03);}
+  .vscard h5{margin:0 0 4px; font-size:11px; color:#f1f4fb;}
+  .vscard .q{margin:0 0 11px; color:#9aa3b8; font-size:8.6px; line-height:1.4;}
+  .meter{height:10px; border-radius:99px; background:rgba(255,255,255,.09); overflow:hidden;}
+  .meter i{display:block; height:100%; border-radius:inherit; animation:grow .9s ease both;}
+  .vscard .val{margin-top:8px; font-family:var(--serif); font-size:22px; color:#fff;}
+  .vscard .val small{font-family:var(--sans); font-size:9px; color:#9aa3b8; font-weight:600;}
+  .vsx{display:grid; place-items:center; color:var(--faint); font-size:11px; font-weight:900;}
+  .vsx span{writing-mode:vertical-rl; letter-spacing:.1em;}
+
+  /* 360 profile */
+  .p360{display:grid; grid-template-columns:118px 1fr; gap:12px;}
+  .p360 .tabs{display:grid; gap:5px; align-content:start;}
+  .p360 .tab{padding:8px 10px; border-radius:8px; font-size:8.4px; font-weight:700; color:#cbd5e6; background:rgba(255,255,255,.04); border:1px solid var(--line);}
+  .p360 .tab.on{color:#fff; background:rgba(var(--accent-rgb),.18); border-color:rgba(var(--accent-rgb),.4);}
+  .p360 .rows{display:grid; gap:7px; align-content:start;}
+  .prow{display:flex; justify-content:space-between; padding:8px 11px; border:1px solid var(--line); border-radius:9px; background:rgba(255,255,255,.03); font-size:8.6px;}
+  .prow span{color:#8a96ab;} .prow b{color:#e2e8f5;}
+
+  /* chat */
+  .chat{display:grid; gap:8px; max-width:560px;}
+  .bub{max-width:84%; padding:10px 12px; border-radius:12px; font-size:9px; line-height:1.5;}
+  .q-b{justify-self:end; color:#fff; background:var(--accent); border-bottom-right-radius:3px;}
+  .a-b{color:#cdd6e6; background:rgba(255,255,255,.05); border:1px solid var(--line); border-bottom-left-radius:3px;}
+  .a-b small{display:block; margin-top:6px; color:#5fe0a0; font-size:7.4px; font-weight:800;}
+
+  /* personas */
+  .personas{display:grid; grid-template-columns:1fr 1fr; gap:11px;}
+  .pcard{padding:13px; border:1px solid var(--line); border-radius:12px; background:rgba(255,255,255,.03);}
+  .pcard strong{display:block; color:var(--c); font-size:9.5px;}
+  .pcard p{margin:7px 0 0; color:#9aa3b8; font-size:8.4px; line-height:1.5;}
+  .pcard ul{margin:8px 0 0; padding-left:15px;} .pcard li{color:#aeb7c9; font-size:8px; line-height:1.45;}
+
+  /* payoff */
+  .payoff{display:flex; align-items:center; gap:16px; justify-content:center; flex-wrap:wrap; padding:6px 0 14px;}
+  .pnum{text-align:center;} .pnum strong{display:block; font-family:var(--serif); font-size:34px; color:#fff; line-height:1; letter-spacing:-.02em;}
+  .pnum span{display:block; margin-top:6px; color:var(--faint); font-size:8px; font-weight:800; text-transform:uppercase; letter-spacing:.06em;}
+  .pbig-arr{font-size:24px; color:var(--accent);}
+  .ochips{display:grid; grid-template-columns:repeat(3,1fr); gap:9px; margin-top:6px;}
+  .ochip{padding:10px 11px; border:1px solid var(--line); border-radius:10px; background:rgba(255,255,255,.03);}
+  .ochip b{display:block; color:#e7ecf8; font-size:9px;} .ochip span{display:block; margin-top:3px; color:#9aa3b8; font-size:8px; line-height:1.4;}
+
+  /* takeaway */
+  .takeaway{margin-top:14px; display:grid; grid-template-columns:auto 1fr; gap:11px; align-items:center;
+    padding:11px 14px; border-radius:12px; border:1px solid rgba(var(--accent-rgb),.3);
+    background:linear-gradient(100deg, rgba(var(--accent-rgb),.12), rgba(255,255,255,.02));}
+  .takeaway .k{font-size:7.4px; font-weight:900; letter-spacing:.1em; text-transform:uppercase; color:#6fb4ff;
+    writing-mode:vertical-rl; transform:rotate(180deg);}
+  .takeaway p{margin:0; color:#dbe3f2; font-size:9.6px; line-height:1.5; font-weight:600;}
+
+  /* glossary term */
+  .term{position:relative; color:#cfe0ff; border-bottom:1px dashed rgba(111,180,255,.6); cursor:help; font-weight:700;}
+  .term .def{position:absolute; left:0; bottom:135%; z-index:30; width:230px; padding:9px 11px;
+    border-radius:10px; border:1px solid var(--line2); background:#0c1322; color:#cbd5e6;
+    font-size:8.4px; line-height:1.5; font-weight:500; box-shadow:0 14px 34px rgba(0,0,0,.6);
+    opacity:0; transform:translateY(4px); pointer-events:none; transition:.16s ease;}
+  .term:hover .def, .term:focus .def{opacity:1; transform:none;}
+  .term .def b{color:#fff;}
+
+  /* footer */
+  footer{display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:14px;
+    padding:11px 22px; border-top:1px solid var(--line); background:rgba(10,14,24,.6); backdrop-filter:blur(8px);}
+  .counter{color:#9aa3b8; font-size:9px; font-weight:800; white-space:nowrap;}
+  .pbar{height:6px; overflow:hidden; border-radius:99px; background:rgba(255,255,255,.09);}
+  .pbar div{height:100%; width:0; border-radius:inherit; background:var(--accent); transition:width .35s ease;}
+  .nav-c{display:flex; gap:7px;}
+
+  .paused *{animation-play-state:paused !important;}
+
+  @media (max-width:860px){
+    .app{grid-template-columns:1fr;}
+    .rail{display:none;}
+    .stagewrap{padding:12px;}
+    .records{grid-template-columns:1fr 1fr;}
+    .vs{grid-template-columns:1fr;} .vsx{display:none;}
+    .p360{grid-template-columns:1fr;} .p360 .tabs{grid-template-columns:repeat(3,1fr);}
+    .ochips{grid-template-columns:1fr;}
+    .htitle h2{font-size:15px;} .lead h3{font-size:13px;}
+  }
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important; transition-duration:.001ms!important;}}
+
+  /* ===== Readability floor — keep every glyph legible at the real embed size (overrides earlier small sizes) ===== */
+  .htitle small{font-size:10px;} .btn{font-size:11px;}
+  .stepbtn .lbl{font-size:11px;} .zg-head{font-size:10px;} .brand p{font-size:11px;} .rail-foot{font-size:10px;}
+  .lead p{font-size:13.5px;} .cap{font-size:10px;}
+  .rec strong{font-size:11px;} .rec dt{font-size:11px;} .rec dd{font-size:12px;}
+  .conflict{font-size:12px;} .conflict .pill{font-size:11px;}
+  .fbox{font-size:11px;} .fbox small{font-size:10px;}
+  .score label{font-size:11px;} .score b{font-size:11px;}
+  .note{font-size:12px;}
+  .person strong{font-size:12px;} .person div{font-size:11px;} .match span{font-size:10px;}
+  .choice{font-size:11px;}
+  .gc-head span{font-size:11px;} .field{font-size:11px;} .field .src{font-size:10px;}
+  .ltable th{font-size:10px;} .ltable td{font-size:11px;}
+  .vscard .q{font-size:11px;}
+  .p360 .tab{font-size:11px;} .prow{font-size:11px;}
+  .bub{font-size:12px;} .a-b small{font-size:10px;}
+  .pcard strong{font-size:12px;} .pcard p{font-size:11px;} .pcard li{font-size:11px;}
+  .ochip b{font-size:12px;} .ochip span{font-size:11px;} .pnum span{font-size:11px;}
+  .takeaway p{font-size:13px;} .takeaway .k{font-size:10px;}
+  .term .def{font-size:11px;} .counter{font-size:11px;}
+</style>
 </head>
 <body>
   <div class="app" id="app">
-    <aside class="sidebar">
+    <aside class="rail">
       <div class="brand">
-        <small>Presentation companion</small>
-        <h1>Golden Record<br/>Demo Playbook</h1>
-        <p>Follow one customer from fragmented data to a safe customer experience.</p>
+        <small>Self-guided walkthrough</small>
+        <h1>Golden Record,<br/>step by step</h1>
+        <p>Follow one customer — Rachel — from four messy records to one trusted profile. No jargon left unexplained.</p>
       </div>
-      <nav class="nav" id="nav"></nav>
-      <div class="side-bottom">Keyboard: ← previous · → next · Space autoplay · Home restart</div>
+      <nav class="zonemap" id="zonemap"></nav>
+      <div class="rail-foot">← / → to move · Space to auto-play · Hover the dotted words for plain definitions.</div>
     </aside>
 
     <main class="main">
       <header>
-        <div class="title"><small id="sectionLabel">The business problem</small><h2 id="pageTitle">Why this platform exists</h2></div>
-        <div class="top-controls">
-          <button class="btn" id="autoBtn">Start autoplay</button>
+        <div class="htitle"><small id="zoneLabel">The problem</small><h2 id="stepTitle">One customer, four versions</h2></div>
+        <div class="hctrls">
+          <button class="btn" id="autoBtn">Auto-play</button>
           <button class="btn" id="restartBtn">Restart</button>
-          <button class="btn primary" id="nextTop">Next step →</button>
+          <button class="btn primary" id="nextTop">Next →</button>
         </div>
       </header>
 
-      <section class="content">
-        <article class="slide active" data-title="Why this platform exists" data-section="The business problem" data-color="#3276ee" data-rgb="50,118,238">
-          <div class="message"><div class="badge">01</div><div><h3>Start with the problem, not the technology</h3><p>The same customer appears differently in every business system. That creates duplicate customers, missed risks and slow service.</p></div><div class="why">Audience takeaway: fragmented data creates business risk</div></div>
-          <div class="body-grid">
-            <div class="panel">
-              <h4>Meet our example customer</h4>
-              <div class="records">
-                <div class="record" style="--color:var(--navy)"><strong>Core Banking</strong><dl><dt>Name</dt><dd>Rachel A Smith</dd><dt>Email</dt><dd class="bad">Missing</dd><dt>Status</dt><dd>Active account</dd></dl></div>
-                <div class="record" style="--color:var(--blue)"><strong>Customer Service</strong><dl><dt>Name</dt><dd>Rachel Smith</dd><dt>Email</dt><dd>rachel.smith@yahoo.com</dd><dt>Phone</dt><dd>378-613-7157</dd></dl></div>
-                <div class="record" style="--color:var(--green)"><strong>Identity Checks</strong><dl><dt>Name</dt><dd>RACHEL SMITH</dd><dt>KYC</dt><dd class="good">Verified</dd><dt>Expiry</dt><dd>20 Jun 2027</dd></dl></div>
-                <div class="record" style="--color:var(--gold)"><strong>Risk System</strong><dl><dt>Name</dt><dd>R. Smith</dd><dt>Risk</dt><dd>Watch</dd><dt>PEP</dt><dd>No</dd></dl></div>
-              </div>
-              <div class="flow-row"><div class="flow-box">4 system records</div><div class="arrow">→</div><div class="flow-box">Could be 4 people?</div><div class="arrow">→</div><div class="flow-box">Need one trusted answer</div></div>
-              <div class="say">“All four records describe Rachel, but no single system knows the complete truth. Our platform brings the pieces together without losing where each fact came from.”</div>
+      <div class="stagewrap" id="stagewrap">
+
+        <!-- 1 -->
+        <article class="slide active" data-zone="0" data-zlabel="The problem" data-title="One customer, four versions" data-c="#2997ff" data-rgb="41,151,255">
+          <div class="lead"><div class="badge">1</div><div><h3>The same customer looks different in every system</h3><p>Rachel exists in four bank systems. Each was built for its own job, so each stores her a little differently. No single system holds the whole truth — and that quietly causes duplicate customers, missed risk and slow service.</p></div></div>
+          <div class="canvas">
+            <p class="cap">Rachel, as four systems see her</p>
+            <div class="records">
+              <div class="rec" style="--c:var(--blue)"><strong>Core Banking</strong><dl><dt>Name</dt><dd>Rachel A Smith</dd><dt>Email</dt><dd class="bad">missing</dd><dt>Status</dt><dd>Active</dd></dl></div>
+              <div class="rec" style="--c:var(--cyan)"><strong>Customer Service</strong><dl><dt>Name</dt><dd>Rachel Smith</dd><dt>Email</dt><dd>rachel.smith@…</dd><dt>Phone</dt><dd>378-613-7157</dd></dl></div>
+              <div class="rec" style="--c:var(--green)"><strong>Identity (KYC)</strong><dl><dt>Name</dt><dd>RACHEL SMITH</dd><dt>KYC</dt><dd class="good">Verified</dd><dt>Expiry</dt><dd>Jun 2027</dd></dl></div>
+              <div class="rec" style="--c:var(--gold)"><strong>Risk System</strong><dl><dt>Name</dt><dd>R. Smith</dd><dt>Risk</dt><dd>Watch</dd><dt>PEP</dt><dd>No</dd></dl></div>
             </div>
-            <div class="panel secondary">
-              <h4>Demo action</h4>
-              <div class="demo-action"><i>1</i><div><b>Show the architecture first</b><span>Point to the four source systems and explain that each was built for a different purpose.</span></div></div>
-              <div class="demo-action"><i>2</i><div><b>Use the “jigsaw puzzle” analogy</b><span>Each system has one piece. The Golden Record assembles the full picture.</span></div></div>
-              <div class="demo-action"><i>3</i><div><b>Set the promise</b><span>By the end, Rachel will have one trusted profile with explainable values and safe user views.</span></div></div>
-              <h5>Why executives care</h5>
-              <ul><li>Duplicate customers inflate counts and costs.</li><li>Compliance teams can miss risk information.</li><li>Customers repeat the same information to different teams.</li></ul>
-            </div>
+            <div class="conflict"><span class="pill">4 records</span> could look like <span class="pill">4 different people</span> — but they're all one <span class="pill">Rachel</span>.</div>
           </div>
+          <div class="takeaway"><div class="k">So what</div><p>Fragmented data isn't a tech detail — it's business risk. The job of this platform is to turn these four into one trusted answer, without losing where any fact came from.</p></div>
         </article>
 
-        <article class="slide" data-title="Generate and load the source data" data-section="Step 1 · Data loading" data-color="#173968" data-rgb="23,57,104">
-          <div class="message"><div class="badge">02</div><div><h3>Load records from four business systems</h3><p>Synthetic files represent Core Banking, CRM, KYC and Risk. Loading preserves every source record before any matching or correction occurs.</p></div><div class="why">Raw data stays intact and traceable</div></div>
-          <div class="body-grid">
-            <div class="panel">
-              <h4>What happens behind the screen</h4>
-              <div class="flow-row"><div class="flow-box">Generate sample customers</div><div class="arrow">→</div><div class="flow-box">Create four source files</div><div class="arrow">→</div><div class="flow-box">Load source_records table</div></div>
-              <ol><li>The generator creates realistic customers, duplicates, spelling differences and conflicting values.</li><li>Each source file uses its own conventions—for example, dates may use different formats.</li><li>The loader parses dates, normalizes KYC labels and records the original source system.</li><li>At this point nothing is merged. Every row is evidence that can be audited later.</li></ol>
-              <div class="code">cd backend
-python data/generate_all.py
-python scripts/01_seed.py</div>
-              <div class="say">“Think of ingestion as receiving four boxes of documents. We label every document by where it came from, place it in a controlled repository, and do not throw anything away.”</div>
+        <!-- 2 -->
+        <article class="slide" data-zone="1" data-zlabel="The trust pipeline" data-title="Bring everything in — change nothing yet" data-c="#27d3e0" data-rgb="39,211,224">
+          <div class="lead"><div class="badge">2</div><div><h3>Step 1 · Load all four records, exactly as they arrived</h3><p>The platform reads all four source systems and copies every record into one place. Crucially, it changes nothing and merges nothing yet — it just labels each record with the system it came from. The originals are kept as evidence the whole way through.</p></div></div>
+          <div class="canvas">
+            <p class="cap">What happens behind the screen</p>
+            <div class="flow">
+              <div class="fbox">4 source systems<small>Core Banking · CRM · KYC · Risk</small></div>
+              <div class="arr">→</div>
+              <div class="fbox">Loaded &amp; labelled<small>tagged by source</small></div>
+              <div class="arr">→</div>
+              <div class="fbox">Nothing merged<small>every original kept</small></div>
             </div>
-            <div class="panel secondary">
-              <h4>What to show</h4>
-              <div class="demo-action"><i>1</i><div><b>Show the source count</b><span>89,198 source records across four systems.</span></div></div>
-              <div class="demo-action"><i>2</i><div><b>Show Rachel’s four variations</b><span>Point out spelling, missing email, different casing and separate risk data.</span></div></div>
-              <div class="demo-action"><i>3</i><div><b>Explain repeatability</b><span>The synthetic dataset can be regenerated consistently for demonstrations.</span></div></div>
-              <h5>Important terms</h5>
-              <ul><li><b>Source record:</b> one row exactly as supplied by a business system.</li><li><b>Ingestion:</b> safely bringing data into the platform.</li><li><b>Normalization:</b> making formats consistent without changing meaning.</li></ul>
-            </div>
+            <div class="note green"><b>Why keep the originals?</b> Later, if anyone asks "where did this value come from?", the platform can point to the exact source record. That's what makes the final answer explainable instead of a black box.</div>
           </div>
+          <div class="takeaway"><div class="k">So what</div><p>Think of four boxes of documents arriving. We label every page by which box it came from and file it carefully — we don't shred anything.</p></div>
         </article>
 
-        <article class="slide" data-title="Check whether the data is trustworthy" data-section="Step 2 · Data quality" data-color="#1599a8" data-rgb="21,153,168">
-          <div class="message"><div class="badge">03</div><div><h3>Data Quality is the platform’s health inspection</h3><p>Every record is checked before it can influence a trusted customer profile.</p></div><div class="why">Bad data is flagged, not silently accepted</div></div>
-          <div class="body-grid">
-            <div class="panel">
-              <h4>Eight easy-to-understand checks</h4>
-              <div class="score-list">
-                <div class="score"><label>Required fields present</label><div class="bar"><div class="fill" style="--pct:88%;--color:var(--cyan)"></div></div><b style="--color:var(--cyan)">88%</b></div>
-                <div class="score"><label>Email looks valid</label><div class="bar"><div class="fill" style="--pct:97%;--color:var(--green)"></div></div><b style="--color:var(--green)">97%</b></div>
-                <div class="score"><label>Phone looks valid</label><div class="bar"><div class="fill" style="--pct:91%;--color:var(--blue)"></div></div><b style="--color:var(--blue)">91%</b></div>
-                <div class="score"><label>Birth date is possible</label><div class="bar"><div class="fill" style="--pct:99%;--color:var(--green)"></div></div><b style="--color:var(--green)">99%</b></div>
-                <div class="score"><label>Name quality</label><div class="bar"><div class="fill" style="--pct:96%;--color:var(--purple)"></div></div><b style="--color:var(--purple)">96%</b></div>
-                <div class="score"><label>Country code is known</label><div class="bar"><div class="fill" style="--pct:99%;--color:var(--green)"></div></div><b style="--color:var(--green)">99%</b></div>
-                <div class="score"><label>Not obvious test data</label><div class="bar"><div class="fill" style="--pct:98%;--color:var(--gold)"></div></div><b style="--color:var(--gold)">98%</b></div>
-                <div class="score"><label>KYC details agree</label><div class="bar"><div class="fill" style="--pct:94%;--color:var(--cyan)"></div></div><b style="--color:var(--cyan)">94%</b></div>
-              </div>
-              <div class="say">“A quality score is like a vehicle inspection. A low score does not prove the customer is wrong; it tells us the record needs attention before we trust it.”</div>
+        <!-- 3 -->
+        <article class="slide" data-zone="1" data-zlabel="The trust pipeline" data-title="Health-check every record" data-c="#27d3e0" data-rgb="39,211,224">
+          <div class="lead"><div class="badge">3</div><div><h3>Step 2 · Check whether each record can be trusted</h3><p>Before any record influences a customer profile, it gets a quick health inspection — a set of simple checks. Records that fail are <span class="term" tabindex="0">quarantined<span class="def"><b>Quarantined:</b> set aside in a holding area so a faulty record can't mix into the trusted result. It isn't deleted — it waits for a fix or review.</span></span>, not silently accepted.</p></div></div>
+          <div class="canvas">
+            <p class="cap">Eight plain-English checks (sample scores)</p>
+            <div class="scores">
+              <div class="score"><label>Required fields present</label><div class="bar"><div class="fill" style="--pct:88%;--col:var(--cyan)"></div></div><b style="--col:var(--cyan)">88%</b></div>
+              <div class="score"><label>Email looks valid</label><div class="bar"><div class="fill" style="--pct:97%;--col:var(--green)"></div></div><b style="--col:var(--green)">97%</b></div>
+              <div class="score"><label>Phone looks valid</label><div class="bar"><div class="fill" style="--pct:91%;--col:var(--blue)"></div></div><b style="--col:var(--blue)">91%</b></div>
+              <div class="score"><label>Birth date is possible</label><div class="bar"><div class="fill" style="--pct:99%;--col:var(--green)"></div></div><b style="--col:var(--green)">99%</b></div>
+              <div class="score"><label>Not obvious test data</label><div class="bar"><div class="fill" style="--pct:98%;--col:var(--gold)"></div></div><b style="--col:var(--gold)">98%</b></div>
             </div>
-            <div class="panel secondary">
-              <h4>What the outcome means</h4>
-              <div class="demo-action"><i>✓</i><div><b>Passed</b><span>The record is healthy enough to continue into identity matching.</span></div></div>
-              <div class="demo-action"><i>!</i><div><b>Quarantined</b><span>The record is isolated so bad information does not contaminate Golden Records.</span></div></div>
-              <div class="demo-action"><i>#</i><div><b>DQ score</b><span>A weighted summary of completeness, validity and consistency.</span></div></div>
-              <div class="code">python scripts/02_dq.py</div>
-              <h5>What to say about the dashboard</h5>
-              <p>Source score shows which upstream system sends the cleanest data. Rule score shows which kind of defect is most common. Pass rate shows how much data can move forward without intervention.</p>
-            </div>
+            <div class="note amber"><b>Rachel's case:</b> her Core-Banking record is missing an email, so it scores lower and gets flagged. A low score doesn't mean she's a bad customer — it means that record needs attention before we trust it.</div>
           </div>
+          <div class="takeaway"><div class="k">So what</div><p>Like a vehicle inspection: passing means "safe to continue"; failing means "fix before you rely on it." Bad data never quietly reaches the final record.</p></div>
         </article>
 
-        <article class="slide" data-title="Recognize records belonging to the same person" data-section="Step 3 · Entity resolution" data-color="#7052cf" data-rgb="112,82,207">
-          <div class="message"><div class="badge">04</div><div><h3>Entity Resolution answers: “Are these records the same person?”</h3><p>It compares multiple clues instead of depending on one exact identifier.</p></div><div class="why">Duplicates become one identity group</div></div>
-          <div class="body-grid">
-            <div class="panel">
-              <h4>Example match evidence</h4>
-              <div class="compare">
-                <div class="person"><strong>Rachel A Smith</strong><div>Email: missing<br/>DOB: 14 Mar 1986<br/>Phone: 378-613-7157<br/>Source: Core Banking</div></div>
-                <div class="match"><b>92%</b><span>Likely same person</span></div>
-                <div class="person"><strong>RACHEL SMITH</strong><div>Email: rachel.smith@yahoo.com<br/>DOB: 14 Mar 1986<br/>Phone: 3786137157<br/>Source: KYC</div></div>
-              </div>
-              <div class="score-list">
-                <div class="score"><label>Name similarity</label><div class="bar"><div class="fill" style="--pct:96%;--color:var(--purple)"></div></div><b style="--color:var(--purple)">96%</b></div>
-                <div class="score"><label>Birth date match</label><div class="bar"><div class="fill" style="--pct:100%;--color:var(--green)"></div></div><b style="--color:var(--green)">100%</b></div>
-                <div class="score"><label>Phone similarity</label><div class="bar"><div class="fill" style="--pct:100%;--color:var(--green)"></div></div><b style="--color:var(--green)">100%</b></div>
-                <div class="score"><label>Email evidence</label><div class="bar"><div class="fill" style="--pct:0%;--color:var(--red)"></div></div><b style="--color:var(--red)">N/A</b></div>
-              </div>
-              <div class="say">“People do not always appear exactly the same in data. Entity Resolution behaves like a careful investigator: it combines several clues and produces a confidence level.”</div>
+        <!-- 4 -->
+        <article class="slide" data-zone="1" data-zlabel="The trust pipeline" data-title="Are these the same person?" data-c="#a98bff" data-rgb="169,139,255">
+          <div class="lead"><div class="badge">4</div><div><h3>Step 3 · Recognise records that belong to one person</h3><p>This is called <span class="term" tabindex="0">entity resolution<span class="def"><b>Entity resolution:</b> deciding which records describe the same real-world person — even when there's no shared ID and the details don't match exactly.</span></span>. It doesn't rely on one exact identifier. Instead it weighs several clues — name, birth date, phone, email — like a careful investigator, and produces a confidence level.</p></div></div>
+          <div class="canvas">
+            <p class="cap">Example: do these two records match?</p>
+            <div class="compare">
+              <div class="person"><strong>Rachel A Smith</strong><div>Email: missing<br/>DOB: 14 Mar 1986<br/>Phone: 378-613-7157<br/>Source: Core Banking</div></div>
+              <div class="match"><b>92%</b><span>likely same person</span></div>
+              <div class="person"><strong>RACHEL SMITH</strong><div>Email: rachel.smith@…<br/>DOB: 14 Mar 1986<br/>Phone: 3786137157<br/>Source: KYC</div></div>
             </div>
-            <div class="panel secondary">
-              <h4>How it works</h4>
-              <ol><li><b>Blocking:</b> quickly finds plausible candidates instead of comparing every row with every other row.</li><li><b>Feature comparison:</b> measures name, email, phone, date and address similarity.</li><li><b>Match probability:</b> estimates how likely two records describe the same person.</li><li><b>Clustering:</b> connects all related records into one identity group.</li></ol>
-              <div class="code">python scripts/03_er.py</div>
-              <h5>Simple analogy</h5><p>Imagine sorting photographs of the same person taken on different days. Clothes and hairstyle may change, but enough combined clues reveal the identity.</p>
+            <div class="scores" style="margin-top:12px">
+              <div class="score"><label>Name similarity</label><div class="bar"><div class="fill" style="--pct:96%;--col:var(--purple)"></div></div><b style="--col:var(--purple)">96%</b></div>
+              <div class="score"><label>Birth date match</label><div class="bar"><div class="fill" style="--pct:100%;--col:var(--green)"></div></div><b style="--col:var(--green)">100%</b></div>
+              <div class="score"><label>Phone match</label><div class="bar"><div class="fill" style="--pct:100%;--col:var(--green)"></div></div><b style="--col:var(--green)">100%</b></div>
             </div>
           </div>
+          <div class="takeaway"><div class="k">So what</div><p>People rarely appear identically across systems. Combining several clues turns "four maybe-people" into "one Rachel, counted once."</p></div>
         </article>
 
-        <article class="slide" data-title="Let a human decide uncertain matches" data-section="Step 4 · Stewardship" data-color="#bd4a77" data-rgb="189,74,119">
-          <div class="message"><div class="badge">05</div><div><h3>Stewardship is the human safety net</h3><p>Automation handles obvious cases. Borderline identity matches are placed in a review queue for a trained person.</p></div><div class="why">Human judgment controls uncertainty</div></div>
-          <div class="body-grid">
-            <div class="panel">
-              <h4>What a Data Steward sees</h4>
-              <div class="compare">
-                <div class="person"><strong>Record A · CRM</strong><div>Name: Rachel Smith<br/>DOB: 14 Mar 1986<br/>Email: rachel.smith@yahoo.com<br/>Address: 14 Lake Road</div></div>
-                <div class="match"><b>78%</b><span>Needs review</span></div>
-                <div class="person"><strong>Record B · KYC</strong><div>Name: Rachael Smith<br/>DOB: 14 Mar 1986<br/>Email: r.smith@yahoo.com<br/>Address: 14 Lake Rd</div></div>
-              </div>
-              <div class="decision"><div class="choice approve">APPROVE — same person</div><div class="choice reject">REJECT — keep separate</div></div>
-              <div class="say">“Stewardship does not clean every field manually. Its job is to resolve the small number of cases where the machine is not confident enough to make a safe identity decision.”</div>
+        <!-- 5 -->
+        <article class="slide" data-zone="1" data-zlabel="The trust pipeline" data-title="A human approves the close calls" data-c="#ff6f9c" data-rgb="255,111,156">
+          <div class="lead"><div class="badge">5</div><div><h3>Step 4 · When the machine isn't sure, a person decides</h3><p>This is <span class="term" tabindex="0">stewardship<span class="def"><b>Stewardship:</b> trained people who review the uncertain cases the automation flags, and make the final call. The machine handles the obvious cases; humans handle the doubt.</span></span>. Obvious matches are automatic. Borderline ones are sent to a human review queue — so two different people are never merged by accident.</p></div></div>
+          <div class="canvas">
+            <p class="cap">What a reviewer sees</p>
+            <div class="compare">
+              <div class="person"><strong>Record A · CRM</strong><div>Name: Rachel Smith<br/>Email: rachel.smith@…<br/>Address: 14 Lake Road</div></div>
+              <div class="match"><b>78%</b><span>needs review</span></div>
+              <div class="person"><strong>Record B · KYC</strong><div>Name: Rachael Smith<br/>Email: r.smith@…<br/>Address: 14 Lake Rd</div></div>
             </div>
-            <div class="panel secondary">
-              <h4>What happens after the decision</h4>
-              <div class="demo-action"><i>A</i><div><b>Approve</b><span>The two records become members of the same identity cluster. The decision and reviewer notes are retained.</span></div></div>
-              <div class="demo-action"><i>R</i><div><b>Reject</b><span>The records remain separate customers and are protected from an incorrect merge.</span></div></div>
-              <div class="demo-action"><i>↻</i><div><b>Improve operations</b><span>Patterns in human decisions can later improve matching rules and thresholds.</span></div></div>
-              <h5>Stewardship metrics</h5>
-              <ul><li><b>Pending:</b> pairs waiting for human review.</li><li><b>Match probability:</b> machine confidence that the pair is the same person.</li><li><b>Resolution rate:</b> portion of cases already decided.</li><li><b>Approved/rejected today:</b> reviewer throughput.</li></ul>
-            </div>
+            <div class="decision"><div class="choice approve">✓ APPROVE — same person</div><div class="choice reject">✕ REJECT — keep separate</div></div>
           </div>
+          <div class="takeaway"><div class="k">So what</div><p>Automation does the heavy lifting; people own the judgement calls. That human gate is what keeps an automated system safe and trusted.</p></div>
         </article>
 
-        <article class="slide" data-title="Build the Golden Record" data-section="Step 5 · Survivorship" data-color="#cf8613" data-rgb="207,134,19">
-          <div class="message"><div class="badge">06</div><div><h3>Survivorship chooses the best value for every field</h3><p>After records are grouped, the platform decides which name, email, address and compliance status should become authoritative.</p></div><div class="why">One profile without losing the evidence</div></div>
-          <div class="body-grid">
-            <div class="panel">
-              <h4>Rachel’s final Golden Record</h4>
-              <div class="golden">
-                <div class="golden-head"><div class="avatar">RS</div><div><strong>Rachel Smith</strong><span>✓ Golden Record · 93% confidence · 4 sources</span></div></div>
-                <div class="field"><label>Full name</label><b>Rachel Smith</b><span class="source">KYC</span></div>
-                <div class="field"><label>Email</label><b>rachel.smith@yahoo.com</b><span class="source">CRM</span></div>
-                <div class="field"><label>Phone</label><b>378-613-7157</b><span class="source">CRM</span></div>
-                <div class="field"><label>KYC status</label><b>VERIFIED</b><span class="source">KYC 🔒</span></div>
-                <div class="field"><label>Risk rating</label><b>WATCH</b><span class="source">RISK</span></div>
-              </div>
-              <div class="say">“The Golden Record is not simply the newest row or an average of all sources. It is assembled field by field using business trust, freshness and regulatory rules.”</div>
+        <!-- 6 -->
+        <article class="slide" data-zone="1" data-zlabel="The trust pipeline" data-title="Build the one record" data-c="#f5c518" data-rgb="245,197,24">
+          <div class="lead"><div class="badge">6</div><div><h3>Step 5 · Pick the best value for every field</h3><p>Now the grouped records collapse into one. This is <span class="term" tabindex="0">survivorship<span class="def"><b>Survivorship:</b> for each field, choosing which source's value "survives" into the final record — based on which system is most trustworthy for that field, how recent it is, and any rules that protect it.</span></span>: the Golden Record isn't the newest row or an average — each field is chosen on purpose, with a reason recorded.</p></div></div>
+          <div class="canvas">
+            <p class="cap">Rachel's Golden Record — note where each value won</p>
+            <div class="goldcard">
+              <div class="gc-head"><div class="av">RS</div><div><strong>Rachel Smith</strong><span>✓ Golden Record · 93% confidence · 4 sources</span></div></div>
+              <div class="field"><label>Full name</label><b>Rachel Smith</b><span class="src">from KYC</span></div>
+              <div class="field"><label>Email</label><b>rachel.smith@…</b><span class="src">from CRM</span></div>
+              <div class="field"><label>Phone</label><b>378-613-7157</b><span class="src">from CRM</span></div>
+              <div class="field"><label>KYC status</label><b>VERIFIED</b><span class="src lock">KYC · locked 🔒</span></div>
+              <div class="field"><label>Risk rating</label><b>WATCH</b><span class="src">from Risk</span></div>
             </div>
-            <div class="panel secondary">
-              <h4>Three selection rules</h4>
-              <div class="demo-action"><i>1</i><div><b>Source trust</b><span>Specialist systems are trusted for their specialist fields—for example KYC for verification.</span></div></div>
-              <div class="demo-action"><i>2</i><div><b>Recency</b><span>When sources have similar authority, the more recent valid value can win.</span></div></div>
-              <div class="demo-action"><i>3</i><div><b>Regulatory lock</b><span>Verified KYC, PEP and sanctions fields cannot be casually overwritten by a lower-authority source.</span></div></div>
-              <div class="code">python scripts/04_survivorship.py</div>
-              <h5>Confidence score</h5><p>Confidence combines source coverage, agreement between records and completeness of important attributes. High confidence means stronger evidence—not that the person is low risk.</p>
-            </div>
+            <div class="note amber" style="max-width:460px"><b>"Locked" means</b> a regulated value (like a verified identity check) can't be casually overwritten by a less-authoritative system. The specialist source owns it.</div>
           </div>
+          <div class="takeaway"><div class="k">So what</div><p>Each field comes from the system that knows it best: identity from KYC, contact from CRM, risk from Risk. One record, assembled from the best of all four.</p></div>
         </article>
 
-        <article class="slide" data-title="Understand the different kinds of risk" data-section="Step 6 · Risk interpretation" data-color="#c84a55" data-rgb="200,74,85">
-          <div class="message"><div class="badge">07</div><div><h3>“Risk” has several meanings—keep them separate</h3><p>A trustworthy record can still represent a high-risk customer. Data confidence and customer risk answer different questions.</p></div><div class="why">Reliable data enables better risk decisions</div></div>
-          <div class="body-grid">
-            <div class="panel">
-              <h4>Four risk views in the demo</h4>
-              <div class="risk-grid">
-                <div class="risk" style="--color:var(--green)"><strong>Data Quality Risk</strong><p>Is the source record incomplete, invalid or inconsistent?</p></div>
-                <div class="risk" style="--color:var(--purple)"><strong>Identity Risk</strong><p>Could we merge two different people or miss a duplicate?</p></div>
-                <div class="risk" style="--color:var(--red)"><strong>Customer Risk</strong><p>Does the customer have low, medium, high or critical business risk?</p></div>
-                <div class="risk" style="--color:var(--gold)"><strong>Compliance Risk</strong><p>Is KYC expired? Is the customer a PEP or sanctioned?</p></div>
-              </div>
-              <div class="risk-note"><b>Example:</b> Rachel can have a 93% Golden Record confidence while holding a WATCH risk rating. This means the platform is highly confident about who Rachel is and what the source systems say; it does not mean Rachel is automatically low risk.</div>
-              <div class="say">“Confidence measures our trust in the data. Risk rating measures the business or compliance concern associated with the customer. Never present those as the same score.”</div>
-            </div>
-            <div class="panel secondary">
-              <h4>Dashboard metrics in plain English</h4>
-              <ul><li><b>LOW / MEDIUM / HIGH / CRITICAL:</b> portfolio distribution by customer risk.</li><li><b>KYC VERIFIED:</b> identity checks are current and accepted.</li><li><b>KYC PENDING:</b> verification is still in progress.</li><li><b>KYC FAILED:</b> verification did not meet requirements.</li><li><b>KYC EXPIRED:</b> the customer needs re-verification.</li><li><b>PEP:</b> politically exposed person requiring enhanced attention.</li><li><b>Sanctioned:</b> matched to a sanctions indicator and subject to regulatory control.</li></ul>
-            </div>
+        <!-- 7 -->
+        <article class="slide" data-zone="2" data-zlabel="The trusted record" data-title="A receipt for every value" data-c="#2997ff" data-rgb="41,151,255">
+          <div class="lead"><div class="badge">7</div><div><h3>Step 6 · Every value can be explained — that's lineage</h3><p><span class="term" tabindex="0">Lineage<span class="def"><b>Lineage:</b> a record of where each value came from, why it was chosen, and what the alternatives were — like a receipt attached to every field.</span></span> means nothing in the Golden Record is a mystery. If a regulator asks "why is Rachel's KYC status Verified?", there's a direct, documented answer.</p></div></div>
+          <div class="canvas">
+            <p class="cap">Why each value won</p>
+            <table class="ltable">
+              <thead><tr><th>Field</th><th>Winning value</th><th>From</th><th>Why it won</th></tr></thead>
+              <tbody>
+                <tr><td>Email</td><td>rachel.smith@…</td><td>CRM</td><td>Most trusted for contact</td></tr>
+                <tr><td>KYC status</td><td>VERIFIED</td><td>KYC</td><td class="lock">Regulatory lock 🔒</td></tr>
+                <tr><td>Risk rating</td><td>WATCH</td><td>Risk</td><td>Specialist source</td></tr>
+                <tr><td>Phone</td><td>378-613-7157</td><td>CRM</td><td>Most recent valid</td></tr>
+              </tbody>
+            </table>
           </div>
+          <div class="takeaway"><div class="k">So what</div><p>Lineage turns a merged profile into a <em>defensible</em> one. Auditors and regulators get a straight answer for every field — no guesswork.</p></div>
         </article>
 
-        <article class="slide" data-title="Trace every value with Lineage" data-section="Step 7 · Lineage" data-color="#3276ee" data-rgb="50,118,238">
-          <div class="message"><div class="badge">08</div><div><h3>Lineage is the receipt attached to every Golden Record value</h3><p>It explains where a value came from, why it won, what alternatives existed and whether it is protected.</p></div><div class="why">No black box: every field is explainable</div></div>
-          <div class="body-grid">
-            <div class="panel">
-              <h4>Example attribute lineage</h4>
-              <table class="lineage-table">
-                <thead><tr><th>Attribute</th><th>Winning value</th><th>Winning source</th><th>Rule</th><th>Confidence</th></tr></thead>
-                <tbody>
-                  <tr><td>Email</td><td>rachel.smith@yahoo.com</td><td>CRM</td><td>Highest trust</td><td>85%</td></tr>
-                  <tr><td>KYC status</td><td>VERIFIED</td><td>KYC</td><td class="lock">Regulatory lock 🔒</td><td>100%</td></tr>
-                  <tr><td>Risk rating</td><td>WATCH</td><td>RISK</td><td>Specialist source</td><td>90%</td></tr>
-                  <tr><td>Phone</td><td>378-613-7157</td><td>CRM</td><td>Most recent</td><td>82%</td></tr>
-                </tbody>
-              </table>
-              <div class="metric-defs">
-                <div class="metric-def"><strong>Winning source</strong><p>The system whose value became authoritative for that field.</p></div>
-                <div class="metric-def"><strong>Competing sources</strong><p>Other systems that supplied a different or duplicate value.</p></div>
-                <div class="metric-def"><strong>Survivorship rule</strong><p>The reason this value won: trust, recency or regulatory protection.</p></div>
-                <div class="metric-def"><strong>Attribute confidence</strong><p>Strength of evidence supporting this individual field selection.</p></div>
-                <div class="metric-def"><strong>Source wins</strong><p>How often each source supplies the winning value across the portfolio.</p></div>
-                <div class="metric-def"><strong>Active conflicts</strong><p>Fields where sources disagree and the resolution is worth inspecting.</p></div>
-              </div>
-              <div class="say">“If a regulator asks why Rachel’s KYC status is VERIFIED, lineage gives a direct answer: the value came from the KYC system, won under a regulatory rule, and competing values are preserved.”</div>
+        <!-- 8 -->
+        <article class="slide" data-zone="2" data-zlabel="The trusted record" data-title="Confidence is not risk" data-c="#34d27b" data-rgb="52,210,123">
+          <div class="lead"><div class="badge">8</div><div><h3>Step 7 · Two different scores people often confuse</h3><p>This trips everyone up, so it's worth one screen. A record can be <b>highly confident</b> and still describe a <b>higher-risk customer</b>. They answer completely different questions.</p></div></div>
+          <div class="canvas">
+            <div class="vs">
+              <div class="vscard"><h5>Confidence: 93%</h5><p class="q">"How sure are we <b>who</b> Rachel is?"</p><div class="meter"><i style="width:93%;background:var(--green)"></i></div><div class="val">93%<small> &nbsp;strong evidence</small></div></div>
+              <div class="vsx"><span>vs</span></div>
+              <div class="vscard"><h5>Risk: Watch</h5><p class="q">"How much <b>business concern</b> does she carry?"</p><div class="meter"><i style="width:55%;background:var(--gold)"></i></div><div class="val">Watch<small> &nbsp;a judgement call</small></div></div>
             </div>
-            <div class="panel secondary">
-              <h4>How to demonstrate lineage</h4>
-              <div class="demo-action"><i>1</i><div><b>Open Rachel’s Golden Record</b><span>Select the Lineage tab rather than relying only on the global visualization.</span></div></div>
-              <div class="demo-action"><i>2</i><div><b>Choose one easy field</b><span>Email is intuitive: CRM commonly wins because it owns customer contact.</span></div></div>
-              <div class="demo-action"><i>3</i><div><b>Choose one regulated field</b><span>KYC status demonstrates the regulatory lock and why ordinary systems cannot override it.</span></div></div>
-              <div class="demo-action"><i>4</i><div><b>Explain the audit value</b><span>Lineage turns a merged profile into an explainable, defensible record.</span></div></div>
-            </div>
+            <div class="note amber" style="margin-top:14px"><b>Read it as:</b> "We're 93% sure this is the right Rachel, and the bank has placed her on Watch." High confidence is good. It does <i>not</i> mean low risk.</div>
           </div>
+          <div class="takeaway"><div class="k">So what</div><p>Confidence measures trust in the <em>data</em>. Risk measures concern about the <em>customer</em>. Never present them as the same number.</p></div>
         </article>
 
-        <article class="slide" data-title="Use the Customer 360 view" data-section="Step 8 · Golden Record operations" data-color="#173968" data-rgb="23,57,104">
-          <div class="message"><div class="badge">09</div><div><h3>Customer 360 gives employees one complete operational view</h3><p>Profile, KYC, risk, source count, transactions and lineage are tied to the resolved customer—not scattered source IDs.</p></div><div class="why">Faster decisions with less searching</div></div>
-          <div class="body-grid">
-            <div class="panel">
-              <h4>Recommended live demonstration</h4>
-              <div class="demo-action"><i>1</i><div><b>Open Golden Records</b><span>Search for Rachel Smith.</span></div></div>
-              <div class="demo-action"><i>2</i><div><b>Point to confidence and source count</b><span>93% confidence and four sources show strong multi-system evidence.</span></div></div>
-              <div class="demo-action"><i>3</i><div><b>Open Profile</b><span>Show the single authoritative identity and current KYC/risk information.</span></div></div>
-              <div class="demo-action"><i>4</i><div><b>Open Transactions</b><span>Explain that activity follows the resolved customer rather than a fragmented source record.</span></div></div>
-              <div class="demo-action"><i>5</i><div><b>Open Lineage</b><span>Show where important fields came from.</span></div></div>
-              <div class="say">“A relationship manager, investigator or compliance analyst no longer needs four applications to understand Rachel. The Golden Record becomes the common customer foundation.”</div>
-            </div>
-            <div class="panel secondary">
-              <h4>Hero record</h4>
-              <div class="golden">
-                <div class="golden-head"><div class="avatar">RS</div><div><strong>Rachel Smith</strong><span>Customer ID: 9c2b2916…</span></div></div>
-                <div class="field"><label>Confidence</label><b>93%</b><span class="source">Strong</span></div>
-                <div class="field"><label>Sources</label><b>4 systems</b><span class="source">Resolved</span></div>
-                <div class="field"><label>KYC</label><b>Verified</b><span class="source">Current</span></div>
-                <div class="field"><label>Transactions</label><b>7 linked</b><span class="source">Unified</span></div>
+        <!-- 9 -->
+        <article class="slide" data-zone="2" data-zlabel="The trusted record" data-title="One complete view" data-c="#173a68" data-rgb="40,90,150">
+          <div class="lead"><div class="badge">9</div><div><h3>Step 8 · Staff see one screen instead of four apps</h3><p>This is the <span class="term" tabindex="0">Customer 360<span class="def"><b>Customer 360:</b> a single, complete view of a customer — profile, identity, risk, history — all tied to one resolved person instead of scattered across systems.</span></span> view. A relationship manager or compliance analyst no longer opens four applications to understand Rachel; everything hangs off the one trusted record.</p></div></div>
+          <div class="canvas">
+            <p class="cap">Rachel's unified profile</p>
+            <div class="p360">
+              <div class="tabs"><div class="tab on">Profile</div><div class="tab">KYC</div><div class="tab">Risk</div><div class="tab">Transactions</div><div class="tab">Lineage</div></div>
+              <div class="rows">
+                <div class="prow"><span>Confidence</span><b>93% · strong</b></div>
+                <div class="prow"><span>Sources</span><b>4 systems resolved</b></div>
+                <div class="prow"><span>KYC</span><b>Verified · current</b></div>
+                <div class="prow"><span>Risk rating</span><b>Watch</b></div>
+                <div class="prow"><span>Transactions</span><b>7 linked to this customer</b></div>
               </div>
-              <h5>Do not confuse</h5><p>The Golden Record is the consolidated customer profile. The dashboard is only a way to view portfolio statistics derived from those profiles.</p>
             </div>
           </div>
+          <div class="takeaway"><div class="k">So what</div><p>Activity, identity and risk all follow the <em>resolved</em> customer — so decisions are faster and nobody works from a half-picture.</p></div>
         </article>
 
-        <article class="slide" data-title="Help the Compliance Officer with AI" data-section="Step 9 · Compliance AI" data-color="#7052cf" data-rgb="112,82,207">
-          <div class="message"><div class="badge">10</div><div><h3>Compliance AI is a conversational search layer over trusted records</h3><p>It retrieves relevant Golden Record chunks, prepares an answer and displays the supporting sources.</p></div><div class="why">Ask questions without writing SQL</div></div>
-          <div class="body-grid">
-            <div class="panel">
-              <h4>Compliance Officer example</h4>
-              <div class="chat">
-                <div class="bubble question">Summarize this customer’s risk profile, PEP and sanctions status, and source count.</div>
-                <div class="bubble answer"><b>Rachel Smith</b><br/>• Risk rating: Watch<br/>• PEP status: No<br/>• Sanctions status: No<br/>• Four source records contributed to this profile.<small>✓ Grounded in retrieved Golden Record chunks · sources available</small></div>
-              </div>
-              <div class="flow-row"><div class="flow-box">Question</div><div class="arrow">→</div><div class="flow-box">Vector + keyword retrieval</div><div class="arrow">→</div><div class="flow-box">Rank best evidence</div><div class="arrow">→</div><div class="flow-box">Grounded answer</div></div>
-              <div class="say">“Compliance AI does not replace the source data or the officer. It shortens the path to relevant evidence and keeps a record of the question, answer, sources and response time.”</div>
+        <!-- 10 -->
+        <article class="slide" data-zone="3" data-zlabel="Safe use" data-title="Ask questions in plain English" data-c="#7052cf" data-rgb="112,82,207">
+          <div class="lead"><div class="badge">10</div><div><h3>Step 9 · A compliance AI that answers from trusted data</h3><p>This is the <span class="term" tabindex="0">RAG<span class="def"><b>RAG (Retrieval-Augmented Generation):</b> the AI first <i>retrieves</i> the relevant trusted records, then writes its answer from them — so it's grounded in your data, not made up.</span></span> layer. You ask a question in normal language; it finds the relevant Golden Record evidence, answers, and shows the sources it used. No database queries required.</p></div></div>
+          <div class="canvas">
+            <p class="cap">Compliance officer asks…</p>
+            <div class="chat">
+              <div class="bub q-b">Summarise Rachel's risk profile, PEP and sanctions status, and how many sources contributed.</div>
+              <div class="bub a-b"><b>Rachel Smith</b><br/>• Risk rating: Watch<br/>• <span class="term" tabindex="0">PEP<span class="def"><b>PEP (Politically Exposed Person):</b> someone in a prominent public role who needs extra compliance attention. Rachel is not one.</span></span> status: No<br/>• Sanctions: No<br/>• 4 source records contributed.<small>✓ Grounded in retrieved Golden Record evidence · sources shown</small></div>
             </div>
-            <div class="panel secondary">
-              <h4>What its metrics mean</h4>
-              <ul><li><b>Sources:</b> record chunks used to support the answer.</li><li><b>Similarity score:</b> how closely a retrieved chunk matches the question.</li><li><b>Confidence:</b> average retrieval relevance, not legal certainty.</li><li><b>Fact-checked badge:</b> the answer has sufficient word overlap with the retrieved context.</li><li><b>Latency:</b> time taken to retrieve and prepare the response.</li><li><b>Query history:</b> audit trail of who asked what and what evidence was used.</li></ul>
-              <h5>Best demo practice</h5><p>Use an entity-scoped question with Rachel’s customer ID. It is more predictable and clearly proves retrieval across KYC, risk, sanctions and confidence chunks.</p>
+            <div class="flow" style="margin-top:13px">
+              <div class="fbox">Question</div><div class="arr">→</div>
+              <div class="fbox">Find best evidence<small>from trusted records</small></div><div class="arr">→</div>
+              <div class="fbox">Answer + sources</div>
             </div>
           </div>
+          <div class="takeaway"><div class="k">So what</div><p>It shortens the path to the right evidence — and because every answer cites its sources, you can check it. The AI assists; it doesn't replace the officer.</p></div>
         </article>
 
-        <article class="slide" data-title="Protect information with two AI personas" data-section="Step 10 · Safe self-service" data-color="#17865c" data-rgb="23,134,92">
-          <div class="message"><div class="badge">11</div><div><h3>The same data is viewed through two different safety lenses</h3><p>A Compliance Officer needs internal risk evidence. A customer should see only their own appropriate information.</p></div><div class="why">Right answer, right audience</div></div>
-          <div class="body-grid">
-            <div class="panel">
-              <h4>Persona comparison</h4>
-              <div class="persona-grid">
-                <div class="persona" style="--color:var(--purple)"><strong>Internal · Compliance Officer</strong><p>Can retrieve risk rating, confidence, PEP, sanctions, KYC and source metadata. Answers are framed for investigation and compliance review.</p></div>
-                <div class="persona" style="--color:var(--green)"><strong>Customer · Self Service</strong><p>Receives friendly answers about their profile and verification. Internal risk, confidence, PEP and sanctions information is filtered out.</p></div>
-              </div>
-              <div class="chat">
-                <div class="bubble question">Customer asks: What is my KYC status?</div>
-                <div class="bubble answer">Your identity verification is currently complete. If updated documents are needed, your bank will contact you.<small>Customer-safe response · internal risk fields hidden</small></div>
-              </div>
-              <div class="say">“Persona filtering is like having two doors to the same secure records room. Employees with a compliance purpose enter through one door; customers enter through another and see only what is appropriate.”</div>
+        <!-- 11 -->
+        <article class="slide" data-zone="3" data-zlabel="Safe use" data-title="Two safe lenses on one record" data-c="#17865c" data-rgb="23,134,92">
+          <div class="lead"><div class="badge">11</div><div><h3>Step 10 · The same data, shown differently to staff and customers</h3><p>A compliance officer needs internal risk detail. A customer should only see their own appropriate information. The platform serves both from the <em>one</em> trusted record, but filters what each audience can see.</p></div></div>
+          <div class="canvas">
+            <p class="cap">Same record · two views</p>
+            <div class="personas">
+              <div class="pcard" style="--c:var(--purple)"><strong>Staff · Compliance officer</strong><p>Sees the full picture for investigation:</p><ul><li>Risk rating &amp; confidence</li><li>PEP &amp; sanctions checks</li><li>KYC detail &amp; source systems</li></ul></div>
+              <div class="pcard" style="--c:var(--green)"><strong>Customer · Self-service</strong><p>Sees only what's appropriate:</p><ul><li>Their own name &amp; contact</li><li>Their verification status</li><li>No internal risk, PEP or source data</li></ul></div>
             </div>
-            <div class="panel secondary">
-              <h4>What the customer must never see</h4>
-              <ul><li>Internal risk score or rating.</li><li>PEP investigation details.</li><li>Sanctions screening logic.</li><li>Source-system names and confidence calculations.</li><li>Other customers’ information.</li></ul>
-              <h5>What they can see</h5>
-              <ul><li>Their name and contact details.</li><li>Their KYC or verification status.</li><li>Appropriate account/profile information.</li><li>Guidance to contact a relationship manager when data is restricted.</li></ul>
+            <div class="chat" style="margin-top:13px">
+              <div class="bub q-b">Customer asks: What is my KYC status?</div>
+              <div class="bub a-b">Your identity verification is complete. If we ever need updated documents, your bank will contact you.<small>Customer-safe answer · internal fields hidden</small></div>
             </div>
           </div>
+          <div class="takeaway"><div class="k">So what</div><p>Two doors to the same secure room. Staff enter one; customers enter another and see only what they should. Right answer, right audience.</p></div>
         </article>
 
-        <article class="slide" data-title="Give customers a safe portal" data-section="Step 11 · Customer Portal" data-color="#17865c" data-rgb="23,134,92">
-          <div class="message"><div class="badge">12</div><div><h3>The Customer Portal turns the Golden Record into a service experience</h3><p>Customers see their consolidated details, ask safe questions and exercise privacy rights from one place.</p></div><div class="why">Better service without exposing internal controls</div></div>
-          <div class="body-grid">
-            <div class="panel">
-              <h4>Portal experience</h4>
-              <div class="portal">
-                <div class="portal-nav"><strong>My Account</strong><span>My Details</span><span>Ask a Question</span><span>Privacy Rights</span></div>
-                <div class="portal-card">
-                  <h5>Rachel Smith · Verified Profile</h5>
-                  <div class="portal-row"><span>Email</span><b>rachel.smith@yahoo.com</b></div>
-                  <div class="portal-row"><span>Phone</span><b>378-613-7157</b></div>
-                  <div class="portal-row"><span>Verification</span><b class="good">Complete</b></div>
-                  <div class="portal-row"><span>Data sources</span><b>4 verified systems</b></div>
-                  <div class="privacy"><b>Privacy rights:</b> request access, correction or erasure. Regulatory holds may prevent deletion where the bank is legally required to retain information.</div>
-                </div>
-              </div>
-              <div class="say">“The portal is not a second customer database. It is a safe window onto the same trusted Golden Record, so customers and employees are no longer working from contradictory profiles.”</div>
+        <!-- 12 -->
+        <article class="slide" data-zone="3" data-zlabel="Safe use" data-title="The payoff" data-c="#2997ff" data-rgb="41,151,255">
+          <div class="lead"><div class="badge">12</div><div><h3>Step 11 · From fragmented records to one trusted foundation</h3><p>That's the whole journey. Four conflicting records about Rachel became one explainable, safely-shared profile — and the same thing happened across the entire customer base.</p></div></div>
+          <div class="canvas">
+            <div class="payoff">
+              <div class="pnum"><strong>89,198</strong><span>source records in</span></div>
+              <div class="pbig-arr">→</div>
+              <div class="pnum"><strong>20,502</strong><span>trusted records out</span></div>
             </div>
-            <div class="panel secondary">
-              <h4>Recommended demo actions</h4>
-              <div class="demo-action"><i>1</i><div><b>Load Rachel’s customer ID</b><span>Show the same profile previously used in the internal Customer 360 view.</span></div></div>
-              <div class="demo-action"><i>2</i><div><b>Open My Details</b><span>Point out the friendly language and absence of internal risk data.</span></div></div>
-              <div class="demo-action"><i>3</i><div><b>Ask a customer-safe question</b><span>Use “What is my KYC status?”</span></div></div>
-              <div class="demo-action"><i>4</i><div><b>Explain Privacy Rights</b><span>Describe access, correction and erasure without submitting a live deletion request.</span></div></div>
-              <h5>Safety warning</h5><p>Do not confirm a live erasure request during the demo. The backend is capable of deleting records.</p>
+            <div class="note green" style="text-align:center">The drop isn't lost data — it's <b>duplicates merged into one</b>. Every original is still there, with full lineage.</div>
+            <div class="ochips" style="margin-top:13px">
+              <div class="ochip"><b>Lower cost</b><span>Fewer duplicate profiles and manual searches.</span></div>
+              <div class="ochip"><b>Stronger compliance</b><span>KYC, PEP, sanctions and risk in one explainable place.</span></div>
+              <div class="ochip"><b>Better service</b><span>One consistent profile across every channel.</span></div>
             </div>
           </div>
+          <div class="takeaway"><div class="k">So what</div><p>One customer, one trusted record, many safe experiences — for operations, compliance and the customer alike.</p></div>
         </article>
 
-        <article class="slide" data-title="Close with the end-to-end value" data-section="Step 12 · Executive close" data-color="#3276ee" data-rgb="50,118,238">
-          <div class="message"><div class="badge">13</div><div><h3>Finish by connecting technology to business outcomes</h3><p>The platform turns fragmented records into trusted, explainable and safely usable customer information.</p></div><div class="why">One data foundation for every customer interaction</div></div>
-          <div class="body-grid">
-            <div class="panel">
-              <h4>The complete story in one sentence per step</h4>
-              <div class="summary-grid">
-                <div class="summary-card"><b>1 · Load</b><p>Bring all source records into one controlled place.</p></div>
-                <div class="summary-card"><b>2 · Check</b><p>Score quality and isolate unsafe data.</p></div>
-                <div class="summary-card"><b>3 · Match</b><p>Recognize records that represent the same person.</p></div>
-                <div class="summary-card"><b>4 · Review</b><p>Route uncertain identity decisions to a human steward.</p></div>
-                <div class="summary-card"><b>5 · Resolve</b><p>Choose the best value for every field.</p></div>
-                <div class="summary-card"><b>6 · Explain</b><p>Keep lineage showing why each value won.</p></div>
-                <div class="summary-card"><b>7 · Understand risk</b><p>Separate data confidence from customer and compliance risk.</p></div>
-                <div class="summary-card"><b>8 · Assist teams</b><p>Provide Customer 360 and grounded Compliance AI.</p></div>
-                <div class="summary-card"><b>9 · Serve safely</b><p>Give customers a filtered portal and privacy controls.</p></div>
-              </div>
-              <div class="say">“We started with 89,198 fragmented records and produced 20,502 trusted customer profiles. The value is not only deduplication—it is a shared, explainable customer foundation for operations, compliance and customer service.”</div>
-            </div>
-            <div class="panel secondary">
-              <h4>Final business outcomes</h4>
-              <ul><li><b>Lower operational cost:</b> fewer duplicate profiles and manual searches.</li><li><b>Stronger compliance:</b> consolidated KYC, PEP, sanctions and risk evidence.</li><li><b>Explainability:</b> every authoritative value has lineage.</li><li><b>Human control:</b> stewardship catches uncertain identity decisions.</li><li><b>Better customer experience:</b> one consistent profile across channels.</li><li><b>Safer AI:</b> grounded retrieval and persona-specific visibility.</li></ul>
-              <h5>Closing line</h5><p>“One customer, one trusted record, many safe business experiences.”</p>
-            </div>
-          </div>
-        </article>
-      </section>
+      </div>
 
       <footer>
-        <div class="counter" id="counter">Step 1 of 13</div>
-        <div class="progress"><div id="progress"></div></div>
-        <div class="next-controls"><button class="btn" id="prevBtn">← Previous</button><button class="btn primary" id="nextBtn">Next →</button></div>
+        <div class="counter" id="counter">Step 1 of 12</div>
+        <div class="pbar"><div id="pbar"></div></div>
+        <div class="nav-c"><button class="btn" id="prevBtn">← Back</button><button class="btn primary" id="nextBtn">Next →</button></div>
       </footer>
     </main>
   </div>
 
   <script>
     const slides=[...document.querySelectorAll(".slide")];
-    const nav=document.getElementById("nav"), app=document.getElementById("app");
-    const title=document.getElementById("pageTitle"), section=document.getElementById("sectionLabel");
-    const counter=document.getElementById("counter"), progress=document.getElementById("progress");
+    // the badge + footer already number the steps; drop the redundant "Step N ·" prefix so they never disagree
+    slides.forEach(s=>{const h=s.querySelector(".lead h3"); if(h) h.textContent=h.textContent.replace(/^Step \d+ · /,"");});
+    const zones=[
+      {n:1,label:"Four sources"},
+      {n:2,label:"The trust pipeline"},
+      {n:3,label:"The trusted record"},
+      {n:4,label:"Safe use"}
+    ];
+    const zonemap=document.getElementById("zonemap"), app=document.getElementById("app");
+    const stepTitle=document.getElementById("stepTitle"), zoneLabel=document.getElementById("zoneLabel");
+    const counter=document.getElementById("counter"), pbar=document.getElementById("pbar"), stagewrap=document.getElementById("stagewrap");
     const prev=document.getElementById("prevBtn"), next=document.getElementById("nextBtn"), nextTop=document.getElementById("nextTop");
     const autoBtn=document.getElementById("autoBtn"), restart=document.getElementById("restartBtn");
-    let current=0,auto=false,timer=null;
-    slides.forEach((slide,i)=>{
-      const b=document.createElement("button");
-      b.innerHTML=`<span class="num">${String(i+1).padStart(2,"0")}</span><span class="label">${slide.dataset.title}</span>`;
-      b.addEventListener("click",()=>show(i)); nav.appendChild(b);
+    const root=document.documentElement;
+    let current=0, auto=false, timer=null;
+
+    // build zone map grouped by zone
+    const stepBtns=[];
+    zones.forEach((z,zi)=>{
+      const g=document.createElement("div"); g.className="zg"; g.dataset.zone=zi;
+      g.innerHTML=`<div class="zg-head"><b>${z.n}</b>${z.label}</div>`;
+      slides.forEach((s,si)=>{
+        if(+s.dataset.zone!==zi) return;
+        const btn=document.createElement("button"); btn.className="stepbtn";
+        btn.innerHTML=`<span class="n">${String(si+1).padStart(2,"0")}</span><span class="lbl">${s.dataset.title}</span>`;
+        btn.addEventListener("click",()=>show(si));
+        g.appendChild(btn); stepBtns[si]=btn;
+      });
+      zonemap.appendChild(g);
     });
+    const zgEls=[...zonemap.querySelectorAll(".zg")];
+
     function show(i){
       current=(i+slides.length)%slides.length;
-      slides.forEach((s,n)=>s.classList.toggle("active",n===current));
-      [...nav.children].forEach((b,n)=>b.classList.toggle("active",n===current));
-      const s=slides[current],color=s.dataset.color,rgb=s.dataset.rgb;
-      document.documentElement.style.setProperty("--accent",color);
-      document.documentElement.style.setProperty("--accent-rgb",rgb);
-      title.textContent=s.dataset.title; section.textContent=s.dataset.section;
+      const s=slides[current], c=s.dataset.c, rgb=s.dataset.rgb;
+      slides.forEach((sl,n)=>sl.classList.toggle("active",n===current));
+      root.style.setProperty("--accent",c); root.style.setProperty("--accent-rgb",rgb);
+      stepTitle.textContent=s.dataset.title; zoneLabel.textContent=s.dataset.zlabel;
       counter.textContent=`Step ${current+1} of ${slides.length}`;
-      progress.style.width=`${((current+1)/slides.length)*100}%`;
+      pbar.style.width=`${((current+1)/slides.length)*100}%`;
+      stepBtns.forEach((b,n)=>{b.classList.toggle("active",n===current); b.classList.toggle("done",n<current);});
+      zgEls.forEach((g,zi)=>g.classList.toggle("active", +s.dataset.zone===zi));
       prev.disabled=current===0;
       next.textContent=current===slides.length-1?"Restart ↻":"Next →";
-      nextTop.textContent=current===slides.length-1?"Restart ↻":"Next step →";
-      nav.children[current]?.scrollIntoView({block:"nearest"});
+      nextTop.textContent=current===slides.length-1?"Restart ↻":"Next →";
+      stepBtns[current]?.scrollIntoView({block:"nearest"});
+      stagewrap.scrollTop=0;
       resetTimer();
     }
     function advance(){ show(current===slides.length-1?0:current+1); }
-    function resetTimer(){ clearTimeout(timer); if(auto) timer=setTimeout(advance,11500); }
-    function toggleAuto(){
-      auto=!auto; autoBtn.textContent=auto?"Pause autoplay":"Start autoplay";
-      app.classList.toggle("paused",!auto); resetTimer();
-    }
-    prev.addEventListener("click",()=>show(Math.max(0,current-1)));
+    function resetTimer(){ clearTimeout(timer); if(auto) timer=setTimeout(advance,12000); }
+    function toggleAuto(){ auto=!auto; autoBtn.textContent=auto?"Pause":"Auto-play"; app.classList.toggle("paused",!auto); resetTimer(); }
+
+    prev.addEventListener("click",()=>show(current-1));
     next.addEventListener("click",advance); nextTop.addEventListener("click",advance);
-    autoBtn.addEventListener("click",toggleAuto); restart.addEventListener("click",()=>show(0));
+    autoBtn.addEventListener("click",toggleAuto); restart.addEventListener("click",()=>{auto&&toggleAuto(); show(0);});
     document.addEventListener("keydown",e=>{
-      if(e.key==="ArrowRight")advance();
-      if(e.key==="ArrowLeft")show(Math.max(0,current-1));
-      if(e.code==="Space"){e.preventDefault();toggleAuto();}
-      if(e.key==="Home")show(0);
+      if(e.key==="ArrowRight"){advance();}
+      else if(e.key==="ArrowLeft"){show(current-1);}
+      else if(e.code==="Space"){e.preventDefault(); toggleAuto();}
+      else if(e.key==="Home"){show(0);}
     });
     show(0);
   </script>

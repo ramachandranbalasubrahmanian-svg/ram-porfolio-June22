@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Golden Record — Living Architecture</title>
+<title>Golden Record — Data Flow &amp; Architecture (Plain English)</title>
 <link rel="stylesheet" href="/assets/fonts/fonts.css"/>
 <style>
   :root{
-    --ink:#eef1f8; --muted:#9aa3b8; --faint:#6b7488;
+    --ink:#eef1f8; --muted:#aab3c6; --faint:#97a1b6;
     --line:rgba(255,255,255,.10); --line2:rgba(255,255,255,.18);
-    --glass:rgba(255,255,255,.045); --glass2:rgba(255,255,255,.07);
+    --glass:rgba(255,255,255,.05);
     --bg0:#04060c; --bg1:#070a14;
     --blue:#2997ff; --cyan:#27d3e0; --purple:#a98bff; --gold:#f5c518; --green:#34d27b; --rose:#ff6f9c;
     --scene:#2997ff; --scene-rgb:41,151,255;
@@ -20,40 +20,51 @@
   *{box-sizing:border-box;}
   html,body{width:100%;height:100%;margin:0;}
   body{
-    color:var(--ink); overflow:hidden;
-    font-family:var(--sans);
+    color:var(--ink); overflow:hidden; font-family:var(--sans);
     background:
-      radial-gradient(900px 520px at 14% -8%, rgba(41,151,255,.16), transparent 60%),
-      radial-gradient(820px 520px at 96% 4%, rgba(169,139,255,.13), transparent 58%),
-      radial-gradient(700px 520px at 60% 120%, rgba(39,211,224,.10), transparent 60%),
+      radial-gradient(900px 520px at 12% -8%, rgba(41,151,255,.16), transparent 60%),
+      radial-gradient(820px 520px at 96% 2%, rgba(169,139,255,.13), transparent 58%),
+      radial-gradient(720px 520px at 60% 122%, rgba(245,197,24,.09), transparent 60%),
       linear-gradient(160deg, var(--bg1) 0%, var(--bg0) 60%, #03040a 100%);
     -webkit-font-smoothing:antialiased;
   }
-  button{font:inherit;color:inherit;}
+  button{font:inherit; color:inherit;}
 
-  .page{height:100%; display:grid; grid-template-rows:auto auto minmax(0,1fr); gap:12px; padding:18px 22px 16px;}
+  .page{height:100%; display:grid; grid-template-rows:auto auto auto minmax(0,1fr); gap:10px; padding:14px 20px 13px;}
 
   /* ── header ── */
-  header{display:flex; align-items:flex-start; justify-content:space-between; gap:22px;}
-  .eyebrow{margin-bottom:7px; display:inline-flex; align-items:center; gap:8px;
-    color:var(--blue); font-size:10px; font-weight:800; letter-spacing:.22em; text-transform:uppercase;}
+  header{display:flex; align-items:flex-start; justify-content:space-between; gap:20px;}
+  .eyebrow{margin-bottom:6px; display:inline-flex; align-items:center; gap:8px;
+    color:var(--blue); font-size:10px; font-weight:800; letter-spacing:.2em; text-transform:uppercase;}
   .eyebrow::before{content:""; width:18px; height:1px; background:linear-gradient(90deg,var(--blue),transparent);}
-  h1{margin:0; font-family:var(--serif); font-weight:400; letter-spacing:-.02em;
-    font-size:clamp(22px, 2.5vw, 38px); line-height:1.04;}
-  .sub{margin:8px 0 0; color:var(--muted); font-size:12.5px; max-width:60ch; line-height:1.5;}
+  h1{margin:0; font-family:var(--serif); font-weight:400; letter-spacing:-.015em;
+    font-size:clamp(19px, 2.2vw, 30px); line-height:1.08; color:#fff;}
+  .sub{margin:7px 0 0; color:var(--muted); font-size:13px; max-width:74ch; line-height:1.5;}
+  .sub .q{display:block; margin-top:2px; color:var(--faint); font-size:11px;}
   .controls{display:flex; align-items:center; gap:8px; flex-wrap:wrap; justify-content:flex-end;}
-  .control{border:1px solid var(--line2); border-radius:10px; padding:9px 13px; color:#cdd5e6;
-    background:var(--glass); cursor:pointer; font-size:10.5px; font-weight:700; letter-spacing:.02em;
+  .control{border:1px solid var(--line2); border-radius:10px; padding:9px 13px; color:#dbe2f0;
+    background:var(--glass); cursor:pointer; font-size:11px; font-weight:700;
     transition:.18s ease; backdrop-filter:blur(8px);}
-  .control:hover{color:#fff; border-color:rgba(41,151,255,.6); background:rgba(41,151,255,.12); transform:translateY(-1px);}
+  .control:hover{color:#fff; border-color:rgba(41,151,255,.6); background:rgba(41,151,255,.14); transform:translateY(-1px);}
   .control:focus-visible{outline:2px solid var(--blue); outline-offset:2px;}
 
+  /* ── persistent outcome stat-strip ── */
+  .statstrip{display:flex; align-items:stretch; gap:0; flex-wrap:wrap;
+    border:1px solid var(--line); border-radius:12px; overflow:hidden;
+    background:linear-gradient(100deg, rgba(41,151,255,.08), rgba(255,255,255,.025)); backdrop-filter:blur(8px);}
+  .stat{flex:1 1 0; min-width:120px; padding:8px 15px; display:flex; align-items:baseline; gap:8px;
+    border-right:1px solid var(--line);}
+  .stat:last-child{border-right:0;}
+  .stat b{font-family:var(--serif); font-weight:400; font-size:17px; color:#fff; letter-spacing:-.01em; line-height:1; white-space:nowrap;}
+  .stat span{color:var(--muted); font-size:11px; font-weight:600; line-height:1.2;}
+  .stat .arrow{color:var(--green); font-weight:800; font-size:14px;}
+
   /* ── progress ── */
-  .progress-shell{display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:14px;
-    padding:10px 14px; border:1px solid var(--line); border-radius:13px; background:var(--glass); backdrop-filter:blur(8px);}
-  .progress-label,.time{color:var(--faint); font-size:9px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; white-space:nowrap;}
+  .progress-shell{display:grid; grid-template-columns:1fr auto; align-items:center; gap:14px;
+    padding:8px 14px; border:1px solid var(--line); border-radius:11px; background:var(--glass); backdrop-filter:blur(8px);}
+  .time{color:var(--muted); font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; white-space:nowrap;}
   .steps{display:grid; grid-template-columns:repeat(7,1fr); gap:6px;}
-  .step{position:relative; height:5px; overflow:hidden; border-radius:99px; background:rgba(255,255,255,.09);}
+  .step{position:relative; height:6px; overflow:hidden; border-radius:99px; background:rgba(255,255,255,.10);}
   .step::after{content:""; position:absolute; inset:0; border-radius:inherit; transform-origin:left; transform:scaleX(0);
     background:linear-gradient(90deg, var(--scene), color-mix(in srgb, var(--scene) 55%, #fff));}
   .step.done::after{transform:scaleX(1);}
@@ -62,153 +73,254 @@
 
   /* ── stage ── */
   .stage{position:relative; min-height:0; overflow:hidden; border:1px solid var(--line);
-    border-radius:24px; background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.012));
-    box-shadow:0 40px 90px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.06);}
-  .stage::before{content:""; position:absolute; inset:0; pointer-events:none; opacity:.5;
+    border-radius:22px; background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.012));
+    box-shadow:0 36px 80px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.06);}
+  .stage::before{content:""; position:absolute; inset:0; pointer-events:none; opacity:.4;
     background-image:linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
       linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
-    background-size:38px 38px;
-    mask-image:linear-gradient(to bottom, transparent, #000 16%, #000 78%, transparent);}
+    background-size:42px 42px;
+    mask-image:linear-gradient(to bottom, transparent, #000 13%, #000 80%, transparent);}
 
-  .zone-title{position:absolute; top:4%; z-index:5; display:flex; align-items:center; gap:8px;
-    color:var(--faint); font-size:9px; font-weight:800; letter-spacing:.16em; text-transform:uppercase;}
-  .zone-title i{display:grid; place-items:center; width:19px; height:19px; border-radius:50%;
-    color:#fff; background:rgba(255,255,255,.10); border:1px solid var(--line2); font-style:normal; font-size:8px; font-weight:800;}
-  .zt-source{left:3%;} .zt-trust{left:25%;} .zt-golden{left:49%;} .zt-use{left:70.5%;}
+  /* zone band — live "where are we" map */
+  .zones{position:absolute; left:0; right:0; top:3%; height:18px; z-index:2; pointer-events:none;}
+  .zone{position:absolute; display:flex; align-items:center; gap:7px;
+    color:var(--faint); font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase;
+    transition:color .5s, opacity .5s;}
+  .zone b{display:grid; place-items:center; width:18px; height:18px; border-radius:50%; color:#cdd6e6;
+    background:rgba(255,255,255,.10); border:1px solid var(--line2); font-size:10px; transition:.5s;}
+  .zone.zA{left:3%;} .zone.zB{left:22%;} .zone.zC{left:60%;} .zone.zD{left:81%;}
+  .zone.live{color:#fff;} .zone.live b{color:#06080f; background:var(--scene); border-color:var(--scene);}
 
-  /* flow lines */
-  .flow{position:absolute; inset:0; z-index:1; width:100%; height:100%; pointer-events:none;}
-  .flow path{fill:none; stroke:rgba(255,255,255,.13); stroke-width:1.6; stroke-linecap:round;
-    stroke-dasharray:4 9; animation:dash 18s linear infinite;
-    transition:stroke .5s ease, stroke-width .5s ease, opacity .5s ease;}
-  @keyframes dash{to{stroke-dashoffset:-260;}}
-  .flow path.lit{stroke:var(--scene); stroke-width:2.6; filter:drop-shadow(0 0 6px rgba(var(--scene-rgb),.55));}
-  .packet{fill:#fff; opacity:0; filter:drop-shadow(0 0 7px rgba(var(--scene-rgb),1));}
-  .packet.show{opacity:1;}
-  .packet-core{fill:var(--scene);}
+  /* the conveyor belt */
+  .belt{position:absolute; left:3%; right:3%; top:47%; height:9%; transform:translateY(-50%); z-index:1;
+    border-radius:14px; border:1px solid var(--line);
+    background:
+      repeating-linear-gradient(115deg, rgba(255,255,255,.05) 0 14px, rgba(255,255,255,.012) 14px 28px),
+      linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.01));
+    background-size:40px 100%, 100% 100%;
+    animation:belt 1.7s linear infinite; box-shadow:inset 0 2px 6px rgba(0,0,0,.4);}
+  @keyframes belt{to{background-position:40px 0, 0 0;}}
+  /* moving pulse dot along the belt */
+  .pulse{position:absolute; top:47%; width:9px; height:9px; border-radius:50%; z-index:2; transform:translate(-50%,-50%);
+    background:var(--scene); box-shadow:0 0 12px 2px rgba(var(--scene-rgb),.9); opacity:.85;
+    animation:pulse-run 3.4s linear infinite;}
+  @keyframes pulse-run{from{left:6%;} to{left:80%;}}
 
-  /* generic group focus dimming */
-  .node, .src, .deliver, .golden-wrap{transition:opacity .5s ease, filter .5s ease, transform .5s ease;}
-  .stage.guided .dimmable:not(.focus){opacity:.26; filter:grayscale(.4) brightness(.8);}
-  .focus{opacity:1 !important; filter:none !important;}
+  /* stations on the belt */
+  .station{position:absolute; top:47%; transform:translate(-50%,-50%); z-index:3; width:138px; text-align:center;
+    transition:opacity .5s, filter .5s, transform .5s;}
+  .station .box{display:grid; place-items:center; height:58px; border-radius:14px;
+    border:1px solid var(--line); background:rgba(10,14,24,.78); backdrop-filter:blur(7px);
+    box-shadow:0 12px 30px rgba(0,0,0,.4); position:relative;}
+  .station .box .em{font-size:22px; line-height:1;}
+  .station h4{margin:9px 0 0; font-size:13px; color:#eef2fc; letter-spacing:-.01em; font-weight:700;}
+  .station .sub2{display:block; margin-top:3px; color:var(--muted); font-size:11px; line-height:1.25; opacity:0; transition:opacity .45s;}
+  .stage.guided .station:not(.on){opacity:.16; filter:blur(.7px) grayscale(.4);}
+  .station.on{transform:translate(-50%,-50%) translateY(-4px);}
+  .station.on .sub2{opacity:1;}
+  .station.on .box{border-color:color-mix(in srgb,var(--scene) 70%,transparent);
+    box-shadow:0 0 0 4px color-mix(in srgb,var(--scene) 14%,transparent), 0 12px 30px rgba(0,0,0,.45);}
+  .st-dq{left:24%;} .st-er{left:38%;} .st-rev{left:52%;} .st-forge{left:65%;}
 
-  /* sources */
-  .zone-sources{position:absolute; left:3%; top:13.5%; width:18.5%; display:grid; gap:9px; z-index:3;}
-  .src{display:grid; grid-template-columns:34px 1fr; align-items:center; gap:10px; padding:9px 11px;
-    border:1px solid var(--line); border-left:3px solid var(--c); border-radius:13px;
-    background:var(--glass); backdrop-filter:blur(8px); box-shadow:0 10px 26px rgba(0,0,0,.32);}
-  .src .sym{width:34px; height:34px; display:grid; place-items:center; border-radius:10px; color:#fff;
-    background:linear-gradient(150deg, var(--c), color-mix(in srgb, var(--c) 55%, #000)); font-size:9px; font-weight:800;
-    box-shadow:0 6px 16px color-mix(in srgb, var(--c) 40%, transparent);}
-  .src strong{display:block; color:#eaeefb; font-size:11px;}
-  .src span{display:block; margin-top:2px; color:var(--faint); font-size:8px; line-height:1.3;}
+  /* Rachel's source chips */
+  .chip{position:absolute; width:150px; z-index:5; transform:translate(-50%,-50%) scale(1);
+    padding:9px 11px; border-radius:12px; border:1px solid var(--line); border-left:3px solid var(--c);
+    background:rgba(13,18,30,.94); backdrop-filter:blur(8px); box-shadow:0 10px 26px rgba(0,0,0,.45);
+    transition:left .9s cubic-bezier(.55,.1,.3,1), top .9s cubic-bezier(.55,.1,.3,1), transform .9s, opacity .7s;}
+  .chip .tag{font-size:11px; font-weight:800; letter-spacing:.02em; color:var(--c); margin-bottom:3px;}
+  .chip .nm{font-size:13px; font-weight:700; color:#eef2fc; transition:color .5s;}
+  .chip .fl{display:block; margin-top:3px; color:var(--muted); font-size:11px; line-height:1.3;}
+  .chip .fl.warn{color:#ff9aa3;}
+  .chip .fl.ok{color:#6fe0a8;}
+  /* highlight the conflict on the intro scenes */
+  .stage[data-scene="0"] .chip .nm, .stage[data-scene="1"] .chip .nm{color:#ff9aa3;}
+  .chip.flagged::after{content:"⚠ field set aside"; position:absolute; top:-9px; right:-6px; padding:2px 7px; border-radius:99px;
+    background:#3a1d22; color:#ff9aa3; font-size:10px; font-weight:700; border:1px solid rgba(255,111,123,.45);}
+  /* wrappers are invisible on desktop (chips/trays stay absolutely positioned to the stage); they only become real boxes on phones */
+  .chiprow,.trayrow{display:contents;}
 
-  /* pipeline nodes */
-  .zone-pipeline{position:absolute; left:24.5%; top:13%; width:21.5%; display:grid; gap:10px; z-index:3;}
-  .node{position:relative; padding:12px 13px; border:1px solid var(--line); border-radius:15px;
-    background:var(--glass); backdrop-filter:blur(9px); box-shadow:0 12px 30px rgba(0,0,0,.34);}
-  .node .ndhead{display:flex; align-items:center; gap:9px;}
-  .node .step-no{width:30px; height:30px; display:grid; place-items:center; border-radius:9px; flex-shrink:0;
-    color:#fff; background:linear-gradient(150deg, var(--c), color-mix(in srgb,var(--c) 45%,#000));
-    font-size:11px; font-weight:800; box-shadow:0 6px 16px color-mix(in srgb,var(--c) 40%, transparent);}
-  .node h2{margin:0; font-size:12.5px; color:#eef2fc; letter-spacing:-.01em;}
-  .node .tag{margin-left:auto; padding:3px 7px; border-radius:7px; font-size:6.8px; font-weight:800;
-    letter-spacing:.06em; text-transform:uppercase; color:var(--c);
-    background:color-mix(in srgb, var(--c) 16%, transparent); border:1px solid color-mix(in srgb,var(--c) 32%, transparent);}
-  .node p{margin:7px 0 0; color:var(--muted); font-size:8.4px; line-height:1.45;}
-  .node.focus{transform:translateY(-2px);}
-  .node.focus::after{content:""; position:absolute; inset:-1px; border-radius:inherit; pointer-events:none;
-    border:1px solid color-mix(in srgb, var(--c) 70%, transparent); box-shadow:0 0 0 4px color-mix(in srgb,var(--c) 12%, transparent);}
+  /* match tether */
+  .tether{position:absolute; z-index:6; left:38%; top:29%; transform:translate(-50%,-50%);
+    padding:6px 12px; border-radius:99px; background:rgba(169,139,255,.18); border:1px solid rgba(169,139,255,.45);
+    color:#e2d8ff; font-size:12px; font-weight:700; white-space:nowrap; opacity:0; transition:opacity .5s; pointer-events:none;}
+  .tether.show{opacity:1;}
 
-  /* golden record hero */
-  .zone-golden{position:absolute; left:48.5%; top:15%; width:18%; z-index:4;}
-  .golden-wrap{position:relative; border-radius:20px; padding:1.5px;
+  /* survivorship mini-table (the algorithm) */
+  .surv{position:absolute; left:32%; top:47%; transform:translate(-50%,-50%); z-index:6; width:268px;
+    padding:11px 13px 9px; border-radius:14px; border:1px solid rgba(245,197,24,.3);
+    background:linear-gradient(160deg, rgba(20,18,8,.92), rgba(10,12,20,.92)); backdrop-filter:blur(9px);
+    box-shadow:0 16px 40px rgba(0,0,0,.5); opacity:0; transition:opacity .6s, transform .6s;}
+  .surv.show{opacity:1;}
+  .surv .st-h{font-size:11px; font-weight:800; letter-spacing:.04em; text-transform:uppercase; color:var(--gold); margin-bottom:8px;}
+  .surv .row{display:grid; grid-template-columns:50px 1fr; gap:9px; align-items:baseline; padding:5px 0; border-top:1px solid rgba(255,255,255,.08);}
+  .surv .row:first-of-type{border-top:0;}
+  .surv .f{font-size:11px; font-weight:800; color:#dfe6f5;}
+  .surv .w{font-size:11px; color:var(--muted); line-height:1.3;}
+  .surv .w b{color:#fff; font-weight:700;} .surv .w .lk{color:var(--gold); font-weight:700;}
+
+  /* golden record card */
+  .golden-wrap{position:absolute; left:64%; top:47%; transform:translate(-50%,-50%) scale(.6); z-index:6;
+    width:172px; opacity:0; transition:left .9s cubic-bezier(.55,.1,.3,1), transform .9s, opacity .7s;
+    border-radius:17px; padding:1.5px;
     background:linear-gradient(135deg, var(--gold), #ff9e2c, var(--blue), var(--purple), var(--gold));
     background-size:300% 300%; animation:sheen 9s ease infinite;
-    box-shadow:0 24px 60px rgba(245,197,24,.16), 0 10px 30px rgba(0,0,0,.5);}
-  @keyframes sheen{0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;}}
-  .golden{position:relative; overflow:hidden; border-radius:19px; padding:16px 15px 15px; text-align:center;
-    background:radial-gradient(circle at 50% -20%, rgba(245,197,24,.16), transparent 55%),
-      linear-gradient(170deg, #0d1322, #080b14);}
-  .ring{position:relative; width:74px; height:74px; margin:2px auto 9px;}
+    box-shadow:0 22px 50px rgba(245,197,24,.18), 0 10px 28px rgba(0,0,0,.55);}
+  @keyframes sheen{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+  .golden-wrap.show{opacity:1; transform:translate(-50%,-50%) scale(1);}
+  .golden{border-radius:16px; padding:13px 12px 14px; text-align:center;
+    background:radial-gradient(circle at 50% -10%, rgba(245,197,24,.16), transparent 55%), linear-gradient(170deg,#0e1322,#080b14);}
+  .ring{position:relative; width:62px; height:62px; margin:0 auto 7px;}
   .ring svg{transform:rotate(-90deg);}
   .ring-c{fill:none; stroke-width:6; stroke-linecap:round;}
-  .ring-bg{stroke:rgba(255,255,255,.08);}
-  .ring-fg{stroke:url(#goldgrad); stroke-dasharray:201; stroke-dashoffset:201; transition:stroke-dashoffset 1.4s ease;}
-  .stage[data-scene="4"] .ring-fg,.stage[data-scene="5"] .ring-fg,.stage[data-scene="6"] .ring-fg{stroke-dashoffset:73;}
-  .ring-val{position:absolute; inset:0; display:grid; place-items:center; font-family:var(--serif); font-size:18px; color:#fff;}
-  .ring-val small{display:block; font-family:var(--sans); font-size:6.5px; letter-spacing:.12em; color:var(--muted); text-transform:uppercase; margin-top:-2px;}
-  .golden h2{margin:0; font-family:var(--serif); font-weight:400; font-size:16px; color:#fff;}
-  .golden .one{display:inline-block; margin:6px 0 9px; padding:4px 9px; border-radius:99px; font-size:7px; font-weight:800;
-    text-transform:uppercase; letter-spacing:.08em; color:#9fe7c2; background:rgba(52,210,123,.12); border:1px solid rgba(52,210,123,.35);}
-  .attr{display:flex; justify-content:space-between; gap:6px; padding:5.5px 0; border-top:1px solid rgba(255,255,255,.07);
-    color:var(--muted); font-size:7.3px; text-align:left;}
-  .attr b{color:#dfe6f5; text-align:right;}
-  .attr .lk{color:var(--gold);}
+  .ring-bg{stroke:rgba(255,255,255,.10);}
+  .ring-fg{stroke:url(#gg); stroke-dasharray:176; stroke-dashoffset:176; transition:stroke-dashoffset 1.3s ease .3s;}
+  .golden-wrap.show .ring-fg{stroke-dashoffset:13;} /* ~93% */
+  .ring-val{position:absolute; inset:0; display:grid; place-items:center; font-family:var(--serif); font-size:16px; color:#fff;}
+  .ring-val small{display:block; font-family:var(--sans); font-size:10px; letter-spacing:.06em; color:var(--muted); text-transform:uppercase; margin-top:-1px;}
+  .golden h3{margin:0; font-family:var(--serif); font-weight:400; font-size:15px; color:#fff;}
+  .golden .one{display:inline-block; margin:5px 0 0; padding:3px 9px; border-radius:99px; font-size:11px; font-weight:700;
+    text-transform:uppercase; letter-spacing:.05em; color:#9fe7c2; background:rgba(52,210,123,.14); border:1px solid rgba(52,210,123,.38);}
 
-  /* delivery / intelligence */
-  .zone-use{position:absolute; left:70%; top:12%; width:27.5%; z-index:3; display:grid; gap:9px;}
-  .rag-node{padding:11px 13px; border:1px solid var(--line); border-left:3px solid var(--cyan); border-radius:14px;
-    background:linear-gradient(120deg, rgba(39,211,224,.10), var(--glass)); backdrop-filter:blur(9px);}
-  .rag-node h2{margin:0; font-size:12px; color:#eef2fc;}
-  .rag-node p{margin:5px 0 0; color:var(--muted); font-size:8px; line-height:1.4;}
-  .deliver-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
-  .deliver{display:grid; grid-template-columns:28px 1fr; align-items:center; gap:9px; padding:9px 10px;
-    border:1px solid var(--line); border-radius:12px; background:var(--glass); backdrop-filter:blur(8px);
-    box-shadow:0 9px 22px rgba(0,0,0,.3);}
-  .deliver .ic{width:28px; height:28px; display:grid; place-items:center; border-radius:9px; color:#fff;
-    background:linear-gradient(150deg, var(--c), color-mix(in srgb,var(--c) 50%,#000)); font-size:9px; font-weight:800;}
-  .deliver strong{display:block; color:#e7ecf8; font-size:9px;}
-  .deliver span{display:block; margin-top:1px; color:var(--faint); font-size:7px; line-height:1.25;}
-  .safety{padding:8px 10px; border:1px solid rgba(245,197,24,.28); border-radius:11px;
-    background:rgba(245,197,24,.07); color:#e9cd86; font-size:7.3px; font-weight:600; line-height:1.4; text-align:center;}
+  /* confidence reassurance — governance beat */
+  .reassure{position:absolute; left:64%; top:74%; transform:translate(-50%,-50%); z-index:7; width:240px;
+    padding:11px 13px; border-radius:13px; border:1px solid rgba(245,197,24,.32);
+    background:rgba(245,197,24,.08); opacity:0; transition:opacity .5s; }
+  .reassure.show{opacity:1;}
+  .reassure .rk{display:block; font-size:11px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:var(--gold); margin-bottom:5px;}
+  .reassure p{margin:0; color:#ecd6a0; font-size:12px; line-height:1.5; font-weight:500;}
+  .reassure b{color:#fff;}
 
-  /* metrics */
-  .metrics{position:absolute; left:3%; right:3%; bottom:18.5%; z-index:4; display:grid;
-    grid-template-columns:repeat(4,1fr); gap:9px; transition:opacity .5s ease;}
-  .stage.guided .metrics{opacity:.4;} .stage[data-scene="6"] .metrics{opacity:1;}
-  .metric{padding:10px 12px; border:1px solid var(--line); border-radius:12px; background:var(--glass); backdrop-filter:blur(8px);}
-  .metric strong{display:block; font-family:var(--serif); font-weight:400; color:#fff; font-size:18px; letter-spacing:-.02em; line-height:1;}
-  .metric span{display:block; margin-top:4px; color:var(--faint); font-size:7px; font-weight:700; text-transform:uppercase; letter-spacing:.05em;}
+  /* delivery trays */
+  .tray{position:absolute; left:84%; transform:translate(-50%,-50%); z-index:5; width:200px;
+    display:grid; grid-template-columns:30px 1fr; gap:10px; align-items:center; padding:9px 11px;
+    border-radius:12px; border:1px solid var(--line); background:rgba(13,18,30,.9); backdrop-filter:blur(7px);
+    box-shadow:0 9px 22px rgba(0,0,0,.4); opacity:0; transform:translate(-50%,-50%) translateX(14px); transition:opacity .5s, transform .5s;}
+  .tray .ic{width:30px; height:30px; display:grid; place-items:center; border-radius:9px; color:#fff; font-size:11px; font-weight:800;
+    background:linear-gradient(150deg,var(--c), color-mix(in srgb,var(--c) 50%,#000));}
+  .tray strong{display:block; font-size:12px; color:#eef2fc;}
+  .tray span{display:block; margin-top:1px; color:var(--muted); font-size:11px; line-height:1.25;}
+  .tray.t1{top:25%;} .tray.t2{top:47%;} .tray.t3{top:69%;}
+  .stage[data-deliver="1"] .tray{opacity:1; transform:translate(-50%,-50%) translateX(0);}
+  .stage[data-deliver="1"] .tray.t2{transition-delay:.18s;}
+  .stage[data-deliver="1"] .tray.t3{transition-delay:.36s;}
+
+  /* live counter */
+  .counter{position:absolute; right:3.2%; top:6.5%; z-index:7; text-align:right;
+    padding:10px 14px; border-radius:13px; border:1px solid var(--line); background:rgba(10,14,24,.72); backdrop-filter:blur(8px);
+    opacity:.45; filter:grayscale(.5); transition:opacity .6s, filter .6s, transform .6s;}
+  .counter strong{display:block; font-family:var(--serif); font-weight:400; font-size:22px; color:#cdd6e6; line-height:1; letter-spacing:-.02em; transition:color .6s, font-size .6s;}
+  .counter span{display:block; margin-top:4px; color:var(--muted); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em;}
+  .counter .delta{margin-top:6px; color:#8fd9b3; font-size:12px; font-weight:600; max-width:215px; line-height:1.35; opacity:0; transition:opacity .5s;}
+  .stage[data-merged="1"] .counter{opacity:1; filter:none; transform:scale(1.04);}
+  .stage[data-merged="1"] .counter strong{color:#fff; font-size:30px;}
+  .stage[data-merged="1"] .counter .delta{opacity:1;}
+  /* on the delivery scene the stat-strip carries the number — hide the counter so it doesn't sit on the trays */
+  .stage[data-deliver="1"] .counter{opacity:0 !important; pointer-events:none; transform:scale(.96);}
 
   /* narration */
-  .narration{position:absolute; left:2.4%; right:2.4%; bottom:2.6%; z-index:8; display:grid;
-    grid-template-columns:auto 1fr auto; align-items:center; gap:14px; min-height:70px; padding:12px 15px;
-    border:1px solid rgba(var(--scene-rgb),.30); border-radius:16px;
-    background:linear-gradient(100deg, rgba(var(--scene-rgb),.10), rgba(10,14,24,.86)); backdrop-filter:blur(14px);
-    box-shadow:0 18px 44px rgba(0,0,0,.5);}
+  .narration{position:absolute; left:2.4%; right:2.4%; bottom:2.6%; z-index:8;
+    display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:15px;
+    min-height:64px; padding:12px 16px; border:1px solid rgba(var(--scene-rgb),.32); border-radius:16px;
+    background:linear-gradient(100deg, rgba(var(--scene-rgb),.12), rgba(10,14,24,.9)); backdrop-filter:blur(14px);
+    box-shadow:0 16px 40px rgba(0,0,0,.5);}
   .scene-no{width:44px; height:44px; display:grid; place-items:center; border-radius:13px; color:#fff;
     background:linear-gradient(150deg, var(--scene), color-mix(in srgb,var(--scene) 45%,#000));
-    box-shadow:0 10px 24px rgba(var(--scene-rgb),.4); font-family:var(--serif); font-size:16px;}
-  .narration h3{margin:0; color:#fff; font-size:14px; letter-spacing:-.01em;}
-  .narration p{margin:4px 0 0; color:#aab3c6; font-size:9.4px; line-height:1.4;}
-  .benefit{max-width:180px; padding:8px 11px; border-radius:10px; color:#fff;
-    background:rgba(var(--scene-rgb),.16); border:1px solid rgba(var(--scene-rgb),.34);
-    font-size:7.4px; font-weight:800; line-height:1.35; text-align:center; text-transform:uppercase; letter-spacing:.05em;}
+    box-shadow:0 10px 24px rgba(var(--scene-rgb),.4); font-family:var(--serif); font-size:17px;}
+  .narration h2{margin:0; color:#fff; font-size:15px; letter-spacing:-.01em; font-family:var(--sans); font-weight:700;}
+  .narration p{margin:3px 0 0; color:#c7cfde; font-size:13px; line-height:1.45;}
+  .benefit{max-width:210px; padding:9px 12px; border-radius:11px; color:#fff;
+    background:rgba(var(--scene-rgb),.18); border:1px solid rgba(var(--scene-rgb),.36);
+    font-size:11px; font-weight:800; line-height:1.35; text-align:center; text-transform:uppercase; letter-spacing:.04em;}
 
   .paused *, .paused *::before, .paused *::after{animation-play-state:paused !important;}
 
-  @media (max-width:880px){
-    .page{padding:11px; gap:8px;}
-    .sub{display:none;}
-    .zone-title{font-size:6.5px; letter-spacing:.08em;}
-    .zone-title i{width:14px; height:14px; font-size:6px;}
-    .src{grid-template-columns:24px 1fr; padding:6px; gap:6px;}
-    .src .sym{width:24px; height:24px; font-size:6.5px;}
-    .src strong{font-size:8px;} .src span{display:none;}
-    .node{padding:7px 8px;} .node h2{font-size:9px;} .node p,.node .tag{display:none;} .node .step-no{width:22px;height:22px;font-size:8px;}
-    .golden{padding:10px 9px;} .ring{width:54px;height:54px;} .ring-val{font-size:13px;} .golden h2{font-size:11px;}
-    .attr{font-size:6px; padding:3.5px 0;}
-    .rag-node h2{font-size:9px;} .rag-node p{display:none;}
-    .deliver{grid-template-columns:20px 1fr; padding:6px; gap:6px;} .deliver .ic{width:20px;height:20px;font-size:7px;} .deliver span{display:none;} .deliver strong{font-size:7px;}
-    .safety{display:none;}
-    .metrics{gap:5px; bottom:21%;} .metric{padding:6px;} .metric strong{font-size:12px;} .metric span{font-size:5.4px;}
-    .narration{grid-template-columns:auto 1fr; min-height:58px; padding:9px 11px; gap:9px;}
-    .scene-no{width:34px;height:34px;border-radius:9px;font-size:12px;} .narration h3{font-size:10px;} .narration p{font-size:7px;}
-    .benefit{display:none;} .progress-label{display:none;} .progress-shell{grid-template-columns:1fr auto;}
+  /* ===== TABLET / iPad-landscape (861–1100px): keep the landscape diagram, modest trims, never below ~10px ===== */
+  @media (max-width:1100px) and (min-width:861px){
+    .page{padding:12px 14px;}
+    h1{font-size:clamp(17px,2.5vw,25px);}
+    .sub{font-size:12px;}
+    .stat{min-width:104px; padding:7px 11px;} .stat b{font-size:15px;} .stat span{font-size:10px;}
+    .zone{font-size:10px; letter-spacing:.05em;} .zone.zB{left:21%;} .zone.zC{left:59%;} .zone.zD{left:80%;}
+    .station{width:120px;} .station .box{height:50px;} .station .box .em{font-size:19px;} .station h4{font-size:12px;} .station .sub2{font-size:10px;}
+    .chip{width:132px;} .chip .nm{font-size:12px;} .chip .fl,.chip .tag{font-size:10px;}
+    .surv{width:242px;} .surv .f,.surv .w{font-size:10px;}
+    .golden-wrap{width:150px;} .golden h3{font-size:13px;} .ring{width:54px;height:54px;} .ring-val{font-size:14px;}
+    .reassure{width:218px;} .reassure p{font-size:11px;} .reassure .rk{font-size:10px;}
+    .tray{width:180px;} .tray strong{font-size:11px;} .tray span{font-size:10px;}
+    .counter strong{font-size:19px;} .stage[data-merged="1"] .counter strong{font-size:26px;} .counter span{font-size:10px;} .counter .delta{font-size:11px;}
+    .narration h2{font-size:14px;} .narration p{font-size:12px;} .benefit{font-size:10px;}
+  }
+
+  /* ===== PHONE + iPad-portrait (≤860px): vertical reflow — one focal piece at a time, full-size text ===== */
+  @media (max-width:860px){
+    .page{grid-template-rows:auto auto auto minmax(0,1fr); gap:9px; padding:11px 12px;}
+    header{flex-direction:column; gap:8px;}
+    .controls{justify-content:flex-start;}
+    h1{font-size:19px; line-height:1.12;}
+    .sub{font-size:12px;} .sub .q{font-size:11px;}
+    .statstrip{flex-wrap:wrap;}
+    .stat{flex:1 1 44%; min-width:44%; padding:7px 11px; border-right:1px solid var(--line);}
+    .stat b{font-size:15px;} .stat span{font-size:11px;}
+    .time{display:none;}
+
+    /* stage becomes a vertical stack */
+    .stage{display:flex; flex-direction:column; align-items:stretch; justify-content:flex-start; gap:11px;
+      padding:13px; overflow-y:auto;}
+    .stage>*{flex:0 0 auto;}  /* keep natural heights — don't let flexbox squash the narration; stage scrolls instead */
+    .stage::before, .zones, .belt, .pulse, .counter{display:none;}
+
+    /* chips → 2×2 grid in normal flow (override the absolute inline styles) */
+    .chiprow{display:grid; grid-template-columns:1fr 1fr; gap:9px; width:100%;}
+    .stage[data-merged="1"] .chiprow{display:none;}
+    .chip{position:static !important; width:auto !important; transform:none !important; opacity:1 !important; padding:11px 12px;}
+    .stage[data-scene="0"] .chip .nm, .stage[data-scene="1"] .chip .nm{color:#ff9aa3;}
+    .chip .nm{font-size:14px;} .chip .fl{font-size:12px;} .chip .tag{font-size:12px;}
+    .chip.flagged::after{font-size:11px; top:-8px;}
+
+    /* only the active station shows, as a full-width labelled row */
+    .station{position:static !important; width:100% !important; transform:none !important; opacity:1 !important; filter:none !important;
+      display:none; grid-template-columns:none; text-align:left;}
+    .stage.guided .station:not(.on){display:none;}
+    .station.on{display:flex; align-items:center; gap:13px; padding:11px 14px; border:1px solid var(--line2);
+      border-radius:14px; background:rgba(41,151,255,.08);}
+    .station.on .box{width:46px; height:46px; border:0; background:transparent; box-shadow:none;}
+    .station .box .em{font-size:26px;}
+    .station h4{margin:0; font-size:15px;} .station.on .sub2{opacity:1; margin:2px 0 0; font-size:12px;}
+
+    /* tether → full-width badge */
+    .tether{position:static !important; transform:none !important; width:100%; white-space:normal; text-align:center; font-size:13px; display:none;}
+    .tether.show{display:block;}
+
+    /* survivorship table */
+    .surv{position:static !important; transform:none !important; width:100%; display:none;}
+    .surv.show{display:block;} .surv .st-h{font-size:12px;} .surv .f,.surv .w{font-size:12.5px;} .surv .row{grid-template-columns:60px 1fr;}
+
+    /* golden card centered */
+    .golden-wrap{position:static !important; transform:none !important; width:168px; margin:0 auto; display:none;}
+    .golden-wrap.show{display:block;}
+    .golden{padding:11px 10px 12px;}
+    .golden h3{font-size:14px;} .ring{width:52px;height:52px;} .ring-val{font-size:14px;}
+
+    /* governance note */
+    .reassure{position:static !important; transform:none !important; width:100%; display:none;}
+    .reassure.show{display:block;} .reassure p{font-size:12.5px;} .reassure .rk{font-size:11px;}
+
+    /* delivery trays stacked */
+    .trayrow{display:flex; flex-direction:column; gap:9px; width:100%;}
+    .stage:not([data-deliver="1"]) .trayrow{display:none;}
+    .tray{position:static !important; transform:none !important; width:100% !important; opacity:1 !important;}
+    .tray strong{font-size:13px;} .tray span{font-size:12px;}
+
+    /* narration becomes the step-header at the TOP of the stack — nothing gets occluded */
+    .narration{position:static; order:-1; grid-template-columns:auto 1fr; gap:11px; min-height:0; padding:11px 13px;}
+    .narration h2{font-size:13.5px;} .narration p{font-size:12px;} .benefit{display:none;}
+    .scene-no{width:38px; height:38px; font-size:14px;}
   }
   @media (prefers-reduced-motion:reduce){
-    *,*::before,*::after{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important;}
+    .belt,.pulse,.golden-wrap{animation:none !important;}
+    *,*::before,*::after{animation-duration:.001ms !important; animation-iteration-count:1 !important;}
+    /* keep spatial continuity for chips/cards — a gentle move, not a teleport */
+    .chip,.golden-wrap,.station,.tray{transition-duration:.3s !important;}
   }
 </style>
 </head>
@@ -216,9 +328,10 @@
   <main class="page" id="page">
     <header>
       <div>
-        <div class="eyebrow">Living architecture · plain-English walkthrough</div>
-        <h1>How fragmented bank data becomes one trusted Golden Record</h1>
-        <p class="sub">A guided tour of the Golden Record RAG pipeline — entity resolution, survivorship, lineage and grounded compliance AI, running on 89,198 real-scale records.</p>
+        <div class="eyebrow">How it works · plain English</div>
+        <h1>One customer. Four conflicting files. One record the bank can trust.</h1>
+        <p class="sub">Follow one real customer — Rachel — down the line: four conflicting files in, one trusted record out.
+          <span class="q">Plays on its own · use the buttons or the ← → arrow keys.</span></p>
       </div>
       <div class="controls">
         <button class="control" id="pauseBtn">Pause</button>
@@ -227,134 +340,137 @@
       </div>
     </header>
 
-    <div class="progress-shell">
-      <div class="progress-label">End-to-end pipeline</div>
-      <div class="steps" id="steps" aria-label="Walkthrough progress"></div>
-      <div class="time" id="timeLabel">Scene 1 of 7</div>
+    <div class="statstrip" aria-label="Outcome at a glance">
+      <div class="stat"><b>89,198</b><span>source records</span></div>
+      <div class="stat"><span class="arrow">→</span><b>20,502</b><span>trusted records</span></div>
+      <div class="stat"><b>4</b><span>systems unified</span></div>
+      <div class="stat"><b>100%</b><span>fields traceable</span></div>
+      <div class="stat"><b>0</b><span>records deleted</span></div>
     </div>
 
-    <section class="stage guided" id="stage" data-scene="0" aria-label="Golden Record architecture diagram">
-      <div class="zone-title zt-source"><i>1</i> Source systems</div>
-      <div class="zone-title zt-trust"><i>2</i> Trust pipeline</div>
-      <div class="zone-title zt-golden"><i>3</i> Golden Record</div>
-      <div class="zone-title zt-use"><i>4</i> Intelligence &amp; safe delivery</div>
+    <div class="progress-shell">
+      <div class="steps" id="steps" aria-label="Walkthrough progress"></div>
+      <div class="time" id="timeLabel">Step 1 of 7</div>
+    </div>
 
-      <svg class="flow" viewBox="0 0 1600 800" preserveAspectRatio="none" aria-hidden="true">
-        <defs>
-          <linearGradient id="goldgrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#f5c518"/><stop offset="100%" stop-color="#2997ff"/>
-          </linearGradient>
-        </defs>
-        <path id="w-ingest" d="M300 250 C380 250 380 330 440 330"/>
-        <path id="w-dq" d="M440 330 C470 330 470 300 500 300"/>
-        <path id="w-er" d="M620 330 C660 330 660 430 700 430"/>
-        <path id="w-surv" d="M620 470 C680 470 700 560 760 560"/>
-        <path id="w-golden" d="M760 420 C810 420 820 410 860 410"/>
-        <path id="w-rag" d="M1040 380 C1110 380 1120 300 1180 300"/>
-        <path id="w-deliver" d="M1040 430 C1120 430 1160 470 1230 470"/>
-        <circle r="5.5" class="packet" id="p-ingest"><animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#w-ingest"/></animateMotion></circle>
-        <circle r="5.5" class="packet" id="p-dq"><animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#w-dq"/></animateMotion></circle>
-        <circle r="5.5" class="packet" id="p-er"><animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#w-er"/></animateMotion></circle>
-        <circle r="5.5" class="packet" id="p-surv"><animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#w-surv"/></animateMotion></circle>
-        <circle r="5.5" class="packet" id="p-golden"><animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#w-golden"/></animateMotion></circle>
-        <circle r="5.5" class="packet" id="p-rag"><animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#w-rag"/></animateMotion></circle>
-        <circle r="5.5" class="packet" id="p-deliver"><animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#w-deliver"/></animateMotion></circle>
-      </svg>
+    <section class="stage guided" id="stage" data-scene="0" data-deliver="0" data-merged="0" data-focus="A" aria-label="Golden Record data flow diagram">
+      <svg width="0" height="0" style="position:absolute"><defs>
+        <linearGradient id="gg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f5c518"/><stop offset="100%" stop-color="#2997ff"/></linearGradient>
+      </defs></svg>
 
-      <div class="zone-sources" id="zSources">
-        <div class="src dimmable" style="--c:var(--blue)"><div class="sym">CBS</div><div><strong>Core Banking</strong><span>Accounts &amp; transactions</span></div></div>
-        <div class="src dimmable" style="--c:var(--cyan)"><div class="sym">CRM</div><div><strong>Customer Service</strong><span>Contact &amp; preferences</span></div></div>
-        <div class="src dimmable" style="--c:var(--green)"><div class="sym">KYC</div><div><strong>Identity Checks</strong><span>Verification &amp; compliance</span></div></div>
-        <div class="src dimmable" style="--c:var(--gold)"><div class="sym">RISK</div><div><strong>Risk Engine</strong><span>Risk &amp; monitoring signals</span></div></div>
+      <div class="zones">
+        <div class="zone zA" id="zoneA"><b>1</b> Four files</div>
+        <div class="zone zB" id="zoneB"><b>2</b> The trust pipeline</div>
+        <div class="zone zC" id="zoneC"><b>3</b> One trusted record</div>
+        <div class="zone zD" id="zoneD"><b>4</b> Used safely</div>
       </div>
 
-      <div class="zone-pipeline">
-        <article class="node dimmable" id="nDQ" style="--c:var(--cyan)">
-          <div class="ndhead"><div class="step-no">1</div><h2>Data Quality</h2><span class="tag">02_dq</span></div>
-          <p>Completeness, format and consistency are scored. Weak records are quarantined before they can contaminate decisions.</p>
-        </article>
-        <article class="node dimmable" id="nER" style="--c:var(--purple)">
-          <div class="ndhead"><div class="step-no">2</div><h2>Entity Resolution</h2><span class="tag">03_er</span></div>
-          <p>Fuzzy matching + Soundex/Metaphone + ML clustering recognise the same person across systems.</p>
-        </article>
-        <article class="node dimmable" id="nSurv" style="--c:var(--gold)">
-          <div class="ndhead"><div class="step-no">3</div><h2>Survivorship</h2><span class="tag">04_survivorship</span></div>
-          <p>Source-trust weights, recency and a regulatory lock choose the winning value for every field — with lineage.</p>
-        </article>
+      <div class="belt" aria-hidden="true"></div>
+      <div class="pulse" id="pulse" aria-hidden="true"></div>
+
+      <!-- stations -->
+      <div class="station st-dq" id="stDQ"><div class="box"><span class="em">🩺</span></div><h4>Quality check</h4><span class="sub2">Set bad data aside</span></div>
+      <div class="station st-er" id="stER"><div class="box"><span class="em">🔗</span></div><h4>Match</h4><span class="sub2">Is this the same person?</span></div>
+      <div class="station st-rev" id="stREV"><div class="box"><span class="em">🧑‍⚖️</span></div><h4>Human review</h4><span class="sub2">Approve the unsure ones</span></div>
+      <div class="station st-forge" id="stFORGE"><div class="box"><span class="em">⚙️</span></div><h4>Build record</h4><span class="sub2">Keep the most reliable value</span></div>
+
+      <!-- Rachel's four source chips -->
+      <div class="chiprow">
+        <div class="chip" id="c0" style="--c:var(--blue)"><div class="tag">Core Banking</div><div class="nm">Rachel A Smith</div><span class="fl warn">email: missing</span></div>
+        <div class="chip" id="c1" style="--c:var(--cyan)"><div class="tag">Customer Service</div><div class="nm">Rachel Smith</div><span class="fl">rachel.smith@…</span></div>
+        <div class="chip" id="c2" style="--c:var(--green)"><div class="tag">Identity check</div><div class="nm">RACHEL SMITH</div><span class="fl ok">✓ Verified</span></div>
+        <div class="chip" id="c3" style="--c:var(--gold)"><div class="tag">Risk Engine</div><div class="nm">R. Smith</div><span class="fl">rating: Watch</span></div>
       </div>
 
-      <div class="zone-golden">
-        <div class="golden-wrap dimmable" id="zGolden">
-          <div class="golden">
-            <div class="ring">
-              <svg width="74" height="74" viewBox="0 0 74 74"><circle class="ring-c ring-bg" cx="37" cy="37" r="32"/><circle class="ring-c ring-fg" cx="37" cy="37" r="32"/></svg>
-              <div class="ring-val">0.64<small>confidence</small></div>
-            </div>
-            <h2>Golden Record</h2>
-            <span class="one">Single source of truth</span>
-            <div class="attr"><span>Identity</span><b>Entity-resolved</b></div>
-            <div class="attr"><span>KYC status</span><b class="lk">Regulatory lock</b></div>
-            <div class="attr"><span>Risk rating</span><b>Specialist source</b></div>
-            <div class="attr"><span>Every field</span><b>Fully traceable</b></div>
-          </div>
+      <div class="tether" id="tether">92% match — names, DOB, phone &amp; email line up</div>
+
+      <!-- survivorship algorithm table -->
+      <div class="surv" id="surv">
+        <div class="st-h">How each field is chosen</div>
+        <div class="row"><div class="f">Name</div><div class="w"><b>Identity check</b> wins — it's verified</div></div>
+        <div class="row"><div class="f">Email</div><div class="w"><b>Customer Service</b> wins — bank file was blank</div></div>
+        <div class="row"><div class="f">Risk</div><div class="w"><span class="lk">🔒 Locked</span> — only the regulated source can set it</div></div>
+      </div>
+
+      <!-- golden record -->
+      <div class="golden-wrap" id="golden">
+        <div class="golden">
+          <div class="ring"><svg width="62" height="62" viewBox="0 0 62 62"><circle class="ring-c ring-bg" cx="31" cy="31" r="28"/><circle class="ring-c ring-fg" cx="31" cy="31" r="28"/></svg><div class="ring-val">93%<small>confidence</small></div></div>
+          <h3>Rachel Smith</h3>
+          <span class="one">One trusted record</span>
         </div>
       </div>
 
-      <div class="zone-use">
-        <article class="rag-node dimmable" id="nRAG">
-          <h2>RAG index · pgvector</h2>
-          <p>35,000 chunks embedded with sentence-transformers for grounded, natural-language compliance queries.</p>
-        </article>
-        <div class="deliver-grid">
-          <div class="deliver dimmable deliver-use" style="--c:var(--blue)"><div class="ic">360°</div><div><strong>Customer 360</strong><span>One complete view</span></div></div>
-          <div class="deliver dimmable deliver-use" style="--c:var(--purple)"><div class="ic">AI</div><div><strong>Compliance AI</strong><span>Grounded answers</span></div></div>
-          <div class="deliver dimmable deliver-use" style="--c:var(--rose)"><div class="ic">✓</div><div><strong>Stewardship</strong><span>Human review gate</span></div></div>
-          <div class="deliver dimmable deliver-use" style="--c:var(--green)"><div class="ic">ME</div><div><strong>Customer Portal</strong><span>Filtered self-service</span></div></div>
-        </div>
-        <div class="safety dimmable deliver-use">Privacy, lineage &amp; audit logging protect every interaction · dual-persona API.</div>
+      <!-- governance reassurance -->
+      <div class="reassure" id="reassure"><span class="rk">Governance built in</span><p><b>Sure who, not safe how.</b> 93% means we're confident this <i>is</i> Rachel — not that Rachel is low-risk. Two separate scores.</p></div>
+
+      <!-- delivery trays -->
+      <div class="trayrow">
+        <div class="tray t1" style="--c:var(--blue)"><div class="ic">360°</div><div><strong>Customer 360</strong><span>Faster service, fewer wrong-customer errors</span></div></div>
+        <div class="tray t2" style="--c:var(--purple)"><div class="ic">AI</div><div><strong>Compliance AI</strong><span>Answers from trusted data</span></div></div>
+        <div class="tray t3" style="--c:var(--green)"><div class="ic">ME</div><div><strong>Customer portal</strong><span>Customers see only their own details</span></div></div>
       </div>
 
-      <div class="metrics">
-        <div class="metric"><strong>89,198</strong><span>Source records ingested</span></div>
-        <div class="metric"><strong>20,502</strong><span>Golden records produced</span></div>
-        <div class="metric"><strong>51.9%</strong><span>Multi-source customers</span></div>
-        <div class="metric"><strong>35,000</strong><span>RAG chunks indexed</span></div>
-      </div>
+      <!-- live counter -->
+      <div class="counter"><strong id="countVal">89,198</strong><span id="countLbl">source records</span><div class="delta">69,000 duplicates merged into others — nothing deleted (77% fewer records)</div></div>
 
       <aside class="narration" aria-live="polite">
         <div class="scene-no" id="sceneNo">01</div>
         <div>
-          <h3 id="sceneTitle">The challenge: one customer, many versions</h3>
-          <p id="sceneText">Banks hold the same customer in core banking, CRM, KYC and risk systems — each with a slightly different name, contact or status.</p>
+          <h2 id="sceneTitle">One person, four conflicting files</h2>
+          <p id="sceneText">Rachel is one of ~20,502 real people hiding inside 89,198 records — here she is, stored four different ways.</p>
         </div>
-        <div class="benefit" id="sceneBenefit">Goal: one trusted view</div>
+        <div class="benefit" id="sceneBenefit">4 versions of ONE person</div>
       </aside>
     </section>
   </main>
 
   <script>
+    const RM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const STK=[[11,20,1,1],[11,38,1,1],[11,56,1,1],[11,74,1,1]];   // stable left "intake" stack
+    const GONE=[[64,47,.4,0],[64,47,.4,0],[64,47,.4,0],[64,47,.4,0]]; // slid right into the golden record, faded
     const scenes=[
-      {t:"The challenge: one customer, many versions",
-       x:"Banks hold the same customer in core banking, CRM, KYC and risk systems — each with a slightly different name, contact or status.",
-       b:"Goal: one trusted view", focus:["zSources"], wires:[], packets:[], c:"#2997ff", rgb:"41,151,255", d:7000},
-      {t:"Step 1 — Ingest every source, keep it traceable",
-       x:"Core banking, CRM, identity checks and risk feed one controlled pipeline. Every original record is preserved and labelled by source.",
-       b:"No more searching across silos", focus:["zSources","nDQ"], wires:["w-ingest","w-dq"], packets:["p-ingest","p-dq"], c:"#27d3e0", rgb:"39,211,224", d:7000},
-      {t:"Step 2 — Stop poor data before it spreads",
-       x:"Each record is scored for completeness, valid formats and consistency. Problem records are quarantined instead of silently corrupting decisions.",
-       b:"Cleaner data, fewer surprises", focus:["nDQ"], wires:["w-dq"], packets:["p-dq"], c:"#27d3e0", rgb:"39,211,224", d:7500},
-      {t:"Step 3 — Recognise the same person",
-       x:"Fuzzy matching, phonetic keys and ML clustering compare names, emails, dates and addresses to group records that describe one identity.",
-       b:"One person, counted once", focus:["nER"], wires:["w-er"], packets:["p-er"], c:"#a98bff", rgb:"169,139,255", d:7500},
-      {t:"Step 4 — Choose the most trusted value",
-       x:"For each field, survivorship weighs source authority and recency. Regulated KYC, PEP and sanctions values get a protective lock — and every choice keeps its lineage.",
-       b:"Every value can be explained", focus:["nSurv","zGolden"], wires:["w-surv","w-golden"], packets:["p-surv","p-golden"], c:"#f5c518", rgb:"245,197,24", d:8500},
-      {t:"The result — one authoritative Golden Record",
-       x:"The resolved profile combines the best identity, contact, compliance and risk values with a confidence score and a complete audit trail.",
-       b:"A dependable single source of truth", focus:["zGolden","nRAG"], wires:["w-golden","w-rag"], packets:["p-golden","p-rag"], c:"#2997ff", rgb:"41,151,255", d:8000},
-      {t:"Intelligence & safe delivery",
-       x:"35,000 chunks power grounded compliance answers. Customer 360, stewardship review and a filtered customer portal consume the same trusted record through a dual-persona API.",
-       b:"Faster service, stronger control", focus:["nRAG","zGolden","deliver-use"], wires:["w-rag","w-deliver"], packets:["p-rag","p-deliver"], c:"#34d27b", rgb:"52,210,123", d:9500}
+      { t:"One person, four conflicting files",
+        x:"Rachel is one of ~20,502 real people hiding inside 89,198 records — here she is, stored four different ways.",
+        b:"4 versions of ONE person", focus:"A", zone:0, c:"#2997ff", rgb:"41,151,255", d:5000,
+        chips:STK, station:null, tether:0, surv:0, golden:0, deliver:0, merged:0, reassure:0,
+        count:["89,198","source records"] },
+
+      { t:"Bring every file in",
+        x:"All four files are loaded and labelled by source — nothing is merged or thrown away yet.",
+        b:"Every original kept", focus:"B", zone:1, c:"#27d3e0", rgb:"39,211,224", d:5000,
+        chips:STK, station:null, tether:0, surv:0, golden:0, deliver:0, merged:0, reassure:0,
+        count:["89,198","source records"] },
+
+      { t:"Set bad data aside",
+        x:"Each file is health-checked. Rachel's bank file is missing an email, so only that field is set aside — the rest still helps.",
+        b:"Weak data set aside", focus:"B", zone:1, c:"#27d3e0", rgb:"39,211,224", d:7000,
+        chips:STK, station:"stDQ", tether:0, surv:0, golden:0, deliver:0, merged:0, reassure:0, flag:1,
+        count:["89,198","source records"] },
+
+      { t:"Spot the same person",
+        x:"Names, birth date, phone and email line up across the files — a 92% match says these four are one Rachel.",
+        b:"Duplicates caught", focus:"B", zone:1, c:"#a98bff", rgb:"169,139,255", d:9500,
+        chips:STK, station:"stER", tether:1, surv:0, golden:0, deliver:0, merged:0, reassure:0,
+        count:["89,198","source records"] },
+
+      { t:"A person checks the unsure ones",
+        x:"Above 95% auto-merges; below 80% is rejected; the unsure middle goes to a trained reviewer who sees both files side by side.",
+        b:"A person makes the final call", focus:"B", zone:1, c:"#ff6f9c", rgb:"255,111,156", d:8000,
+        chips:STK, station:"stREV", tether:0, surv:0, golden:0, deliver:0, merged:0, reassure:0,
+        count:["89,198","source records"] },
+
+      { t:"Build one trusted record",
+        x:"The four become one: each field is filled from its most reliable source — and 89,198 files collapse into 20,502 trusted records.",
+        b:"Most reliable value wins", focus:"C", zone:2, c:"#f5c518", rgb:"245,197,24", d:12000,
+        chips:GONE, station:null, tether:0, surv:1, golden:1, deliver:0, merged:1, reassure:1,
+        count:["20,502","trusted records"] },
+
+      { t:"One record every team can trust",
+        x:"That single record now feeds every team — and each one sees only what it should.",
+        b:"Audit-ready &amp; leak-proof", focus:"D", zone:3, c:"#34d27b", rgb:"52,210,123", d:8000,
+        chips:GONE, station:null, tether:0, surv:0, golden:1, deliver:1, merged:1, reassure:0,
+        count:["20,502","trusted records"] }
     ];
 
     const $=id=>document.getElementById(id);
@@ -362,19 +478,28 @@
     const pauseBtn=$("pauseBtn"), replayBtn=$("replayBtn"), speedBtn=$("speedBtn");
     const timeLabel=$("timeLabel"), sceneNo=$("sceneNo"), sceneTitle=$("sceneTitle"), sceneText=$("sceneText"), sceneBenefit=$("sceneBenefit");
     const root=document.documentElement;
-    const focusables=[...document.querySelectorAll(".dimmable")];
-    const wires=[...document.querySelectorAll(".flow path")];
-    const packets=[...document.querySelectorAll(".packet")];
+    const chips=[$("c0"),$("c1"),$("c2"),$("c3")];
+    const stationEls={stDQ:$("stDQ"),stER:$("stER"),stREV:$("stREV"),stFORGE:$("stFORGE")};
+    const zoneEls=[$("zoneA"),$("zoneB"),$("zoneC"),$("zoneD")];
+    const tether=$("tether"), surv=$("surv"), golden=$("golden"), reassure=$("reassure"), countVal=$("countVal"), countLbl=$("countLbl");
 
     scenes.forEach(()=>{const b=document.createElement("div"); b.className="step"; steps.appendChild(b);});
 
-    let current=0, timer=null, paused=false, speed=1;
+    let current=0, timer=null, paused=false, speed=1, countTimer=null;
     const paces=[{s:1,l:"Pace: calm"},{s:1.4,l:"Pace: brisk"},{s:.72,l:"Pace: slow"}];
     let paceIdx=0;
 
-    function matchFocus(el, focus){
-      if(focus.includes(el.id)) return true;
-      return focus.some(f=>el.classList.contains(f));
+    function animateCount(to){
+      clearInterval(countTimer);
+      const target=parseInt(to.replace(/,/g,""),10);
+      const from=parseInt(countVal.textContent.replace(/,/g,""),10)||0;
+      if(RM || from===target){countVal.textContent=to; return;}
+      const n=26; let i=0;
+      countTimer=setInterval(()=>{
+        i++; const v=Math.round(from+(target-from)*(i/n));
+        countVal.textContent=v.toLocaleString("en-US");
+        if(i>=n){countVal.textContent=to; clearInterval(countTimer);}
+      }, 30);
     }
 
     function render(i){
@@ -384,18 +509,44 @@
       root.style.setProperty("--scene-rgb",s.rgb);
       root.style.setProperty("--duration",dur+"ms");
       stage.dataset.scene=String(i);
-      focusables.forEach(el=>el.classList.toggle("focus", matchFocus(el,s.focus)));
-      wires.forEach(el=>el.classList.toggle("lit", s.wires.includes(el.id)));
-      packets.forEach(el=>el.classList.toggle("show", s.packets.includes(el.id)));
+      stage.dataset.deliver=s.deliver?"1":"0";
+      stage.dataset.merged=s.merged?"1":"0";
+      stage.dataset.focus=s.focus;
+
+      // chips
+      chips.forEach((el,n)=>{
+        const p=s.chips[n];
+        el.style.left=p[0]+"%"; el.style.top=p[1]+"%";
+        el.style.transform=`translate(-50%,-50%) scale(${p[2]})`;
+        el.style.opacity=p[3];
+      });
+      chips[0].classList.toggle("flagged", !!s.flag);
+
+      // stations — only the active one is lit + shows its sub-label
+      Object.values(stationEls).forEach(el=>el.classList.remove("on"));
+      if(s.station && stationEls[s.station]) stationEls[s.station].classList.add("on");
+
+      // zone "where are we" map
+      zoneEls.forEach((el,z)=>el.classList.toggle("live", z===s.zone));
+
+      tether.classList.toggle("show", !!s.tether);
+      surv.classList.toggle("show", !!s.surv);
+      golden.classList.toggle("show", !!s.golden);
+      reassure.classList.toggle("show", !!s.reassure);
+
+      animateCount(s.count[0]); countLbl.textContent=s.count[1];
+
       sceneNo.textContent=String(i+1).padStart(2,"0");
-      sceneTitle.textContent=s.t; sceneText.textContent=s.x; sceneBenefit.textContent=s.b;
-      timeLabel.textContent=`Scene ${i+1} of ${scenes.length}`;
+      sceneTitle.textContent=s.t; sceneText.textContent=s.x; sceneBenefit.innerHTML=s.b;
+      timeLabel.textContent=`Step ${i+1} of ${scenes.length}`;
       [...steps.children].forEach((bar,n)=>{bar.className="step"; if(n<i)bar.classList.add("done"); if(n===i){void bar.offsetWidth; bar.classList.add("current");}});
+      stage.scrollTop=0; // on phones the stage scrolls — start each scene at the top
+
       clearTimeout(timer);
       if(!paused){
         timer=setTimeout(()=>{
           const next=(i+1)%scenes.length;
-          if(next===0){ stage.classList.remove("guided"); timer=setTimeout(()=>{stage.classList.add("guided"); render(0);}, 3200/speed); }
+          if(next===0){ stage.classList.remove("guided"); timer=setTimeout(()=>{stage.classList.add("guided"); render(0);}, 3000/speed); }
           else render(next);
         }, dur);
       }
@@ -403,13 +554,17 @@
     function togglePause(){ paused=!paused; page.classList.toggle("paused",paused); pauseBtn.textContent=paused?"Resume":"Pause"; clearTimeout(timer); if(!paused) render(current); }
     function restart(){ clearTimeout(timer); paused=false; page.classList.remove("paused"); stage.classList.add("guided"); pauseBtn.textContent="Pause"; render(0); }
     function changeSpeed(){ paceIdx=(paceIdx+1)%paces.length; speed=paces[paceIdx].s; speedBtn.textContent=paces[paceIdx].l; render(current); }
+    function go(d){ clearTimeout(timer); render((current+d+scenes.length)%scenes.length); }
 
     pauseBtn.onclick=togglePause; replayBtn.onclick=restart; speedBtn.onclick=changeSpeed;
     document.addEventListener("keydown",e=>{
       if(e.code==="Space"){e.preventDefault(); togglePause();}
+      else if(e.key==="ArrowRight"){ if(!paused) togglePause(); go(1); }
+      else if(e.key==="ArrowLeft"){ if(!paused) togglePause(); go(-1); }
       else if(e.key.toLowerCase()==="r") restart();
       else if(e.key.toLowerCase()==="s") changeSpeed();
     });
+    if(RM) paused=true, page.classList.add("paused"), pauseBtn.textContent="Resume";
     render(0);
   </script>
 </body>
