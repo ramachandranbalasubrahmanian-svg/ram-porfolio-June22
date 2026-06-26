@@ -1,6 +1,6 @@
 # ram-bala.com — Session Handoff
 
-_Last updated: 2026-06-22. This file lets a fresh Claude Code / Cursor session resume with full context. Read it first._
+_Last updated: 2026-06-26. This file lets a fresh Claude Code / Cursor session resume with full context. Read it first._
 
 ---
 
@@ -16,16 +16,24 @@ _Last updated: 2026-06-22. This file lets a fresh Claude Code / Cursor session r
 - **Owner / strict rule:** never invent metrics, employers, credentials, or claims. Use only facts in the repo or verified READMEs. Preserve the premium **Apple-style dark** aesthetic. Prefer free tools; single source of truth; test before sharing; keep responses short.
 
 ## 2. Current git state ⚠️
-- **Branch:** `feat/live-proof-lab`. Commits on it: `5a767d2` (Live Proof Lab + round-1 polish), `34f8f0b` (this HANDOFF.md), plus a follow-up commit updating this section. **`main` is untouched. NOTHING is pushed.** Run `git log --oneline` for the current HEAD.
+- **Branch:** `portfolio-upgrade` (current active branch). Last 5 commits (all 2026-06-26):
+  - `c64d39e` — Iteration 4: Performance 95
+  - `da3f445` — Iteration 3: Performance 94, FCP 1.7s
+  - `7328bb0` — Iteration 2: Accessibility 100, SEO 100, /demos/ Proof Lab
+  - `aadcd75` — Iteration 1: Performance +16pts, Accessibility +7pts
+  - Earlier: original `feat/live-proof-lab` work
+- **`main` is untouched. NOTHING is pushed to GitHub.** Run `git log --oneline` for the current HEAD.
 - **Author email:** all commits used the machine-local default (`...@SrihariRamachandrans-MacBook-Pro.local`), not the GitHub email — so GitHub won't link them to the account. Before pushing, set identity and reset authorship across the branch:
   ```bash
   git config user.email "ramachandran.balasubrahmanian@gmail.com"
   git config user.name "Ramachandran Balasubrahmanian"
   # rebase from the last shared commit to reset author on ALL branch commits:
   git rebase --reset-author-date --exec 'git commit --amend --no-edit --reset-author' 55851db
-  # (or, if only the latest commit matters: git commit --amend --reset-author --no-edit)
   ```
-- **Deploy when ready:** `git checkout main && git merge feat/live-proof-lab && git push origin main`
+- **Deploy when ready:**
+  ```bash
+  git checkout main && git merge portfolio-upgrade && git push origin main
+  ```
 
 ## 3. What this session delivered
 
@@ -59,12 +67,25 @@ Three live systems are now experienceable in-context. Pattern is reusable.
 
 **Pipeline Pulse (EDP)** — app `pipeline-pulse-79.lovable.app` (+ `/demo`) · **no public repo** · EDP knowledge hub at `/enterprise-data-platform/` + runbook `assets/edp/enterprise-data-platform-runbook.{pdf,html}`. DMBOK-aligned control plane (ingestion controls → metadata-driven DQ → lineage/stewardship → governance/evidence → AI governance → consumption). 6 learning tracks, 5 DMBOK control screens, 5 field templates. **Do not attach FICO production metrics (95% / 232M / $2M) to this demo** — those are Ram's career outcomes, not the demo's.
 
-## 5. Pending / next (prioritized)
-1. **Deploy + test on real mobile + re-run Lighthouse** before building more. The in-page app windows on a phone are the one thing NOT verified (iframe of a desktop app on mobile may be poor — consider defaulting small screens to "open in new tab").
-2. **`/demos/` "Proof Lab" landing page** that lists all three systems + add a nav link to it. (One shareable URL, better internal-link SEO.)
-3. **A social/OG image** for the demos (currently all share generic `og-image.jpg`) — highest-leverage polish for LinkedIn sharing.
-4. **Analytics events** on "Launch app" clicks (`analytics.js` already exposes `trackEvent`).
-5. Optional: diagram density tuning at mid widths; commit this HANDOFF.md; the author-email fix above.
+## 5. Lighthouse score history (all measured on local Python server)
+
+| Iteration | Perf | A11y | Best | SEO | Composite |
+|-----------|------|------|------|-----|-----------|
+| Baseline  | ~72  |  ~83 |  ~96 | ~92 |    ~86    |
+| Iter 1    |  87  |   90 |   96 |  97 |     92    |
+| Iter 2    |  91  |  100 |  100 | 100 |     98    |
+| Iter 3    |  94  |  100 |  100 | 100 |     98    |
+| Iter 4    |  95  |  100 |  100 | 100 |     98    |
+
+Note: local Python server scores 4-6 pts below Vercel production (no Brotli, no HTTP/2, no CDN). Expect 97-100 performance in production.
+
+## 6. Pending / next (prioritized)
+1. **Deploy + fix author email + verify on real mobile + run Lighthouse against production URL.**
+   - The in-page app windows on a phone are NOT verified; consider defaulting small screens to "open in new tab".
+2. **A dedicated OG image for /demos/** — currently falls back to the homepage `og-image.jpg`. A 1200×630 Proof Lab card image is the highest-leverage LinkedIn share upgrade.
+3. **Analytics events** on "Open demo hub" clicks (`analytics.js` already exposes `trackEvent`).
+4. **Zerodha-style resume PDF update** — if the one-pager PDF still says "Associate Director" anywhere, update it to reflect the new CDMP Practitioner + 15yr positioning.
+5. Optional: diagram density tuning at mid widths; ElevenLabs voice bake on Golden Record walkthrough.
 
 ## 6. Known fragilities / gotchas
 - In-page windows depend on the three external **Lovable apps** staying up + embeddable. They currently send no `X-Frame-Options`/CSP, so framing works; if that changes, the new-tab fallback kicks in.
