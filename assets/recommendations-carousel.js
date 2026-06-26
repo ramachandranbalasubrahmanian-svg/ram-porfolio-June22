@@ -157,6 +157,17 @@
     resetTimer();
   });
 
+  // Keyboard parity: pause auto-advance while any control inside has focus.
+  root.addEventListener('focusin', function () {
+    paused = true;
+    if (timer) clearInterval(timer);
+  });
+
+  root.addEventListener('focusout', function () {
+    paused = false;
+    resetTimer();
+  });
+
   fetch('/data/recommendations.json', { cache: 'no-store' })
     .then(function (res) {
       if (!res.ok) throw new Error('Failed to load recommendations');

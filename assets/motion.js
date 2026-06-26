@@ -144,11 +144,13 @@
     if (!ham || !mob) return;
 
     ham.addEventListener('click', function () {
-      mob.classList.toggle('open');
+      var open = mob.classList.toggle('open');
+      ham.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
 
     window.closeMobileMenu = function () {
       mob.classList.remove('open');
+      ham.setAttribute('aria-expanded', 'false');
     };
   }
 
@@ -167,8 +169,12 @@
       btn.addEventListener('click', function () {
         var region = btn.dataset.region;
         if (!region || !messages[region]) return;
-        buttons.forEach(function (b) { b.classList.remove('active'); });
+        buttons.forEach(function (b) {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
         btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
         copy.textContent = messages[region];
       });
     });
