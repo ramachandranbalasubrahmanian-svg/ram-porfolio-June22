@@ -1,94 +1,66 @@
-# ram-bala.com — Session Handoff
+# ram-bala.com — Session Handover
 
-_Last updated: 2026-06-26. This file lets a fresh Claude Code / Cursor session resume with full context. Read it first._
+_Last updated: 2026-06-27. This file lets a fresh Claude Code / Cursor session resume with full context. Read it first._
 
 ---
 
 ## 1. Project basics
 - **What:** Ram Balasubrahmanian's executive portfolio — https://www.ram-bala.com
 - **Repo:** this directory (`Cursor-Projects/Ram-Portfolio`); remote `github.com/ramachandranbalasubrahmanian-svg/ram-porfolio-June22`.
-- **Stack:** static HTML/CSS/JS, **no build step**, no package.json. Deploys via **Vercel auto-deploy from `main`**.
-- **Run locally (in your own terminal — servers an agent starts get sandbox-killed):**
+- **Stack:** static HTML/CSS/JS, **no build step**, no package.json.
+- **Deploy:** **Vercel CLI, NOT git auto-deploy** → `npx vercel --prod --yes` from repo root. Project `ram-portfolio-amber`; the CLI uploads the working dir (so untracked files deploy too); `www.ram-bala.com` is the production alias. `git push origin main` only updates GitHub.
+- **Run locally:** `bash scripts/serve-local.sh` (port 8888) — run in the USER's own terminal; servers an agent starts get sandbox-killed. Add `?perf=0` to hide the localhost-only dev metrics panel.
+- **Git identity** is already set on this machine (`ramachandran.balasubrahmanian@gmail.com`) — new commits link to GitHub correctly. The whole branch's authorship was fixed earlier (don't redo).
+- **Owner's strict rules:** never invent/inflate metrics, employers, credentials, or claims — **flag, don't fabricate**. Preserve the premium Apple-dark aesthetic on the site. Prefer free tools; single source of truth; verify before sharing; keep responses short.
+
+## 2. Current production state ✅
+- **`main` @ `a9545e7`** (Iterations 1–11c) — in sync with `origin/main`, **LIVE** via `npx vercel --prod`.
+- **Lighthouse:** homepage **95 / 100 / 100 / 100**; perspective/demo pages ~**100 / 100 / 96 / 100**.
+- **Stale branches** (work already merged to main — ignore/delete): `portfolio-upgrade`, `positioning-refresh`, `gcc-focus`, `feat/live-proof-lab`, `feat/mg-pp-demos`.
+- **Untracked, do NOT commit yet:** `assets/demos/golden-record/walkthrough.html` + `shots/` (pending ElevenLabs voice bake). `NEXT-ARTIFACTS-PLAN.md` (runbook, left uncommitted by design).
+
+## 3. The positioning (the spine — don't drift from this)
+Right-sized over many iterations to be **credible and honest**, calibrated to the real résumé (top title = **Associate Director / Senior Manager** at FICO; led 25+ engineers; owned data-control governance for 50+ FS clients).
+- **Target role:** **Director / Head of Data Governance** (Data Quality / DataOps / AI Governance). **NOT VP, NOT CDO** — those were removed as over-reach (recruiter panels unanimous).
+- **Four regions, one spine, honest per-region level:**
+  - **India / GCC / APAC →** Director / Head.
+  - **Europe →** Lead / Principal / Senior Manager (matches his real title; Director as in-region progression).
+- **Regional differentiators:** GCC = PDPL/NDMO crosswalk from GDPR/DMBOK. Europe = **GDPR run in REAL production** + EU AI Act-ready + DORA (his strongest regulatory fit). Region-specific pages: `perspectives/gcc-pdpl-data-governance/` and `perspectives/eu-gdpr-ai-act-data-governance/`.
+- **Domains:** "**BFSI & other data-intensive domains**" on forward-looking POSITIONING statements; "regulated BFSI" kept on FICO/EY HISTORY lines (accurate — never rewrite history to claim retail/telecom delivery).
+- **The differentiator to always surface:** a governance leader who **personally ships production AI** — the 3 live systems (Golden Record flagship, MediGovern, Pipeline Pulse).
+
+## 4. Owner-confirmed canonical facts (do NOT re-litigate)
+- Newsletter = **2,000+** subscribers (owner-confirmed; was 1,500+ on old résumé — now fixed everywhere).
+- Sabbatical = **Apr 2025 – May 2026** (concluded; immediately available). Consistent across résumé + site.
+- German = **beginner / A1, in progress** (stated honestly on the EU page; never claim fluency).
+- Three live systems are real: Golden Record (89,198→20,502 golden records, repo + API), MediGovern (repo + API, synthetic/no-PHI), Pipeline Pulse (live demo, **no public repo**). Per-system OG cards at `assets/og/*.png`.
+- Approved metrics (FICO): 95% incident reduction · 232M+ records/cycle · $2M+ saved · $10M+ ARR · 50+ clients · 4× MTTR.
+
+## 5. Editable document sources (NEW — important)
+The one-pager and résumé are no longer opaque binary PDFs. Both are now **HTML→PDF**:
+- `exec-summary.source.html` → renders `assets/Ram-Bala-Executive-Summary.pdf` (+ `assets/ram-one-page-summary.pdf`), linked as `?v=4`. One A4 page; centerpiece = 3-system "Live Systems I Designed & Run" band.
+- `resume.source.html` → renders `assets/resume.pdf`, linked as `?v=8`. Two A4 pages; matching light/blue style.
+- **To edit either:** change the `.source.html`, then render with headless Chrome and copy to assets:
   ```bash
-  bash scripts/serve-local.sh          # → http://localhost:8888/
+  CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+  "$CHROME" --headless=new --disable-gpu --no-pdf-header-footer \
+    --print-to-pdf=out.pdf "file://$PWD/resume.source.html"
+  cp out.pdf assets/resume.pdf   # then bump the ?v=N link in the HTML files
   ```
-  Add `?perf=0` to any URL to hide the localhost-only dev metrics panel.
-- **Owner / strict rule:** never invent metrics, employers, credentials, or claims. Use only facts in the repo or verified READMEs. Preserve the premium **Apple-style dark** aesthetic. Prefer free tools; single source of truth; test before sharing; keep responses short.
+  (System Chrome is the renderer; `pdftoppm`/ImageMagick/cairosvg are NOT installed.)
 
-## 2. Current git state ⚠️
-- **Branch:** `portfolio-upgrade` (current active branch). Last 5 commits (all 2026-06-26):
-  - `c64d39e` — Iteration 4: Performance 95
-  - `da3f445` — Iteration 3: Performance 94, FCP 1.7s
-  - `7328bb0` — Iteration 2: Accessibility 100, SEO 100, /demos/ Proof Lab
-  - `aadcd75` — Iteration 1: Performance +16pts, Accessibility +7pts
-  - Earlier: original `feat/live-proof-lab` work
-- **`main` is untouched. NOTHING is pushed to GitHub.** Run `git log --oneline` for the current HEAD.
-- **Author email:** all commits used the machine-local default (`...@SrihariRamachandrans-MacBook-Pro.local`), not the GitHub email — so GitHub won't link them to the account. Before pushing, set identity and reset authorship across the branch:
-  ```bash
-  git config user.email "ramachandran.balasubrahmanian@gmail.com"
-  git config user.name "Ramachandran Balasubrahmanian"
-  # rebase from the last shared commit to reset author on ALL branch commits:
-  git rebase --reset-author-date --exec 'git commit --amend --no-edit --reset-author' 55851db
-  ```
-- **Deploy when ready:**
-  ```bash
-  git checkout main && git merge portfolio-upgrade && git push origin main
-  ```
+## 6. Open / next (prioritized) — the real gap to "top 1%"
+A 5-panel review process (recruiter, hiring-manager, data-leader, GCC-market, EU-market) concluded the site is **top-1% for getting hired / top-~10% as a pure artifact**. The remaining gap needs artifacts only Ram can supply — see `NEXT-ARTIFACTS-PLAN.md` + `scripts/` (gitignored dev tooling):
+1. **Leadership-scoped recommendations (Item 1)** — current 11 recs read as senior-IC, not leader-of-leaders. `scripts/gen_rec_requests.py` drafts personalized asks; `scripts/add_recommendation.py` inserts received ones. This is what lets Europe credibly stretch toward Director.
+2. **A 60–90s demo walkthrough video (Item 2)** — `scripts/tts_elevenlabs.py` + `scripts/build_demo_video.sh`. **Prereqs MISSING on this machine:** `brew install ffmpeg`; ElevenLabs key (memory said `~/.config/gr-tts/elevenlabs.key` but it's NOT there). The `walkthrough.html` artifact already exists, pending the voice bake.
+3. Optional: per-page OG image for `/demos/` (currently uses `og-ram-portfolio.png`); analytics events on demo clicks.
 
-## 3. What this session delivered
+## 7. Gotchas / lessons
+- **Workflow panels HALLUCINATE specifics** — verify every finding against real files before acting. Caught this session: a non-existent `RAM_WellsFargo...pdf`, a fake "Platform P&L Ownership" résumé line, and "11 direct reports" (résumé says "25+ engineers"). The core *judgments* were sound; the invented *facts* were not.
+- **Honesty is the product** — this is an auditability portfolio; one inflated number (e.g. the old "2,000+" vs recorded "1,731", since reconciled) discredits everything. Always verify claims against `assets/resume.pdf` and the demo READMEs.
+- **Shell sandbox:** PATH is inconsistent (sed/awk/sort flaky) — use `python3` for scripting; `scripts/` is gitignored (dev tooling).
+- **`.claude/launch.json`** in this repo is a real tracked file (port 8000 config) — don't delete it. The Claude_Preview MCP uses a separate launch.json with a `ram-portfolio` server (port 8010).
+- Old `assets/Ram-Bala-Resume-*.pdf` targeted variants are gitignored; only `assets/resume.pdf` (the rebuilt one) is the live/canonical résumé.
 
-### Round 1 — polish (all in working tree)
-- **A11y:** skip-link + global `:focus-visible` ring (were missing) across all pages; `id="main"` landmarks.
-- **Perf:** removed render-blocking analytics from subpage `<head>` (lazy-load like homepage); **fixed duplicate-analytics bug on the GCC page**; deferred below-fold CSS (`dama-credential-wall.css`, `recommendations-carousel.css` via `media="print"`→onload); lazy-loaded DAMA badge images; removed the redundant floating one-pager CTA.
-- **SEO:** fixed stale "Associate Director" keyword; added `og:image` dims + `theme-color` to subpages.
-- **Content:** enriched AI-proof cards (Proves / Why it matters / governance chips / architecture); added "Executive takeaway" to each case-study bento card.
-- **Cache-bust versions (current):** `style.css?v=24`, `executive-upgrade.css?v=11`, `recommendations-carousel.css?v=7`, `dama-credential-wall.css?v=1`, `motion.js?v=6`, `demo-window.{css,js}?v=1`. **Bump these when editing the file.**
-
-### Round 2 — the "Live Proof Lab" (the differentiator)
-Three live systems are now experienceable in-context. Pattern is reusable.
-- **Reusable in-page app window:** `assets/demo-window.css` + `assets/demo-window.js`. Any element with `data-app-window="<url>" data-app-title="..." data-app-host="..."` opens that URL in an iframe modal over the page (lazy iframe, ESC/close, focus-trap, scroll-lock, "open in new tab" fallback). Public API: `window.AppWindow.open(url,title,host)` / `.close()`.
-- **Three demo hub pages** (dark, portfolio theme, scoped `gr-*` CSS, full nav/footer/SEO/JSON-LD/breadcrumb):
-  - `demos/golden-record/index.html`
-  - `demos/medigovern/index.html`
-  - `demos/pipeline-pulse/index.html`
-- **Three bespoke dark animated architecture diagrams** (self-contained HTML, shared scene-engine + CSS framework, `prefers-reduced-motion` aware, keyboard Space/R/S):
-  - `assets/demos/golden-record/architecture.html`
-  - `assets/demos/medigovern/architecture.html`
-  - `assets/demos/pipeline-pulse/architecture.html`
-- **Golden Record extra:** dark-themed guided playbook `assets/demos/golden-record/playbook.html` (content copied verbatim from user's artefact, restyled).
-- **Pipeline Pulse extras:** walkthrough video (`assets/demo.mp4`) + 5 EDP preview screens (`assets/edp/previews/*.png`).
-- **Homepage `#ai-proof`** now reads "Three working systems": Golden Record **flagship** card + MediGovern & Pipeline Pulse cards, each with an "Open demo hub →" link. `sitemap.xml` includes all three `/demos/*` pages.
-- **Verified:** all three hubs render, diagrams animate, in-page windows load the live apps, 0 console errors, all local refs resolve. (Pipeline Pulse app cold-starts ~6s — spinner + fallback shown meanwhile.)
-
-## 4. Verified facts for the three systems (no re-fetching needed)
-**Golden Record RAG** — app `golden-records-demo.lovable.app` · repo `golden-record-pipeline` · API `refreshing-liberation-production-8a25.up.railway.app/docs`. Stats: 89,198 source → 20,502 golden records · 51.9% multi-source · 35,000 RAG chunks · 150,000 transactions · 0.637 avg confidence · 99 PEP · 20 sanctioned. Stack: FastAPI, Postgres+pgvector, SQLAlchemy 2.0, sentence-transformers MiniLM, Railway, Lovable.
-
-**MediGovern RAG** — app `medigovern-insight.lovable.app` · repo `medigovern-rag` · API `medigovern-rag-production.up.railway.app/docs`. Healthcare prior-auth, 100% synthetic (no PHI). Six-rule DQ gate (pass/warn/quarantine) before embedding; bge-small embeddings in pgvector; confidence High/Med/Low computed (not asserted); explicit **ABSTAIN** on conflicting clauses; immutable audit packet (JSON+HTML). Built around **CMS-0057-F** (7-day PA SLA 2026 / 72-hour urgent 2027, FHIR APIs). Stack: Python 3.11, FastAPI, SQLAlchemy, Postgres+pgvector, Anthropic Claude, fastembed/ONNX, Docker.
-
-**Pipeline Pulse (EDP)** — app `pipeline-pulse-79.lovable.app` (+ `/demo`) · **no public repo** · EDP knowledge hub at `/enterprise-data-platform/` + runbook `assets/edp/enterprise-data-platform-runbook.{pdf,html}`. DMBOK-aligned control plane (ingestion controls → metadata-driven DQ → lineage/stewardship → governance/evidence → AI governance → consumption). 6 learning tracks, 5 DMBOK control screens, 5 field templates. **Do not attach FICO production metrics (95% / 232M / $2M) to this demo** — those are Ram's career outcomes, not the demo's.
-
-## 5. Lighthouse score history (all measured on local Python server)
-
-| Iteration | Perf | A11y | Best | SEO | Composite |
-|-----------|------|------|------|-----|-----------|
-| Baseline  | ~72  |  ~83 |  ~96 | ~92 |    ~86    |
-| Iter 1    |  87  |   90 |   96 |  97 |     92    |
-| Iter 2    |  91  |  100 |  100 | 100 |     98    |
-| Iter 3    |  94  |  100 |  100 | 100 |     98    |
-| Iter 4    |  95  |  100 |  100 | 100 |     98    |
-
-Note: local Python server scores 4-6 pts below Vercel production (no Brotli, no HTTP/2, no CDN). Expect 97-100 performance in production.
-
-## 6. Pending / next (prioritized)
-1. **Deploy + fix author email + verify on real mobile + run Lighthouse against production URL.**
-   - The in-page app windows on a phone are NOT verified; consider defaulting small screens to "open in new tab".
-2. **A dedicated OG image for /demos/** — currently falls back to the homepage `og-image.jpg`. A 1200×630 Proof Lab card image is the highest-leverage LinkedIn share upgrade.
-3. **Analytics events** on "Open demo hub" clicks (`analytics.js` already exposes `trackEvent`).
-4. **Zerodha-style resume PDF update** — if the one-pager PDF still says "Associate Director" anywhere, update it to reflect the new CDMP Practitioner + 15yr positioning.
-5. Optional: diagram density tuning at mid widths; ElevenLabs voice bake on Golden Record walkthrough.
-
-## 6. Known fragilities / gotchas
-- In-page windows depend on the three external **Lovable apps** staying up + embeddable. They currently send no `X-Frame-Options`/CSP, so framing works; if that changes, the new-tab fallback kicks in.
-- Shell sandbox has an inconsistent PATH (sed/awk/sort missing) — **use `python3`** for scripting, and `dangerouslyDisableSandbox` for read-only inspection/curl.
-- Unused dead asset `assets/demo-original.mp4` (7.3 MB) left in place deliberately (likely the hi-res master).
-- `ui-lab/` is a separate embedded project — ignore it.
+## 8. What this session (2026-06-26 → 27) delivered
+Iterations 8–11c, all live: right-sized positioning to Director/Head (killed VP/CDO); made **GCC** a genuine focus (PDPL/NDMO crosswalk page); added **Europe** as a 4th region (new GDPR/EU-AI-Act page, honest Lead/Principal level, visa routes, A1-German); per-system OG cards; **rebuilt the executive one-pager** (3-system Live Proof centerpiece, dropped unverified HIPAA/RBI/SEBI/IFSCA) and the **résumé** (added Golden Record + MediGovern, newsletter→2,000+), both as editable HTML→PDF in a shared style; broadened domains to "BFSI & other data-intensive domains"; aligned all docs (résumé ↔ one-pager ↔ site) — same metrics, systems, dates, positioning.
