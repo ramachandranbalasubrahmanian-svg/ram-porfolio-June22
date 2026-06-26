@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Ram Balasubrahmanian — Executive Summary</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root{
+    --blue:#0071E3; --blue2:#2997FF; --ink:#16213a; --muted:#5b6478; --line:#e3e8f1;
+    --tilebg:#f3f7fd; --chip:#eef4fc;
+  }
+  html,body{ width:210mm; }
+  body{
+    font-family:-apple-system,"Segoe UI",Arial,Helvetica,sans-serif;
+    color:var(--ink); font-size:9.2px; line-height:1.4; -webkit-print-color-adjust:exact; print-color-adjust:exact;
+    padding:13mm 12mm 9mm;
+  }
+  .serif{ font-family:Georgia,"Times New Roman",serif; }
+  a{ color:var(--blue); text-decoration:none; }
+  .eyebrow{ text-align:center; font-size:8px; letter-spacing:.06em; font-weight:700; color:var(--blue); text-transform:uppercase; }
+  .eyebrow .geo{ display:block; color:var(--muted); font-weight:600; letter-spacing:.04em; margin-top:2px; }
+  .name{ text-align:center; font-size:27px; font-weight:700; letter-spacing:-.3px; margin-top:5px; }
+  .altname{ text-align:center; font-size:8.5px; color:var(--muted); letter-spacing:.16em; text-transform:uppercase; margin-top:1px; }
+  .title{ text-align:center; font-size:11.5px; font-weight:700; color:var(--blue); margin-top:5px; }
+  .tagline{ text-align:center; font-size:10px; color:var(--ink); margin-top:4px; }
+  .creds{ text-align:center; font-size:8.6px; color:var(--muted); margin-top:5px; }
+  .creds b{ color:var(--ink); }
+  .rule{ height:2px; background:linear-gradient(90deg,var(--blue),var(--blue2)); border-radius:2px; margin:9px 0 8px; }
+
+  .sec-h{ font-size:8.4px; font-weight:800; letter-spacing:.1em; color:var(--blue); text-transform:uppercase; margin:9px 0 5px; display:flex; align-items:center; gap:7px; }
+  .sec-h::after{ content:""; flex:1; height:1px; background:var(--line); }
+  .sec-h .sub{ font-weight:600; letter-spacing:.02em; color:var(--muted); text-transform:none; font-size:8px; }
+
+  /* metric band */
+  .attr{ font-size:8px; color:var(--muted); text-align:center; margin-bottom:5px; }
+  .attr b{ color:var(--ink); }
+  .metrics{ display:grid; grid-template-columns:repeat(4,1fr); gap:7px; }
+  .metric{ background:var(--tilebg); border:1px solid var(--line); border-radius:7px; padding:7px 4px; text-align:center; }
+  .metric .num{ font-size:19px; font-weight:800; color:var(--blue); line-height:1; }
+  .metric .lbl{ font-size:7.6px; font-weight:700; margin-top:3px; }
+  .metric .sub{ font-size:7px; color:var(--muted); margin-top:1px; }
+  .metric-sub{ text-align:center; font-size:8px; color:var(--muted); margin-top:5px; }
+  .metric-sub b{ color:var(--ink); }
+
+  /* operating model */
+  .opmodel{ display:grid; grid-template-columns:repeat(5,1fr); gap:6px; }
+  .opstep{ border:1px solid var(--line); border-radius:6px; padding:5px 6px; }
+  .opstep .t{ font-size:8.6px; font-weight:800; color:var(--blue); }
+  .opstep .d{ font-size:7.4px; color:var(--muted); margin-top:1px; line-height:1.3; }
+  .oparrow{ color:var(--blue2); font-weight:800; }
+
+  /* live systems */
+  .systems{ display:grid; grid-template-columns:1.07fr 1fr 1fr; gap:7px; }
+  .sys{ border:1px solid var(--line); border-radius:7px; padding:7px 8px; background:#fff; position:relative; }
+  .sys.flag{ border-color:var(--blue); box-shadow:0 0 0 1px rgba(0,113,227,.12) inset; }
+  .sys .badge{ position:absolute; top:-7px; left:8px; background:var(--blue); color:#fff; font-size:6.6px; font-weight:800; letter-spacing:.05em; padding:1.5px 6px; border-radius:6px; text-transform:uppercase; }
+  .sys .nm{ font-size:10px; font-weight:800; margin-top:2px; }
+  .sys ul{ list-style:none; margin-top:3px; }
+  .sys li{ font-size:7.6px; color:var(--ink); padding-left:8px; position:relative; line-height:1.35; }
+  .sys li::before{ content:"•"; color:var(--blue2); position:absolute; left:0; }
+  .sys .proves{ font-size:7.6px; color:var(--muted); margin-top:4px; font-style:italic; }
+  .sys .links{ font-size:7.8px; font-weight:700; margin-top:4px; }
+  .sys .links a{ margin-right:2px; }
+  .sys .links .sep{ color:var(--line); margin:0 2px; }
+  .sys .links .na{ color:var(--muted); font-weight:600; font-style:italic; }
+
+  /* capabilities */
+  .caps{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  .cap h4{ font-size:8.8px; font-weight:800; margin-bottom:2px; }
+  .cap p{ font-size:7.8px; color:var(--muted); line-height:1.45; }
+  .cap .tag{ display:inline-block; margin-top:4px; font-size:7.2px; font-weight:700; color:var(--blue); background:var(--chip); border-radius:4px; padding:2px 5px; }
+
+  /* region line */
+  .regions{ background:var(--tilebg); border:1px solid var(--line); border-radius:7px; padding:7px 9px; margin-top:8px; font-size:8.4px; }
+  .regions b{ color:var(--ink); }
+  .regions .edge{ color:var(--muted); }
+
+  /* support + contact */
+  .support{ text-align:center; font-size:8px; color:var(--muted); margin-top:7px; }
+  .support b{ color:var(--ink); }
+  .contact{ display:flex; justify-content:center; gap:14px; flex-wrap:wrap; font-size:9px; font-weight:700; margin-top:6px; }
+  .contact span{ color:var(--muted); font-weight:600; }
+  .avail{ text-align:center; font-size:8px; color:var(--muted); margin-top:5px; }
+  .avail b{ color:var(--blue); }
+  .foot{ text-align:center; font-size:7px; color:var(--muted); margin-top:7px; border-top:1px solid var(--line); padding-top:5px; letter-spacing:.03em; }
+</style>
+</head>
+<body>
+
+  <div class="eyebrow">Open to Director / Head of Data Governance — Data Quality, DataOps &amp; AI Governance · BFSI &amp; other data-intensive domains
+    <span class="geo">Bengaluru / Remote · India · GCC · APAC · Europe</span>
+  </div>
+
+  <div class="name serif">Ram Balasubrahmanian</div>
+  <div class="altname">Ramachandran Balasubrahmanian</div>
+  <div class="title">Director / Head of Data Governance — Enterprise Data Platforms · Data Quality &amp; DataOps</div>
+  <div class="tagline">I turn fragmented data operations into governed, reliable, AI-ready platforms — proven in regulated production.</div>
+  <div class="creds"><b>DAMA CDMP Practitioner</b> (Fundamentals 88 · Governance 83 · Data Quality 88) · ex-FICO · ex-EY · 15+ yrs enterprise data governance</div>
+
+  <div class="rule"></div>
+
+  <div class="attr">At <b>FICO</b> — Associate Director, Enterprise Data Platform · led <b>25+ engineers</b> across India / US / Canada · owned data-control governance for <b>50+ FS clients</b> behind <b>$10M+ platform ARR</b>:</div>
+  <div class="metrics">
+    <div class="metric"><div class="num">95%</div><div class="lbl">Incident reduction</div><div class="sub">in 3 months</div></div>
+    <div class="metric"><div class="num">232M+</div><div class="lbl">Records protected</div><div class="sub">per cycle · 10,000 TPS</div></div>
+    <div class="metric"><div class="num">$2M+</div><div class="lbl">Annual savings</div><div class="sub">failure costs eliminated</div></div>
+    <div class="metric"><div class="num">50+</div><div class="lbl">FS clients governed</div><div class="sub">at enterprise scale</div></div>
+  </div>
+  <div class="metric-sub"><b>4× faster</b> mean-time-to-resolution · client onboarding <b>4 weeks → 2–3 days</b></div>
+
+  <div class="sec-h">Operating Model <span class="sub">— how I deliver reliable, governed, AI-ready data</span></div>
+  <div class="opmodel">
+    <div class="opstep"><div class="t">Detect</div><div class="d">Monitor &amp; surface DQ / control breaks; anomaly detection</div></div>
+    <div class="opstep"><div class="t">Resolve</div><div class="d">Remediate at root; RCA evidence; SLA-tracked fixes</div></div>
+    <div class="opstep"><div class="t">Prevent</div><div class="d">Data contracts, quality gates &amp; preventive controls</div></div>
+    <div class="opstep"><div class="t">Govern</div><div class="d">Policy, lineage, privacy &amp; owner accountability</div></div>
+    <div class="opstep"><div class="t">Scale</div><div class="d">Automate scorecards &amp; reusable onboarding</div></div>
+  </div>
+
+  <div class="sec-h">Live Systems I Designed &amp; Run <span class="sub">— production systems I shipped, not slideware</span></div>
+  <div class="systems">
+    <div class="sys flag">
+      <span class="badge">Flagship</span>
+      <div class="nm">Golden Record RAG Pipeline</div>
+      <ul>
+        <li>89,198 source → 20,502 trusted golden records</li>
+        <li>35K RAG chunks · 0.64 avg confidence</li>
+        <li>FastAPI · Postgres + pgvector</li>
+      </ul>
+      <div class="proves">Proves: entity resolution + golden-record MDM at scale.</div>
+      <div class="links"><a href="https://golden-records-demo.lovable.app">Live</a><span class="sep">·</span><a href="https://refreshing-liberation-production-8a25.up.railway.app/docs">API</a><span class="sep">·</span><a href="https://github.com/ramachandranbalasubrahmanian-svg/golden-record-pipeline">GitHub</a></div>
+    </div>
+    <div class="sys">
+      <div class="nm">MediGovern RAG</div>
+      <ul>
+        <li>Healthcare prior-auth · synthetic, no PHI</li>
+        <li>6-rule DQ gate · explicit ABSTAIN on conflicts</li>
+        <li>Immutable audit packet · CMS-0057-F aligned</li>
+      </ul>
+      <div class="proves">Proves: governed AI — abstention + audit trail.</div>
+      <div class="links"><a href="https://medigovern-insight.lovable.app">Live</a><span class="sep">·</span><a href="https://medigovern-rag-production.up.railway.app/docs">API</a><span class="sep">·</span><a href="https://github.com/ramachandranbalasubrahmanian-svg/medigovern-rag">GitHub</a></div>
+    </div>
+    <div class="sys">
+      <div class="nm">Pipeline Pulse</div>
+      <ul>
+        <li>DMBOK-aligned enterprise control plane</li>
+        <li>Metadata-driven DQ · lineage · governance</li>
+        <li>AI-governance evidence screens</li>
+      </ul>
+      <div class="proves">Proves: control-plane thinking.</div>
+      <div class="links"><a href="https://pipeline-pulse-79.lovable.app">Live demo</a> <span class="na">(no public repo)</span></div>
+    </div>
+  </div>
+
+  <div class="sec-h">Core Capabilities</div>
+  <div class="caps">
+    <div class="cap">
+      <h4>Data Governance &amp; Quality</h4>
+      <p>DAMA-DMBOK frameworks · metadata, cataloguing &amp; lineage · data quality scorecards, SLAs &amp; contracts · MDM &amp; reference data · ownership, stewardship &amp; accountability. Microsoft Purview · Collibra · ServiceNow.</p>
+    </div>
+    <div class="cap">
+      <h4>DataOps &amp; AI Governance</h4>
+      <p>Metadata-driven quality automation · PII / zero-trust ingestion, masking &amp; tokenization · anomaly detection &amp; model monitoring · AI guardrails — abstain + audit-packet patterns (proven in MediGovern). AWS · Python · SQL · CI/CD.</p>
+    </div>
+    <div class="cap">
+      <h4>Compliance &amp; Audit Readiness</h4>
+      <p>RCA-ready evidence &amp; audit packs · regulatory control governance · executive KPIs &amp; trusted data products. Frameworks run in production:</p>
+      <span class="tag">SOX · GDPR · DPDP · SOC 2 · ISO 27001</span>
+      <span class="tag">GCC PDPL/NDMO &amp; EU AI Act / DORA crosswalk-ready</span>
+    </div>
+  </div>
+
+  <div class="regions">
+    <b>Regional fit &amp; level —</b> <b>Director / Head</b>: India · GCC · APAC &nbsp;|&nbsp; <b>Lead / Principal / Senior Manager</b>: Europe.
+    <span class="edge">&nbsp; Europe edge: GDPR run in <b>real production</b> + EU AI Act-ready + DORA-aligned. GCC: PDPL / NDMO crosswalk built from GDPR / DMBOK.</span>
+  </div>
+
+  <div class="support">15 SPOT Awards (FICO) · 11 LinkedIn recommendations · publishes <b>The Governed Data &amp; AI Brief</b> (2,000+ subscribers)</div>
+
+  <div class="contact">
+    <a href="mailto:ram@ram-bala.com">ram@ram-bala.com</a>
+    <a href="https://www.linkedin.com/in/ramachandran-balasubrahmanian/">LinkedIn</a>
+    <a href="https://www.ram-bala.com/">ram-bala.com</a>
+    <a href="https://github.com/ramachandranbalasubrahmanian-svg">GitHub</a>
+  </div>
+  <div class="avail">Open to relocation / remote · <b>immediate joiner</b> · Bengaluru · UAE / GCC · Europe (Blue Card / Critical Skills) · APAC</div>
+
+  <div class="foot serif">© 2026 Ramachandran Balasubrahmanian · Director / Head of Data Governance · BFSI &amp; other data-intensive domains · DataOps · AI Governance</div>
+
+</body>
+</html>
