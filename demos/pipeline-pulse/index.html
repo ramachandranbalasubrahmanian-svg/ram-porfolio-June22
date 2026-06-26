@@ -75,6 +75,7 @@
   .gr-frame-act{ margin-left:auto; } .gr-frame-act .btn{ padding:7px 12px; font-size:.72rem; }
   .gr-frame iframe{ width:100%; display:block; border:0; background:#06080f; }
   .gr-frame.arch iframe{ aspect-ratio:16/9; min-height:520px; }
+  .gr-frame.play iframe{ aspect-ratio:16/10; min-height:600px; }
   .gr-launch-panel{ position:relative; border:1px solid var(--bdr); border-radius:var(--rl); overflow:hidden;
     background:radial-gradient(900px 360px at 80% -20%, rgba(169,139,255,.16), transparent 60%), linear-gradient(160deg,#0a1020,#070a12);
     padding:40px 34px; display:grid; grid-template-columns:1.3fr .9fr; gap:28px; align-items:center; }
@@ -198,7 +199,30 @@
     </div>
   </section>
 
-  <section class="section">
+  <!-- GUIDED PLAYBOOK -->
+  <section id="playbook" class="section">
+    <div class="wrap">
+      <div class="gr-embed-block">
+        <div class="gr-embed-head">
+          <div>
+            <p class="sl">Guided walkthrough</p>
+            <h2>Follow one data feed, end to end.</h2>
+            <p>A 10-step, self-guided walkthrough that follows one feed — the nightly claims file — from a raw drop to a trusted, owned, audit-ready foundation, in plain English. Click through it, or open it fullscreen.</p>
+          </div>
+        </div>
+        <div class="gr-frame play">
+          <div class="gr-frame-bar">
+            <div class="gr-frame-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+            <span class="gr-frame-url">pipeline-pulse · step-by-step</span>
+            <span class="gr-frame-act"><a class="btn btn-outline" href="/assets/demos/pipeline-pulse/playbook.html" data-app-window="/assets/demos/pipeline-pulse/playbook.html" data-app-title="Pipeline Pulse — Step-by-Step" data-app-host="guided walkthrough">⤢ Fullscreen</a></span>
+          </div>
+          <iframe src="/assets/demos/pipeline-pulse/playbook.html" title="Pipeline Pulse step-by-step walkthrough" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt">
     <div class="wrap">
       <p class="sl">Why it matters</p>
       <h2 class="h-section">The operating model behind the outcomes.</h2>
@@ -269,6 +293,9 @@
         </a>
         <a class="gr-link-card" href="/assets/demos/pipeline-pulse/architecture.html" data-app-window="/assets/demos/pipeline-pulse/architecture.html" data-app-title="Pipeline Pulse — Living Architecture" data-app-host="architecture walkthrough">
           <span class="k">Walkthrough</span><h3>Animated architecture</h3><span class="go">Open fullscreen ⤢</span>
+        </a>
+        <a class="gr-link-card" href="/assets/demos/pipeline-pulse/playbook.html" data-app-window="/assets/demos/pipeline-pulse/playbook.html" data-app-title="Pipeline Pulse — Step-by-Step" data-app-host="guided walkthrough">
+          <span class="k">Walkthrough</span><h3>Step-by-step (plain English)</h3><span class="go">Open fullscreen ⤢</span>
         </a>
         <a class="gr-link-card" href="/enterprise-data-platform/">
           <span class="k">Knowledge Hub</span><h3>EDP field guide</h3><span class="go">Open the hub →</span>
