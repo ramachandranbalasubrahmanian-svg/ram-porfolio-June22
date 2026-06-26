@@ -160,9 +160,9 @@
     if (!copy || !buttons.length) return;
 
     var messages = {
-      gcc: 'Open to VP, Director, and Head-level data and AI leadership across UAE, KSA, Qatar, and the wider GCC — governance, platform, analytics, risk, and transformation.',
-      apac: 'Open to senior data and AI leadership across APAC — Singapore, Australia, India, GCCs, and remote-first enterprises — CDO Office through DataOps and analytics.',
-      global: 'VP / Director / Head — data, governance, AI, platform, analytics, risk, and transformation. Immediately available, globally mobile.'
+      gcc: 'Open to Director and Head of Data Governance, Data Quality & DataOps roles across UAE, KSA, Qatar, and the wider GCC — governance and AI controls in regulated BFSI. Bengaluru base, relocation-ready.',
+      apac: 'Open to Director and Head-of-function data governance leadership across APAC — India, Singapore, Australia, and remote-first enterprises — governance, data quality, DataOps, and AI controls.',
+      global: 'Director / Head — Data Governance, Data Quality & DataOps, with hands-on AI governance. Regulated BFSI. Immediately available, globally mobile.'
     };
 
     buttons.forEach(function (btn) {
