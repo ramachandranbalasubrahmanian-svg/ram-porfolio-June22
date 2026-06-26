@@ -38,17 +38,17 @@
 <link rel="me" href="https://github.com/ramachandranbalasubrahmanian-svg"/>
 <link rel="icon" type="image/png" href="/assets/headshot.png"/>
 <link rel="apple-touch-icon" href="/assets/headshot.png"/>
-<link rel="stylesheet" href="assets/fonts/fonts.css?v=1"/>
+<style>@font-face{font-family:'DM Serif Display';font-style:normal;font-weight:400;font-display:swap;src:url('assets/fonts/dm-serif-display-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:400;font-display:swap;src:url('assets/fonts/ibm-plex-sans-400-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'IBM Plex Sans';font-style:normal;font-weight:600;font-display:swap;src:url('assets/fonts/ibm-plex-sans-600-latin.woff2') format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style>
 <link rel="preload" href="assets/fonts/ibm-plex-sans-400-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" href="assets/fonts/dm-serif-display-latin.woff2" as="font" type="font/woff2" crossorigin/>
-<link rel="stylesheet" href="assets/style.css?v=24"/>
-<link rel="stylesheet" href="assets/executive-upgrade.css?v=11"/>
+<link rel="stylesheet" href="assets/style.css?v=25"/>
+<link rel="stylesheet" href="assets/executive-upgrade.css?v=12"/>
 <!-- Below-the-fold styles: load without blocking first paint (Filament Group pattern) -->
 <link rel="stylesheet" href="assets/recommendations-carousel.css?v=7" media="print" onload="this.media='all'"/>
-<link rel="stylesheet" href="assets/dama-credential-wall.css?v=1" media="print" onload="this.media='all'"/>
+<link rel="stylesheet" href="assets/dama-credential-wall.css?v=2" media="print" onload="this.media='all'"/>
 <noscript>
   <link rel="stylesheet" href="assets/recommendations-carousel.css?v=7"/>
-  <link rel="stylesheet" href="assets/dama-credential-wall.css?v=1"/>
+  <link rel="stylesheet" href="assets/dama-credential-wall.css?v=2"/>
 </noscript>
 <link rel="preload" href="assets/headshot-340.webp" as="image" type="image/webp" fetchpriority="high"/>
 <link rel="dns-prefetch" href="https://assets.calendly.com"/>
@@ -68,13 +68,14 @@
   </div>
 </div>
 
-<div class="exec-bar" id="exec-bar" aria-hidden="true">
+<div class="exec-bar" id="exec-bar" aria-hidden="true" inert>
   <div class="exec-bar-inner">
     <span class="exec-bar-name">Ram Balasubrahmanian</span>
     <span class="exec-bar-role">Data &amp; AI Governance · ex-FICO</span>
     <div class="exec-bar-kpis" aria-label="Key outcomes">
       <div class="exec-bar-kpi"><strong>95%</strong><span>incidents down</span></div>
       <div class="exec-bar-kpi"><strong>232M+</strong><span>records protected</span></div>
+      <div class="exec-bar-kpi"><strong>$2M+</strong><span>annual savings</span></div>
       <div class="exec-bar-kpi"><strong>50+</strong><span>enterprise clients</span></div>
     </div>
     <div class="exec-bar-actions">
@@ -148,6 +149,7 @@
           <div class="hero-kpi-row rv d2" aria-label="Executive outcomes">
             <div class="hero-kpi"><strong>95%</strong><span>Incident reduction</span></div>
             <div class="hero-kpi"><strong>232M+</strong><span>Records protected</span><span class="hero-kpi-sub">per extraction cycle</span></div>
+            <div class="hero-kpi"><strong>$2M+</strong><span>Annual savings</span></div>
             <div class="hero-kpi"><strong>50+</strong><span>Enterprise clients</span></div>
           </div>
           <div class="region-bar rv d3" role="group" aria-label="Regional focus">
@@ -240,6 +242,11 @@
         <p class="metric-num" data-count="50" data-suffix="+">50+</p>
         <p class="metric-label">Enterprise clients</p>
         <p class="metric-sub">onboarded and governed</p>
+      </div>
+      <div class="metric rv d4">
+        <p class="metric-num" data-count="10" data-prefix="$" data-suffix="M+ ARR">$10M+ ARR</p>
+        <p class="metric-label">Platform ARR supported</p>
+        <p class="metric-sub">enterprise client revenue</p>
       </div>
     </div>
   </section>
@@ -515,7 +522,7 @@
           <h3>Pipeline Pulse</h3>
           <p>DMBOK-aligned platform demo — metadata-driven DQ, governance controls, lineage, and AI governance in working software.</p>
           <div class="ai-proof-media">
-            <video class="proof-video" data-src="assets/demo.mp4" muted loop playsinline preload="none" poster="assets/edp/previews/architecture.png" aria-label="Pipeline Pulse demonstration — tap to play"></video>
+            <video class="proof-video" data-src="assets/demo.mp4" muted loop playsinline preload="none" aria-label="Pipeline Pulse demonstration — tap to play"></video>
           </div>
 
           <dl class="ai-proof-meta">
@@ -1145,6 +1152,7 @@
               <div
                 class="calendly-inline-widget"
                 data-url="https://calendly.com/ram-ram-bala/30min?hide_gdpr_banner=1&amp;background_color=f5f5f7&amp;text_color=1d1d1f&amp;primary_color=0071e3"
+                role="region"
                 aria-label="Schedule a 30-minute intro call with Ram Balasubrahmanian"
                 style="min-width:280px;height:660px;"></div>
               <p class="contact-hint">Pick a time below — or email <a href="#contact" data-email-direct="true">ram@ram-bala.com</a></p>

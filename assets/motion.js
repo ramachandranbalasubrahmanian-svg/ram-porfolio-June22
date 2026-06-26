@@ -101,6 +101,7 @@
           barVisible = showBar;
           execBar.classList.toggle('visible', showBar);
           execBar.setAttribute('aria-hidden', showBar ? 'false' : 'true');
+          execBar.toggleAttribute('inert', !showBar);
           document.body.classList.toggle('exec-bar-on', showBar);
         }
       }
