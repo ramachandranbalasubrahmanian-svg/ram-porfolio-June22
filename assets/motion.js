@@ -160,7 +160,7 @@
     if (!copy || !buttons.length) return;
 
     var messages = {
-      gcc: 'Open to Director and Head of Data Governance, Data Quality & DataOps roles across UAE, KSA, Qatar, and the wider GCC — governance and AI controls in regulated BFSI. Bengaluru base, relocation-ready.',
+      gcc: 'Director-level data governance & DataOps for global-bank GCC captives, DIFC/ADGM banks and UAE/KSA fintechs — and senior leadership within the function at regional banks. PDPL and NDMO build on the GDPR and DMBOK foundation I have run in production. Bengaluru-based, relocating, immediate joiner.',
       apac: 'Open to Director and Head-of-function data governance leadership across APAC — India, Singapore, Australia, and remote-first enterprises — governance, data quality, DataOps, and AI controls.',
       global: 'Director / Head — Data Governance, Data Quality & DataOps, with hands-on AI governance. Regulated BFSI. Immediately available, globally mobile.'
     };
