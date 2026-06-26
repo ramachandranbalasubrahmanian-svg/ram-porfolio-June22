@@ -32,7 +32,13 @@
   </url>
   <url>
     <loc>https://www.ram-bala.com/perspectives/gcc-pdpl-data-governance/</loc>
-    <lastmod>2026-06-20</lastmod>
+    <lastmod>2026-06-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://www.ram-bala.com/perspectives/eu-gdpr-ai-act-data-governance/</loc>
+    <lastmod>2026-06-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
