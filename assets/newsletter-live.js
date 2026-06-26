@@ -5,7 +5,7 @@
 (function () {
   "use strict";
 
-  var FALLBACK = { subscribers: 1731, formatted: "1,731+" };
+  var FALLBACK = { subscribers: 2000, formatted: "2,000+" };
 
   function formatCount(n) {
     return n.toLocaleString("en-US") + "+";
@@ -50,7 +50,6 @@
     document.querySelectorAll("[data-newsletter-count]").forEach(function (el) {
       render(el, formatted);
     });
-    showLiveBadges();
     document.documentElement.setAttribute("data-newsletter-loaded", "true");
     document.documentElement.setAttribute(
       "data-newsletter-source",
@@ -59,36 +58,9 @@
   }
 
   function fetchStats() {
-    var endpoints = ["/api/newsletter-subscribers", "/data/newsletter-stats.json"];
-
-    function tryNext(i) {
-      if (i >= endpoints.length) {
-        applyStats(FALLBACK);
-        return;
-      }
-
-      fetch(endpoints[i] + (i === 0 ? "?t=" + Date.now() : ""), {
-        credentials: "same-origin",
-        cache: "no-store",
-      })
-        .then(function (res) {
-          if (!res.ok) throw new Error("fetch failed");
-          return res.json();
-        })
-        .then(function (data) {
-          if (!data || typeof data.subscribers !== "number") throw new Error("invalid");
-          applyStats({
-            subscribers: data.subscribers,
-            formatted: data.formatted || formatCount(data.subscribers),
-            source: data.source || (i === 0 ? "api" : "config"),
-          });
-        })
-        .catch(function () {
-          tryNext(i + 1);
-        });
-    }
-
-    tryNext(0);
+    // Static display: show a fixed "2,000+" and never reveal a live badge.
+    // (Live LinkedIn fetch intentionally disabled — owner-set figure.)
+    applyStats(FALLBACK);
   }
 
   if (document.readyState === "loading") {
