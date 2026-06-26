@@ -15,3 +15,8 @@
 .proof-lab-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:20px}
 .proof-lab-card-cta{flex-shrink:0}
 @media(max-width:900px){.proof-lab-featured{grid-template-columns:1fr;gap:16px}.proof-lab-dual{grid-template-columns:1fr}.proof-lab-card-cta{margin-top:16px}}
+/* Contact form inline confirmation */
+.cf-confirm{margin-top:14px;padding:12px 16px;background:rgba(41,151,255,.08);border:1px solid rgba(41,151,255,.28);border-radius:10px;font-size:.82rem;line-height:1.6;color:var(--cream)}
+.cf-confirm strong{color:var(--champagne)}
+.cf-copy{background:none;border:none;color:var(--champagne);text-decoration:underline;cursor:pointer;font:inherit;padding:0}
+.cf-copy:hover{color:var(--cream)}

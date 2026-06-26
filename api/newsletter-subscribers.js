@@ -1,7 +1,7 @@
 const NEWSLETTER_URL =
   "https://www.linkedin.com/newsletters/the-governed-data-ai-brief-7471567076403388416/";
 
-let fileStats = { subscribers: 1731, updatedAt: "2026-06-20T12:00:00.000Z" };
+let fileStats = { subscribers: 2000, updatedAt: "2026-06-26T00:00:00.000Z" };
 try {
   fileStats = require("../data/newsletter-stats.json");
 } catch {
