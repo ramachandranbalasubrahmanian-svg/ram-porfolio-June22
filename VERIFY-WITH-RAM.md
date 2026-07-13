@@ -11,6 +11,12 @@ The served `assets/resume.pdf` is now the fully verified résumé (`Ram-Resume-C
 ### 2. Your resume/LinkedIn still say "Associate Director"
 The résumé we built earlier this session (`Ram-Resume-CDMP-v2*.docx`) and, presumably, your LinkedIn use **"Associate Director / Senior Manager · Jun 2022 – Mar 2025"** — the exact claim this task corrects. Your mission ("nothing on the site can be contradicted by my resume/LinkedIn") is not met until those match the verified record: **Senior Manager (Jun 2022 – Sep 2024) → Senior Engineer / Sr IC (Oct 2024 – Mar 2025)**. Say the word and I'll re-correct the résumé docx to match.
 
+## 🟡 UNLINKED STALE ASSETS — regenerate or delete before deploy
+These are **gitignored** (won't show in the branch diff) but `npx vercel --prod` uploads the working dir, so they DO deploy and are reachable by direct URL:
+- `assets/ram-one-page-summary.pdf` and `assets/master-resume.pdf` — were stale (Associate Director / 4× / 2,000+). I **regenerated/overwrote them clean** in the working dir. They are not linked from any page.
+- `assets/framework-ai.pdf`, `framework-dq.pdf`, `framework-dre.pdf`, `framework-meta.pdf` — unlinked multi-page decks, image-based (can't text-edit). **Covers verified clean** ("Data & AI Governance Leader" byline, no Director/4×). Deeper pages unverified — if you attach these to applications, re-scan or regenerate them.
+- `HANDOFF.md` — stale internal dev doc containing old terms (Associate Director / Sabbatical / 4× / 1,500 / 2,000+). Not recruiter-facing; recommend deleting it. (Not the README — README.md is clean.)
+
 ## 🟡 SOFTENED NOW — confirm, or send evidence to strengthen
 
 ### 3. GDPR framing (applied: vendor-side, not EU-controller)

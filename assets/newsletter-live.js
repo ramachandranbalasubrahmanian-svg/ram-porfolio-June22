@@ -5,7 +5,7 @@
 (function () {
   "use strict";
 
-  var FALLBACK = { subscribers: 2000, formatted: "2,000+" };
+  var FALLBACK = { subscribers: 2400, formatted: "2,400+" };
 
   function formatCount(n) {
     return n.toLocaleString("en-US") + "+";
@@ -58,7 +58,7 @@
   }
 
   function fetchStats() {
-    // Static display: show a fixed "2,000+" and never reveal a live badge.
+    // Static display: show a fixed "2,400+" and never reveal a live badge.
     // (Live LinkedIn fetch intentionally disabled — owner-set figure.)
     applyStats(FALLBACK);
   }

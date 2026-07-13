@@ -91,6 +91,18 @@ Verified against the facts bank in the task brief. **9 files changed + 3 new doc
 ## Résumé download replaced with verified master (2026-07-13)
 - `assets/resume.pdf` replaced with the verified `Ram-Resume-CDMP-v2.2-verified.pdf` (Senior Manager + Senior IC split, no "Associate Director", Independent Practice, 6 Anthropic certificates, `<4h` resolution, "Director / Head of Data Governance" headline). Cache-bust `resume.pdf?v=8`→`?v=9` across 14 references (index, 5 perspectives, EDP hub, 3 demo pages). Old binary backed up in session scratchpad.
 
+## Consistency fix-list implementation (2026-07-13, LinkedIn↔portfolio)
+- **Résumé:** `assets/resume.pdf` replaced with the delivered `Ram-Resume-Master.pdf` (2-page; "Data & AI Governance Leader" header, Senior Manager + Senior IC split, metrics banner incl. "20–100 hrs → under 4 hrs" + "$10M+ ARR", 2,400+, Anthropic certs). Supersedes the v2.2 served earlier today.
+- **Newsletter 2,000+ → 2,400+** site-wide: `data/newsletter-stats.json`, `assets/newsletter-live.js` (FALLBACK + bumped `?v=3`→`?v=4`), `api/newsletter-subscribers.js`, `index.html` (13 spots), both source HTMLs. Exec-summary PDF regenerated with new count.
+- **Onboarding framing:** "70% faster onboarding" → "4 weeks → 2–3 days" across index (7 spots); case-study KPI strip "70%" tile → "20–100 hrs → <4 hrs · worst-case resolution" (mirrors résumé banner).
+- **Anchor rename:** `#sabbatical-proof` → `#independent-practice` (id + 3 hrefs).
+- **Section header:** sabbatical showcase kicker + timeline company → "Independent Consultant — Data & AI Governance".
+- **FAQ:** "Why did Ram leave FICO, and what has he done since?" → "What has Ram been doing since leaving FICO?" (visible + JSON-LD).
+- **FICO duration:** "2.3 years" → "2 yrs 3 mos".
+- **"Open to GCC":** no change needed — site already reads "Open to UAE · KSA · GCC · APAC · Remote" (broader than the ask).
+- **Orphaned gitignored PDFs** (deploy via vercel-cli, not tracked): `ram-one-page-summary.pdf` + `master-resume.pdf` were stale (Associate Director / 4× / 2,000+) → regenerated/overwritten clean in the working dir. Framework decks (`framework-*.pdf`) unlinked, covers verified clean (see VERIFY).
+- Final live-site text sweep: **0 residual forbidden terms.** Verified live: newsletter 2,400+, resolution KPI, anchor, Independent-Consultant header, no console errors.
+
 ## Intentional exceptions (not "hits")
 - `sabbatical-*` CSS **class/id tokens** retained (invisible; renaming = design-system change). All visible "sabbatical"/"Concluded" copy removed.
 - Demo pages (`demos/*`, `assets/demos/*`): GDPR references are on **synthetic** records — legitimate, untouched.
