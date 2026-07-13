@@ -160,8 +160,8 @@
     if (!copy || !buttons.length) return;
 
     var messages = {
-      gcc: 'Director-level data governance & DataOps for global-bank GCC captives, DIFC/ADGM banks and UAE/KSA fintechs — and senior leadership within the function at regional banks. PDPL and NDMO build on the GDPR and DMBOK foundation I have run in production. Bengaluru-based, relocating, immediate joiner.',
-      europe: 'GDPR run in regulated production on real EU customer data — the actual EU regulation, not a proxy — plus an EU-AI-Act-ready control plane and three live governed-AI demos. Targeting English-first global-bank EU hubs, scaled fintechs and consultancies (Netherlands, Ireland, Germany) at Lead / Principal / Senior Manager, Director as in-region progression. Visa-ready: EU Blue Card / NL Highly Skilled Migrant / Ireland Critical Skills / Germany Opportunity Card.',
+      gcc: 'Director-level data governance & DataOps for global-bank GCC captives, DIFC/ADGM banks and UAE/KSA fintechs — and senior leadership within the function at regional banks. PDPL and NDMO build on the GDPR-aligned controls and DMBOK foundation I have delivered vendor-side. Bengaluru-based, relocating, immediate joiner.',
+      europe: 'GDPR-aligned controls delivered from the vendor side for global financial-services clients — classification, masking, lineage, audit evidence — plus published EU-AI-Act advisory analysis and three live governed-AI demos. Targeting English-first global-bank EU hubs, scaled fintechs and consultancies (Netherlands, Ireland, Germany) at Lead / Principal / Senior Manager, Director as in-region progression. Visa-ready: EU Blue Card / NL Highly Skilled Migrant / Ireland Critical Skills / Germany Opportunity Card.',
       apac: 'Open to Director and Head-of-function data governance leadership across APAC — India, Singapore, Australia, and remote-first enterprises — governance, data quality, DataOps, and AI controls.',
       global: 'Director / Head — Data Governance, Data Quality & DataOps, with hands-on AI governance. Regulated BFSI. Immediately available, globally mobile.'
     };
@@ -218,7 +218,7 @@
       requestIdleCallback(function () {
         var link = document.createElement('link');
         link.rel = 'prefetch';
-        link.href = 'assets/Ram-Bala-Executive-Summary.pdf?v=3';
+        link.href = 'assets/Ram-Bala-Executive-Summary.pdf?v=5';
         document.head.appendChild(link);
       }, { timeout: 5000 });
     }
