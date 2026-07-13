@@ -2,14 +2,11 @@
 
 Items needing Ram's confirmation or evidence before deploy. Softened versions are **already applied** on `fix/verified-record` (per the brief: apply softened now, strengthen later with evidence).
 
-## 🔴 BLOCKING — must resolve before deploy
+## ✅ RESOLVED
 
-### 1. `assets/resume.pdf` was NOT regenerated (HALT)
-Task 5 said convert `Ram-Resume-Master.docx` from the repo root, or HALT if absent. **`Ram-Resume-Master.docx` is absent**, so the served `assets/resume.pdf` (`?v=8`) still carries the OLD inflated record ("Associate Director", "Jun 2022 – Mar 2025", "4×", "Professional Development Sabbatical"). Its **source** `resume.source.html` HAS been truth-corrected on this branch.
-**Action for Ram — pick one, then I bump `resume.pdf?v=8`→`?v=9` and replace the binary:**
-- (a) Drop `Ram-Resume-Master.docx` in repo root (recommended: the master from your latest resume work, itself re-corrected to Senior Manager / Sr-IC — see item 2), or
-- (b) Tell me to regenerate `resume.pdf` from the now-corrected `resume.source.html` as a stopgap.
-Until then the inflated PDF must not go live.
+### 1. `assets/resume.pdf` — REPLACED with the verified master (2026-07-13)
+The served `assets/resume.pdf` is now the fully verified résumé (`Ram-Resume-CDMP-v2.2-verified.pdf`): Senior Manager (Jun 2022 – Sep 2024) + Senior IC (Oct 2024 – Mar 2025), no "Associate Director", Independent Practice not sabbatical, 6 Anthropic certificates, `<4h` not `4×`. Cache-bust bumped `?v=8`→`?v=9` across all 14 references. Old inflated PDF backed up in session scratchpad.
+- Note: `resume.source.html` (the corrected 1-page source) no longer generates the served résumé — the master is now the 2-page docx in `Documents/Ram-Imprtant-EDP/`. Keep or retire `resume.source.html` as you prefer; it is truth-clean either way.
 
 ### 2. Your resume/LinkedIn still say "Associate Director"
 The résumé we built earlier this session (`Ram-Resume-CDMP-v2*.docx`) and, presumably, your LinkedIn use **"Associate Director / Senior Manager · Jun 2022 – Mar 2025"** — the exact claim this task corrects. Your mission ("nothing on the site can be contradicted by my resume/LinkedIn") is not met until those match the verified record: **Senior Manager (Jun 2022 – Sep 2024) → Senior Engineer / Sr IC (Oct 2024 – Mar 2025)**. Say the word and I'll re-correct the résumé docx to match.

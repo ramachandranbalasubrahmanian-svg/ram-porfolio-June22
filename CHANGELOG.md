@@ -88,6 +88,9 @@ Verified against the facts bank in the task brief. **9 files changed + 3 new doc
 - New proof gallery `assets/certs/anthropic-certificates.html` (self-contained, on-brand, `noindex`).
 - `index.html` wording tightened from "Anthropic Claude & MCP **certified**" → "Anthropic Claude & MCP — **6 Certificates of Completion**" (3 spots + 1 JSON-LD/FAQ line), with the About line and the Independent-Practice timeline credentials bullet now **linking to the gallery** as clickable proof. The "Anthropic · Claude · MCP" hero topic chip left as-is (not an overclaim).
 
+## Résumé download replaced with verified master (2026-07-13)
+- `assets/resume.pdf` replaced with the verified `Ram-Resume-CDMP-v2.2-verified.pdf` (Senior Manager + Senior IC split, no "Associate Director", Independent Practice, 6 Anthropic certificates, `<4h` resolution, "Director / Head of Data Governance" headline). Cache-bust `resume.pdf?v=8`→`?v=9` across 14 references (index, 5 perspectives, EDP hub, 3 demo pages). Old binary backed up in session scratchpad.
+
 ## Intentional exceptions (not "hits")
 - `sabbatical-*` CSS **class/id tokens** retained (invisible; renaming = design-system change). All visible "sabbatical"/"Concluded" copy removed.
 - Demo pages (`demos/*`, `assets/demos/*`): GDPR references are on **synthetic** records — legitimate, untouched.
