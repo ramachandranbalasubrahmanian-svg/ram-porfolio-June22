@@ -83,6 +83,11 @@ Verified against the facts bank in the task brief. **9 files changed + 3 new doc
 
 ---
 
+## Anthropic certificates — evidence added (2026-07-13)
+- Added 6 verified Anthropic **Certificates of Completion** to `assets/certs/` (Claude 101, Claude Code in Action, Claude Code 101, Introduction to Claude Cowork, Introduction to Model Context Protocol, Model Context Protocol: Advanced Topics).
+- New proof gallery `assets/certs/anthropic-certificates.html` (self-contained, on-brand, `noindex`).
+- `index.html` wording tightened from "Anthropic Claude & MCP **certified**" → "Anthropic Claude & MCP — **6 Certificates of Completion**" (3 spots + 1 JSON-LD/FAQ line), with the About line and the Independent-Practice timeline credentials bullet now **linking to the gallery** as clickable proof. The "Anthropic · Claude · MCP" hero topic chip left as-is (not an overclaim).
+
 ## Intentional exceptions (not "hits")
 - `sabbatical-*` CSS **class/id tokens** retained (invisible; renaming = design-system change). All visible "sabbatical"/"Concluded" copy removed.
 - Demo pages (`demos/*`, `assets/demos/*`): GDPR references are on **synthetic** records — legitimate, untouched.
