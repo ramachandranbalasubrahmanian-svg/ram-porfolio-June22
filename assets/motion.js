@@ -218,7 +218,7 @@
       requestIdleCallback(function () {
         var link = document.createElement('link');
         link.rel = 'prefetch';
-        link.href = 'assets/Ram-Bala-Executive-Summary.pdf?v=5';
+        link.href = 'assets/Ram-Bala-Executive-Summary.pdf?v=6';
         document.head.appendChild(link);
       }, { timeout: 5000 });
     }
