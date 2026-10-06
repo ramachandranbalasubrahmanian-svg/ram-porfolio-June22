@@ -130,7 +130,7 @@
         var target = document.querySelector(id);
         if (!target) return;
         e.preventDefault();
-        var offset = document.getElementById('section-jump') ? 108 : 72;
+        var offset = 72;
         var top = target.getBoundingClientRect().top + window.scrollY - offset;
         window.scrollTo({ top: top, behavior: 'auto' });
         if (window.closeMobileMenu) window.closeMobileMenu();
@@ -214,14 +214,7 @@
   function initDeferred() {
     initRegionToggle();
     initLazyVideo();
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(function () {
-        var link = document.createElement('link');
-        link.rel = 'prefetch';
-        link.href = 'assets/Ram-Bala-Executive-Summary.pdf?v=7';
-        document.head.appendChild(link);
-      }, { timeout: 5000 });
-    }
+    // PDF prefetch removed: it cost 457 kB on every first visit (review finding).
   }
 
   function init() {

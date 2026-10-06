@@ -1,3 +1,11 @@
+## 2026-10-06 — Review fixes (blind 7-judge panel, critical + medium)
+- Facts: 16+ years everywhere (was "15"); "DAMA CDMP Master" in title, meta, hero eyebrow, footer, menu, credentials card; hero chip "11-member team led" (was "25+ engineers led"); "Five proof points" (was Four over five tiles); Ken Bouley endorsement now verbatim; FICO roles in reverse-chronological order; "232M+ regulated records".
+- Overclaims removed: demos are "working demos, built independently" (not "production"); Anthropic = Certificates of Completion (not "Certified"); "$5M ARR / 6+ clients" dropped; Wipro dropped; Case 04 pseudo-metric tiles removed; regulatory readiness wording scoped to advisory; "17 knowledge areas" and "Expert-level" softened; time-bound labels ("JUST EARNED", "New", "a year of") removed; emoji removed.
+- Hero eyebrow now carries the Master credential, "one of ~430 worldwide" and a Verify link; exam Verify links point to the issuer's records (were badge images).
+- Chrome: duplicate sticky section-jump and bottom metrics bar retired (three bars covered 29% of the desktop screen); one pinned "Book Call" on phones.
+- Phone: 600px-wide overflow fixed (grids now single-column); body text 16px; all tap targets ≥24px.
+- Print: light, forwardable output (was 21 black pages); 457 kB PDF prefetch removed. New file: assets/review-fixes.css.
+
 # CHANGELOG — Verified-Record Alignment (`fix/verified-record`)
 
 Truth-alignment only. Styling, layout, SEO plumbing, and links preserved. No deploy.

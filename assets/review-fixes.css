@@ -1,0 +1,55 @@
+/* Review fixes (Oct 2026): one header only, phone overflow, readable phone text, tap targets, print.
+   Loaded after the other stylesheets; overrides on purpose. */
+
+/* 1. One persistent header: retire the duplicate sticky section-jump and the bottom metrics bar (3 bars covered 29% of the desktop screen). */
+#section-jump,#exec-bar{display:none !important}
+body.exec-bar-on{padding-bottom:0 !important}
+body.exec-bar-on .floating-cta{bottom:16px !important}
+
+/* 2. Hero: the verify link inside the eyebrow. */
+.hero-tag{display:block;line-height:1.9}
+.hero-tag::before{display:inline-block;vertical-align:middle;margin-right:10px}
+.hero-tag-verify{color:#fff;text-decoration:underline;text-underline-offset:.25em;letter-spacing:.12em}
+.hero-tag-verify:hover{color:var(--champagne,#e8d4a8)}
+
+/* 3. Phone: the document was 600px wide on a 390px screen — fixed-column grids and the marquee overflowed. */
+.trust-marquee{overflow:hidden}
+@media (max-width:767px){
+  html,body{overflow-x:hidden}
+  .ai-proof-dual,.deep-dive-grid,.pillar-grid,.cs-kpi-bar,.exec-pillars,.bento-grid{grid-template-columns:minmax(0,1fr) !important}
+  .ai-proof-block,.deep-dive-card,.pillar-card{min-width:0;max-width:100%}
+  .pillar-card{min-height:0 !important}
+  .ai-proof-meta,.ai-proof-point{grid-template-columns:minmax(0,1fr) !important}
+  /* 4. Readable body text (73% of phone text was under 14px). */
+  p,li,dd,dt,summary,blockquote,.region-copy,.hero-sub,.announce-inner,.tl-card li{font-size:16px !important;line-height:1.55 !important}
+  .sl,.metric-label,.hero-tag,.exec-pillar-tag,.cs-kpi span,.bento-metric span,.sabbatical-metric span,.tl-tenure,.tl-duration,.sri-id,.chip,.ai-proof-tag,.ai-proof-flagship-tag,.prac-issuer,.footer-avail{font-size:13px !important}
+  .hero-card-proof span,.bento-stack,.stat-label{font-size:14px !important}
+  /* 5. Tap targets: at least 44px tall for standalone controls. */
+  .btn,.jump-link,.btn-link,.read-link,.deep-dive-cta,.ai-proof-links a,.bento-link,.insight-link,.sabbatical-card a,.contact-channel,.cred-grid-card a,.sri-verify,.prac-btn,.faq-item summary,.rec-carousel button,.footer-links a{min-height:44px;display:inline-flex;align-items:center}
+  .ham{width:44px !important;height:44px !important;display:inline-flex;align-items:center;justify-content:center}
+  a:not(.btn):not(.nav-cta):not(.chip):not(.hero-tag-verify):not(.nav-logo):not(.announce-link){padding-top:10px;padding-bottom:10px}
+  #nav .nav-cta:not(.nav-cta-primary){display:none !important}
+  /* 6. Keep one call-to-action pinned on the phone header. */
+  #nav .nav-cta-primary{display:inline-flex !important;align-items:center;min-height:40px;padding:0 14px;font-size:14px;margin-left:auto;margin-right:8px}
+  #nav .nav-logo{font-size:15px;max-width:46vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+}
+
+/* 7. Print: a forwardable light document instead of 21 black pages with an invisible name. */
+@media print{
+  *,*::before,*::after{background:transparent !important;background-image:none !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important;animation:none !important;transition:none !important;opacity:1 !important;transform:none !important}
+  html,body{background:#fff !important;font-size:10.5pt}
+  #hero,.hero,section{min-height:0 !important;height:auto !important}
+  .hero-bg,.hero-glow,.hero-grid-lines{display:none !important}
+  #hero .hero-grid{padding-top:0 !important}
+  a[href="#main"],.skip-link,.skip{display:none !important}
+  #nav,.announce,.announce-bar,#exec-bar,#section-jump,.mob-menu,.ham,.btn,.nav-cta,video,.proof-video,.calendly-inline-widget,.calendly-embed-wrap,form,.floating-cta,.trust-marquee,.rec-carousel-nav,.footer-socials{display:none !important}
+  a{text-decoration:none}
+  a[href^="https://eu.credential.net"]::after{content:" " attr(href);font-size:.85em}
+  .hero-tag-verify::after{content:none !important}
+  section,.section{padding:14pt 0 !important;break-inside:auto}
+  .section,.section.alt{border:0 !important}
+  h1,h2,h3{break-after:avoid}
+  .bento-card,.tl-entry,.pillar-card,.prac-banner,.sri-card,.faq-item{break-inside:avoid;border:1px solid #bbb !important}
+  img{max-width:50% !important}
+  .hero-photo-col img{max-width:120pt !important}
+}
