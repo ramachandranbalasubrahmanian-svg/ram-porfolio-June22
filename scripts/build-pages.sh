@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Assemble the static site into ./dist for Cloudflare Pages.
+# Assemble the static site into ./dist for the Cloudflare Worker (static assets).
 # Everything in the repo root is site content except tooling, docs and the
 # dev/lab folders that were never deployed (see .gitignore).
 set -euo pipefail

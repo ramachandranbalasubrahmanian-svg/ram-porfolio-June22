@@ -1,6 +1,26 @@
-# Cloudflare Pages project for www.ram-bala.com.
+# Cloudflare Worker (static assets) for www.ram-bala.com — free plan.
 # Build the clean deploy folder first:  ./scripts/build-pages.sh
-# Deploy:                               npx wrangler pages deploy
-name = "ram-portfolio"
-compatibility_date = "2026-10-01"
-pages_build_output_dir = "dist"
+# Deploy:                               npx wrangler deploy
+name = "ram-bala-portfolio"
+main = "worker/index.js"
+compatibility_date = "2026-06-01"
+workers_dev = true          # preview at https://ram-bala-portfolio.ram-bala.workers.dev
+preview_urls = false
+
+# Custom domains: enabled once the old Vercel DNS records for these names are
+# deleted (Cloudflare refuses to attach a hostname that still has A/CNAME
+# records). Uncomment and `npx wrangler deploy` — wrangler creates the DNS.
+# routes = [
+#   { pattern = "www.ram-bala.com", custom_domain = true },
+#   { pattern = "ram-bala.com", custom_domain = true },
+# ]
+
+[assets]
+directory = "dist"
+binding = "ASSETS"
+not_found_handling = "404-page"      # serves dist/404.html with a real 404 status
+html_handling = "auto-trailing-slash"
+run_worker_first = true              # every request passes the apex→www check first
+
+[observability]
+enabled = true
