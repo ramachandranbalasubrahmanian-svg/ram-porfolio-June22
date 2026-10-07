@@ -1,0 +1,6 @@
+# Cloudflare Pages project for www.ram-bala.com.
+# Build the clean deploy folder first:  ./scripts/build-pages.sh
+# Deploy:                               npx wrangler pages deploy
+name = "ram-portfolio"
+compatibility_date = "2026-10-01"
+pages_build_output_dir = "dist"

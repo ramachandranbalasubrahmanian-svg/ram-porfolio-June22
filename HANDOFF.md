@@ -8,7 +8,7 @@ _Last updated: 2026-06-27. This file lets a fresh Claude Code / Cursor session r
 - **What:** Ram Balasubrahmanian's executive portfolio — https://www.ram-bala.com
 - **Repo:** this directory (`Cursor-Projects/Ram-Portfolio`); remote `github.com/ramachandranbalasubrahmanian-svg/ram-porfolio-June22`.
 - **Stack:** static HTML/CSS/JS, **no build step**, no package.json.
-- **Deploy:** **Vercel CLI, NOT git auto-deploy** → `npx vercel --prod --yes` from repo root. Project `ram-portfolio-amber`; the CLI uploads the working dir (so untracked files deploy too); `www.ram-bala.com` is the production alias. `git push origin main` only updates GitHub.
+- **Deploy:** **Cloudflare Pages via wrangler, NOT git auto-deploy** → `./scripts/build-pages.sh && npx wrangler pages deploy` from repo root (moved off Vercel 7 Oct 2026). Project `ram-portfolio`; the script copies the working dir into `dist/` (so untracked files deploy too) minus tooling/docs/lab folders; `www.ram-bala.com` is the custom domain, `ram-bala.com` 301s to it via `functions/_middleware.js`. `git push origin main` only updates GitHub.
 - **Run locally:** `bash scripts/serve-local.sh` (port 8888) — run in the USER's own terminal; servers an agent starts get sandbox-killed. Add `?perf=0` to hide the localhost-only dev metrics panel.
 - **Git identity** is already set on this machine (`ramachandran.balasubrahmanian@gmail.com`) — new commits link to GitHub correctly. The whole branch's authorship was fixed earlier (don't redo).
 - **Owner's strict rules:** never invent/inflate metrics, employers, credentials, or claims — **flag, don't fabricate**. Preserve the premium Apple-dark aesthetic on the site. Prefer free tools; single source of truth; verify before sharing; keep responses short.
