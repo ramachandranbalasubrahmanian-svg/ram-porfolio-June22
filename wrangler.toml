@@ -10,10 +10,10 @@ preview_urls = false
 # Custom domains: enabled once the old Vercel DNS records for these names are
 # deleted (Cloudflare refuses to attach a hostname that still has A/CNAME
 # records). Uncomment and `npx wrangler deploy` — wrangler creates the DNS.
-# routes = [
-#   { pattern = "www.ram-bala.com", custom_domain = true },
-#   { pattern = "ram-bala.com", custom_domain = true },
-# ]
+routes = [
+  { pattern = "www.ram-bala.com", custom_domain = true },
+  { pattern = "ram-bala.com", custom_domain = true },
+]
 
 [assets]
 directory = "dist"
