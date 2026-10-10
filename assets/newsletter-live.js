@@ -1,6 +1,7 @@
 /**
- * Fetches live newsletter subscriber count and updates marked elements.
- * Source: /api/newsletter-subscribers (Vercel) with fallback to /data/newsletter-stats.json
+ * Renders the newsletter subscriber count into marked elements.
+ * Static owner-set figure (see FALLBACK / data/newsletter-stats.json); the
+ * former live-fetch API was retired with the move to Cloudflare Pages.
  */
 (function () {
   "use strict";
