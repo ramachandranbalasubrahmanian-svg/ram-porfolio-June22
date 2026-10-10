@@ -231,3 +231,13 @@ html[data-palette="midnight"]{--cream:#F4F1EA}
 .v3-quote-wide{max-width:52em;margin:0 auto 56px;padding:0;border-left:0;text-align:center}
 .v3-quote-wide p{font-size:clamp(1.3rem,1.1rem + .9vw,1.9rem);color:var(--champagne)}
 .v3-quote-wide::after{content:"";display:block;width:48px;height:1px;margin:22px auto 0;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+
+/* ---------- 12. Hero starts right under the header (no full-viewport centring gap) ---------- */
+#hero{min-height:auto !important;justify-content:flex-start !important;padding-top:0 !important}
+.hero-grid{padding:44px 0 56px !important}
+@media (max-width:1100px){.hero-grid{padding:36px 0 48px !important}}
+@media (max-width:640px){.hero-grid{padding:22px 0 36px !important;gap:28px !important}}
+/* the fold: eyebrow → name → tagline → proof numbers all visible on a 900px laptop */
+.hero-h1{margin-bottom:14px}
+.hero-tagline{margin-bottom:18px !important}
+.hero-sub{margin-bottom:22px !important}
