@@ -177,16 +177,16 @@ html[data-palette="ivory"] #nav.solid{box-shadow:0 10px 40px -24px rgba(16,27,45
 @media print{#v3-toolbar,#scroll-progress,body::before{display:none !important}}
 
 /* ---------- 9. Credential wall & recommendations: one accent, not their own blue ---------- */
-#dama{--gold:var(--champagne);--blue:var(--champagne);--cyan:var(--champagne);--green:var(--champagne);--purple:var(--champagne);--amber:var(--champagne);
+body #dama{--gold:var(--champagne);--blue:var(--champagne);--cyan:var(--champagne);--green:var(--champagne);--purple:var(--champagne);--amber:var(--champagne);
   background:linear-gradient(180deg,var(--bg2),var(--bg)) !important;border-top:1px solid var(--bdr-soft) !important;border-bottom:1px solid var(--bdr-soft) !important}
-#dama .prac-banner{background:var(--card) !important;border:1px solid color-mix(in srgb,var(--gold) 45%,var(--bdr-soft)) !important;box-shadow:var(--v3-glow)}
-#dama .prac-btn-gold,#dama .prac-btn-blue{background:var(--gold-dim) !important;border-color:color-mix(in srgb,var(--gold) 50%,transparent) !important;color:var(--champagne) !important}
-#dama .badge-tile,#dama .sri-card,#dama .pathway-card,#dama .dama-pathway{background:var(--card) !important;border-color:var(--bdr-soft) !important}
-#dama svg circle[stroke]:not([stroke="none"]){stroke:var(--champagne)}
-#dama svg circle:first-of-type{stroke:var(--bdr) !important}
-#dama [stop-color]{stop-color:var(--champagne)}
-#dama .sri-title,#dama h2,#dama h3,#dama strong{color:var(--cream) !important}
-#dama .badge-tile-verify,#dama a{color:var(--champagne) !important}
+body #dama .prac-banner{background:var(--card) !important;border:1px solid color-mix(in srgb,var(--gold) 45%,var(--bdr-soft)) !important;box-shadow:var(--v3-glow)}
+body #dama .prac-btn-gold,body #dama .prac-btn-blue{background:var(--gold-dim) !important;border-color:color-mix(in srgb,var(--gold) 50%,transparent) !important;color:var(--champagne) !important}
+body #dama .badge-tile,body #dama .sri-card,body #dama .pathway-card,body #dama .dama-pathway{background:var(--card) !important;border-color:var(--bdr-soft) !important}
+body #dama svg circle[stroke]:not([stroke="none"]){stroke:var(--champagne)}
+body #dama svg circle:first-of-type{stroke:var(--bdr) !important}
+body #dama [stop-color]{stop-color:var(--champagne)}
+body #dama .sri-title,body #dama h2,body #dama h3,body #dama strong{color:var(--cream) !important}
+body #dama .badge-tile-verify,body #dama a{color:var(--champagne) !important}
 .rec-carousel-panel{background:var(--card) !important;border:1px solid var(--bdr-soft) !important}
 .rec-carousel-footer{background:color-mix(in srgb,var(--bg3) 70%,transparent) !important;border-top:1px solid var(--bdr-soft) !important}
 .rec-carousel-mark{color:var(--champagne) !important;font-family:var(--fserif) !important;opacity:.8 !important}
@@ -241,3 +241,34 @@ html[data-palette="midnight"]{--cream:#F4F1EA}
 .hero-h1{margin-bottom:14px}
 .hero-tagline{margin-bottom:18px !important}
 .hero-sub{margin-bottom:22px !important}
+
+/* ---------- 13. Tabbed site: current page in the nav, teaser grids ---------- */
+.nav-links a[aria-current="page"]{color:var(--cream) !important}
+.nav-links a[aria-current="page"]::after{transform:scaleX(1);background:var(--champagne)}
+#proof-teaser .pov-grid,#systems-home .pov-grid{margin-top:28px}
+#contact-cta .hero-btns{justify-content:flex-start}
+/* credential wall: pathway, tags and exam tiles on the one accent */
+body #dama .cdmp-level-dot{background:var(--gold-dim) !important;border-color:var(--gold) !important;color:var(--champagne) !important;box-shadow:none !important}
+body #dama .cdmp-dot-active{background:linear-gradient(135deg,var(--champagne),var(--gold)) !important;color:var(--v3-ink-on-accent) !important}
+body #dama .cdmp-level-line,body #dama .cdmp-line-done{background:linear-gradient(90deg,var(--gold),color-mix(in srgb,var(--gold) 35%,transparent)) !important}
+body #dama .cdmp-level-name,body #dama .cdmp-level-you{color:var(--champagne) !important}
+body #dama .prac-new-tag{background:linear-gradient(135deg,var(--champagne),var(--gold)) !important;color:var(--v3-ink-on-accent) !important}
+body #dama .badge-tile{background:var(--card) !important;border-color:color-mix(in srgb,var(--gold) 35%,var(--bdr-soft)) !important}
+body #dama .badge-mini-fill{background:linear-gradient(90deg,var(--gold),var(--champagne)) !important}
+body #dama .badge-tile-score,body #dama .sri-pct{color:var(--champagne) !important}
+/* phone: KPI tiles two-up, compact */
+@media (max-width:767px){
+  .cs-kpi-bar{grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:10px !important}
+  .cs-kpi{padding:16px 10px !important}
+  .cs-kpi strong{font-size:1.5rem !important}
+}
+
+/* DAMA chapter banner (logo has a white ground) */
+body #dama .prac-badge-logo{background:#fff;border-radius:16px;padding:6px;filter:drop-shadow(0 0 14px rgba(216,184,106,.35))}
+body #dama .prac-banner-chapter{margin-top:-12px}
+
+/* /dama/ landing page */
+#dama-hero{padding-top:36px}
+.crumbs{font-size:.8rem;color:var(--muted);margin-bottom:18px}
+.crumbs a{color:var(--v3-link);text-decoration:underline;text-underline-offset:3px}
+@media(max-width:640px){#dama-hero{padding-top:20px}}
